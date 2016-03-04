@@ -8,7 +8,7 @@ scs:
     name: Chief Engineer
     article: a  # a or an before the name
     has_posting: True
-    posting_id: "Job ID #A313"
+    posting_id: Job ID \#A313
 
   # Company details
   field: construction companies  # Make it plural
