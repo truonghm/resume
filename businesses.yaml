@@ -1,8 +1,18 @@
 scs:
   name:
     formal: Sierra Construction Systems, Ltd.
-    short: Sierra Construction Systems
+    informal: Sierra Construction Systems
     abbrev: SCS
+
+  position:
+    name: Chief Engineer
+    article: a  # a or an before the name
+    has_posting: True
+    posting_id: "Job ID #A313"
+
+  # Company details
+  field: construction companies  # Make it plural
+  best_in: Sierra Leone
 
   # Letter details
   addressee: Ziad Nassar

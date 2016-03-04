@@ -58,8 +58,8 @@
 % Letter Information
 \recipient{<< business.addressee >>}{<<business.name.formal>> \\ << business.address >>}
 \date{\today}
-\opening{<< business.greeting >>,} % Opening greeting
-\closing{<< business.closing >>,} % Closing phrase
+\opening{~< if business.greeting is defined >~<< business.greeting >>~< else >~To whom it may concern~< endif >~,}
+\closing{~< if business.closing is defined >~<< business.closing >>~< else >~Sincerely yours~< endif >~,}
 \enclosure[Attached]{résumé} % List of enclosed documents
 
 \makelettertitle            % Print letter title

@@ -1,0 +1,18 @@
+~< if position.has_posting >~
+    I saw your job posting for << position.name >>
+    ~< if position.posting_id is defined >~ (<< position.posting_id >>) ~< endif >~ at your company.
+~< else >~
+    I would like to become << position.article >> << position.name|lower >> at your company.
+~< endif >~
+
+~< if best_in is defined >~
+    I know that
+    ~< if name.abbrev is defined >~
+        << name.abbrev >>
+    ~< else >~
+        << name.informal >>
+    ~< endif >~
+    is one of the leading << field >> in << best_in >>.
+~< endif >~
+
+Thank you for taking the time to review my résumé and letter.

@@ -7,7 +7,7 @@ import yaml
 os.makedirs("build", exist_ok=True)
 
 
-latex_renderer = jinja2.Environment(
+latex = jinja2.Environment(
     block_start_string='~<',
     block_end_string='>~',
     variable_start_string='<<',
@@ -21,21 +21,25 @@ latex_renderer = jinja2.Environment(
 
 
 def main():
-    template = latex_renderer.get_template("templates/latex/resume.tex")
+    main_template = latex.get_template("templates/latex/resume.tex")
+    body_template = latex.get_template("templates/latex/letter_body.tex")
 
     with open("resume.yaml") as resume_data:
-        data = yaml.safe_load(resume_data)
+        data = yaml.load(resume_data)
     file_root = data["name"]["abbrev"]
 
     with open("businesses.yaml") as businesses_data:
-        businesses = yaml.safe_load(businesses_data)
+        businesses = yaml.load(businesses_data)
 
     for business in businesses:
+        body = body_template.render(**businesses[business])
+        businesses[business]["body"] = body
         with open("build/{}_{}.tex".format(file_root, business), "w") as resume:
-            resume.write(template.render(**data, business=businesses[business]))
+            resume.write(main_template.render(**data,
+                                              business=businesses[business]))
 
     with open("build/{}_resume.tex".format(file_root), "w") as resume:
-        resume.write(template.render(**data))
+        resume.write(main_template.render(**data))
 
 
 if __name__ == '__main__':
