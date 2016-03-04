@@ -54,7 +54,7 @@
 \rfoot{\ifthenelse{\value{page}=1}{}{\addressfont\itshape\textcolor{gray}{Page \thepage}}}
 
 \begin{document}
-~< if letter is defined >~
+~< if business is defined >~
 % Letter Information
 \recipient{<< business.addressee >>}{<<business.name.formal>> \\ << business.address >>}
 \date{\today}
@@ -63,10 +63,7 @@
 \enclosure[Attached]{résumé} % List of enclosed documents
 
 \makelettertitle            % Print letter title
-Lore ipum dolor             % Letter body
-sit amet, consectetuer
-adiscipliging elit.
-Up purus ...
+<< business.body >>
 
 \makeletterclosing          % Print letter signature
 \newpage

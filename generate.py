@@ -21,19 +21,21 @@ latex_renderer = jinja2.Environment(
 
 
 def main():
-    letter_template = latex_renderer.get_template("templates/latex/resume.tex")
+    template = latex_renderer.get_template("templates/latex/resume.tex")
 
     with open("resume.yaml") as resume_data:
         data = yaml.safe_load(resume_data)
+    file_root = data["name"]["abbrev"]
 
     with open("businesses.yaml") as businesses_data:
         businesses = yaml.safe_load(businesses_data)
 
-    with open("build/resume.tex", "w") as cover_letter:
-        cover_letter.write(letter_template.render(
-            **data,
-            business=businesses["scs"]),
-        )
+    for business in businesses:
+        with open("build/{}_{}.tex".format(file_root, business), "w") as resume:
+            resume.write(template.render(**data, business=businesses[business]))
+
+    with open("build/{}_resume.tex".format(file_root), "w") as resume:
+        resume.write(template.render(**data))
 
 
 if __name__ == '__main__':
