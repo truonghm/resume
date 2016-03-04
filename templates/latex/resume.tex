@@ -20,7 +20,7 @@
 \address
     {<< address.street >>}
     {<< address.city >>, << address.province >>}
-    {<< address.postal >>~< if address.country is defined >~\\<< address.country >>~< endif >~}
+    {<< address.postal >>~< if address.country is defined >~, << address.country >>~< endif >~}
 ~< endif >~
 
 ~< if contact.mobile is defined >~
