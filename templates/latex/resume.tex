@@ -1,0 +1,81 @@
+\documentclass{moderncv}
+
+\usepackage{ifthen}
+\usepackage{lastpage}
+
+\usepackage{xltxtra}
+\setmainfont[Numbers=OldStyle]{Linux Libertine O}
+\setromanfont[Numbers=OldStyle]{Linux Libertine O}
+\setsansfont[Numbers=OldStyle]{Linux Biolinum O}
+\setmonofont{Inconsolata}
+
+\moderncvtheme[blue]{casual}
+
+\name{<< name.first >>}{<< name.last >>}
+\title{<< title >>}
+
+\email{<< contact.email >>}
+
+~< if address is defined >~
+\address
+    {<< address.street >>}
+    {<< address.city >>, << address.province >>}
+    {<< address.postal >>~< if address.country is defined >~\\<< address.country >>~< endif >~}
+~< endif >~
+
+~< if contact.mobile is defined >~
+\mobile{<< contact.mobile >>}
+~< endif >~
+
+~< if contact.website is defined >~
+\homepage{<< contact.website >>}
+~< endif >~
+
+~< if contact.github is defined >~
+\social[github]{<< contact.github >>}
+~< endif >~
+
+~< if contact.linkedin is defined >~
+\social[linkedin]{<< contact.linkedin >>}
+~< endif >~
+
+~< if extrainfo is defined >~
+\extrainfo{<< extrainfo >>}
+~< endif >~
+
+~< if quote is defined >~
+\quote{<< quote >>}
+~< endif >~
+
+~< if photo is defined >~
+\photo{<< photo >>}
+~< endif >~
+
+\rfoot{\ifthenelse{\value{page}=1}{}{\addressfont\itshape\textcolor{gray}{Page \thepage}}}
+
+\begin{document}
+~< if letter is defined >~
+% Letter Information
+\recipient{<< business.addressee >>}{<<business.name.formal>> \\ << business.address >>}
+\date{\today}
+\opening{<< business.greeting >>,} % Opening greeting
+\closing{<< business.closing >>,} % Closing phrase
+\enclosure[Attached]{résumé} % List of enclosed documents
+
+\makelettertitle            % Print letter title
+Lore ipum dolor             % Letter body
+sit amet, consectetuer
+adiscipliging elit.
+Up purus ...
+
+\makeletterclosing          % Print letter signature
+\newpage
+\setcounter{page}{1}
+~< endif >~
+\maketitle
+\section{Academic titles}
+\cventry{2010--2012}{etcetera ...}{}{}{}{}
+\newpage
+\section{Experience}
+\cventry{2013--2015}{etcetera ...}{}{}{}{}
+\end{document}

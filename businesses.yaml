@@ -1,0 +1,11 @@
+scs:
+  name:
+    formal: Sierra Construction Systems, Ltd.
+    short: Sierra Construction Systems
+    abbrev: SCS
+
+  # Letter details
+  addressee: Ziad Nassar
+  address: 69B Smart Farm, Off Wilkinson Road \\ Freetown, Sierra Leone
+  greeting: Dear Mr. Nassar
+  closing: Sincerely yours
