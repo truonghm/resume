@@ -6,9 +6,12 @@ import jinja2
 import yaml
 
 
+date_format = "%Y--%m--%d"
+last_updated = localtime(git.Repo().head.commit.committed_date)
+last_updated_string = strftime(date_format, last_updated)
+
 os.makedirs("build", exist_ok=True)
 os.makedirs("output/with_letters", exist_ok=True)
-last_updated = localtime(git.Repo().head.commit.committed_date)
 
 
 latex = jinja2.Environment(
@@ -31,6 +34,7 @@ def main():
     with open("resume.yaml") as resume_data:
         data = yaml.load(resume_data)
     file_root = data["name"]["abbrev"]
+    data["updated"] = last_updated_string
 
     with open("businesses.yaml") as businesses_data:
         businesses = yaml.load(businesses_data)
@@ -47,7 +51,6 @@ def main():
     with open("build/{}_resume.tex".format(file_root), "w") as resume:
         resume.write(main_template.render(
             **data,
-            updated=strftime("%Y--%m--%d", last_updated),
         ))
 
 
