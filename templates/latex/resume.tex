@@ -17,10 +17,10 @@
 \email{<< contact.email >>}
 
 ~< if address is defined >~
-\address
-    {<< address.street >>}
-    {<< address.city >>, << address.province >>}
-    {<< address.postal >>~< if address.country is defined >~, << address.country >>~< endif >~}
+\address%
+    {<< address.street >>}%
+    {<< address.city >>, << address.province >>}%
+    {<< address.post >>~< if address.country is defined >~, << address.country >>~< endif >~}
 ~< endif >~
 
 ~< if contact.mobile is defined >~
@@ -51,10 +51,10 @@
 \photo{<< photo >>}
 ~< endif >~
 
-\rfoot{\ifthenelse{\value{page}=1}{}{\addressfont\itshape\textcolor{gray}{Page \thepage}}}
 
 \begin{document}
 ~< if business is defined >~
+\rfoot{\ifthenelse{\value{page}=1}{}{\addressfont\itshape\textcolor{gray}{Page \thepage}}}
 % Letter Information
 \recipient{<< business.addressee >>}{<<business.name.formal>> \\ << business.address >>}
 \date{\today}
@@ -69,7 +69,10 @@
 \newpage
 \setcounter{page}{1}
 ~< endif >~
-\maketitle
+
+\rfoot{\addressfont\itshape\textcolor{gray}{\ifthenelse{\value{page}=1}{\\\tiny << updated >>}{page \thepage\\\tiny << updated >>}}}
+
+\makecvtitle
 \section{Academic titles}
 \cventry{2010--2012}{etcetera ...}{}{}{}{}
 \newpage

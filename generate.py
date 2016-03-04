@@ -1,10 +1,14 @@
 import os
+from time import localtime, strftime
 
+import git
 import jinja2
 import yaml
 
 
 os.makedirs("build", exist_ok=True)
+os.makedirs("output/with_letters", exist_ok=True)
+last_updated = localtime(git.Repo().head.commit.committed_date)
 
 
 latex = jinja2.Environment(
@@ -35,11 +39,16 @@ def main():
         body = body_template.render(**businesses[business])
         businesses[business]["body"] = body
         with open("build/{}_{}.tex".format(file_root, business), "w") as resume:
-            resume.write(main_template.render(**data,
-                                              business=businesses[business]))
+            resume.write(main_template.render(
+                **data,
+                business=businesses[business],
+            ))
 
     with open("build/{}_resume.tex".format(file_root), "w") as resume:
-        resume.write(main_template.render(**data))
+        resume.write(main_template.render(
+            **data,
+            updated=strftime("%Y--%m--%d", last_updated),
+        ))
 
 
 if __name__ == '__main__':
