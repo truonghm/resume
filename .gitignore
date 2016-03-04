@@ -193,6 +193,9 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+# Pycharm
+.idea/
+
 # PyBuilder
 target/
 ### VirtualEnv template
@@ -205,4 +208,3 @@ target/
 [Ss]cripts
 pyvenv.cfg
 pip-selfcheck.json
-
