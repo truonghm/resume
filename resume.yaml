@@ -1,3 +1,41 @@
+# Template
+# theme:
+#   font_size: default is 12pt
+#   style: banking, casual, classic, empty, oldstyle; default is casual
+#   colour: black, blue, green, grey, orange, purple, red; default is blue
+#
+# title:
+# extra_info: optional
+# quote: optional
+# photo: path to photo; optional
+#
+# name:
+#   first:
+#   last:
+#   abbrev: the name used in the filename
+#
+# contact:
+#   email:
+#   mobile: optional
+#   website: optional
+#   github: optional
+#   linkedin: optional
+#
+# address: optional
+#   street:
+#   city:
+#   province:
+#   country: optional
+#   post:
+#
+# sections:
+#   pass
+
+theme:
+  font_size: 10pt
+  style: casual
+  colour: blue
+
 title: Résumé
 
 name:
@@ -6,8 +44,8 @@ name:
   abbrev: jnassar
 
 contact:
-  mobile: +81-080-8333-6065
   email: jeannassar5@gmail.com
+  mobile: +81-080-8333-6065
   github: masasin
   linkedin: masasin
 
