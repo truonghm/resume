@@ -5,7 +5,7 @@ import os
 import re
 import shutil
 import subprocess
-from time import localtime, strftime
+import time
 
 import git
 import jinja2
@@ -18,8 +18,8 @@ os.makedirs(config["BUILD_DIR"], exist_ok=True)
 os.makedirs(os.path.join(config["OUTPUT_DIR"],
                          config["LETTERS_DIR"]), exist_ok=True)
 
-last_updated = localtime(git.Repo().head.commit.committed_date)
-last_updated_string = strftime(config["DATE_FMT"], last_updated)
+last_updated = time.localtime(git.Repo().head.commit.committed_date)
+last_updated_string = time.strftime(config["DATE_FMT"], last_updated)
 
 
 def main():

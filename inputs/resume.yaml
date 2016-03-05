@@ -34,8 +34,8 @@ name:
   abbrev: jnassar
 
 # Markdown details
-pdf: /assets/resume.pdf
-source: https://github.com/emichael/resume
+# pdf: /assets/resume.pdf
+# source: https://github.com/masasin/resume
 
 contact:
   email: jeannassar5@gmail.com
@@ -49,7 +49,6 @@ address:
   province: Kyoto prefecture
   country: Japan
   post: 610-1105
-
 
 sections:
   - !include sections/general.yaml
