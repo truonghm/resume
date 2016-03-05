@@ -23,11 +23,6 @@
              \textit{GPA: << school.gpa >>}%
            ~< endif >~
           }
-          {~< if school.notes is defined >~\begin{itemize}
-             ~< for note in school.notes >~
-               \item{<< note >>}
-             ~< endfor >~
-           \end{itemize}~< endif >~}
         ~< else >~
           {<< school.date >>}
           {~< if school.urls is defined >~~< if school.urls.major is defined >~\href{<< school.urls.major >>}{~< endif >~~< endif >~%
@@ -46,12 +41,12 @@
              ~< if school.location is defined >~. ~< endif >~%
              \textit{GPA: << school.gpa >>}%
            ~< endif >~}
-          {~< if school.notes is defined >~\begin{itemize}
-             ~< for note in school.notes >~
-               \item{<< note >>}
-             ~< endfor >~
-           \end{itemize}~< endif >~}
         ~< endif >~
+        {~< if school.notes is defined >~\begin{itemize}
+           ~< for note in school.notes >~
+             \item{<< note >>}
+           ~< endfor >~
+         \end{itemize}~< endif >~}
     \end{samepage}
   ~< endfor >~
 ~< endblock body >~
