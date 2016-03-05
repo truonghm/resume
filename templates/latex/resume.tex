@@ -53,7 +53,7 @@
 ~< endif >~
 
 ~< if photo is defined >~
-\photo{<< photo >>}
+\photo~< if photo.size is defined >~[<< photo.size >>]~< endif >~{<< photo.path >>}
 ~< endif >~
 
 

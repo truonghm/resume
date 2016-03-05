@@ -1,12 +1,15 @@
 # Template
-# extra_info: optional
-# quote: optional
-# photo: path to photo; optional
 #
 # name:
 #   first:
 #   last:
 #   abbrev: the name used in the filename
+#
+# extra_info: optional
+# quote: optional
+# photo: optional
+#   path: path to photo
+#   size: height of the photo, optional
 #
 # contact:
 #   email:
@@ -145,7 +148,7 @@ sections:
         location: Freetown, Sierra Leone
         url: http://www.sierraconstructionsystems.com
         notes:
-          - Computerized payroll and significantly saved time and resources using Microsoft Excel, Word, and VBA programming
+          - Computerized payroll and significantly saved time and img using Microsoft Excel, Word, and VBA programming
           - Payroll productivity increased by approximately 6000\%
           - Performed cost and time estimation for various construction projects
 
