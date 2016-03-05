@@ -6,15 +6,15 @@
       \cventry
         ~< if theme.style == "banking" >~
           {~< if school.location is defined >~<< school.location >>~< endif >~}
-          {~< if school.urls is defined >~~< if school.urls.school is defined >~\href{school.urls.school}{~< endif >~~< endif >~%
+          {~< if school.urls is defined >~~< if school.urls.school is defined >~\href{<< school.urls.school >>}{~< endif >~~< endif >~%
              << school.school >>%
            ~< if school.urls is defined >~~< if school.urls.school is defined >~}~< endif >~~< endif >~}
-          {~< if school.urls is defined >~~< if school.urls.major is defined >~\href{school.urls.major}{~< endif >~~< endif >~%
+          {~< if school.urls is defined >~~< if school.urls.major is defined >~\href{<< school.urls.major >>}{~< endif >~~< endif >~%
              << school.major >>%
            ~< if school.urls is defined >~~< if school.urls.major is defined >~}~< endif >~~< endif >~}
           {<< school.date >>}
           {~< if school.affiliation is defined >~%
-             ~< if school.urls is defined >~~< if school.urls.affiliation is defined >~\href{school.urls.affiliation}{~< endif >~~< endif >~%
+             ~< if school.urls is defined >~~< if school.urls.affiliation is defined >~\href{<< school.urls.affiliation >>}{~< endif >~~< endif >~%
                << school.affiliation >>%
              ~< if school.urls is defined >~~< if school.urls.affiliation is defined >~}~< endif >~~< endif >~%
            ~< endif >~%
@@ -30,14 +30,14 @@
            \end{itemize}~< endif >~}
         ~< else >~
           {<< school.date >>}
-          {~< if school.urls is defined >~~< if school.urls.major is defined >~\href{school.urls.major}{~< endif >~~< endif >~%
+          {~< if school.urls is defined >~~< if school.urls.major is defined >~\href{<< school.urls.major >>}{~< endif >~~< endif >~%
              << school.major >>%
            ~< if school.urls is defined >~~< if school.urls.major is defined >~}~< endif >~~< endif >~}
-          {~< if school.urls is defined >~~< if school.urls.school is defined >~\href{school.urls.school}{~< endif >~~< endif >~%
+          {~< if school.urls is defined >~~< if school.urls.school is defined >~\href{<< school.urls.school >>}{~< endif >~~< endif >~%
              << school.school >>%
            ~< if school.urls is defined >~~< if school.urls.school is defined >~}~< endif >~~< endif >~}
           {~< if school.affiliation is defined >~%
-             ~< if school.urls is defined >~~< if school.urls.affiliation is defined >~\href{school.urls.affiliation}{~< endif >~~< endif >~%
+             ~< if school.urls is defined >~~< if school.urls.affiliation is defined >~\href{<< school.urls.affiliation >>}{~< endif >~~< endif >~%
                << school.affiliation >>%
              ~< if school.urls is defined >~~< if school.urls.affiliation is defined >~}~< endif >~~< endif >~%
            ~< endif >~}

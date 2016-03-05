@@ -7,14 +7,14 @@
         ~< if theme.style == "banking" >~
           {~< if item.location is defined >~<< item.location >>~< endif >~}
           {~< if item.about is defined >~<< item.about >>~< endif >~}
-          {~< if item.url is defined >~\href{item.url}{~< endif >~%
+          {~< if item.url is defined >~\href{<< item.url >>}{~< endif >~%
              << item.employer >>%
            ~< if item.url is defined >~}~< endif >~}
           {<< item.date >>}
         ~< else >~
           {<< item.date >>}
           {~< if item.about is defined >~<< item.about >>~< endif >~}
-          {~< if item.url is defined >~\href{item.url}{~< endif >~%
+          {~< if item.url is defined >~\href{<< item.url >>}{~< endif >~%
              << item.employer >>%
            ~< if item.url is defined >~}~< endif >~}
           {~< if item.location is defined >~<< item.location >>~< endif >~}
