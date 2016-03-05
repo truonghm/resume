@@ -6,14 +6,22 @@ name:
   abbrev: jnassar
 
 contact:
-  mobile: 080-8333-6065
+  mobile: +81-080-8333-6065
   email: jeannassar5@gmail.com
   github: masasin
   linkedin: masasin
 
 address:
-  street: Unit 104, 3-7 Ooetsukaharacho
-  city: Nishikyo-ku, Kyoto
-  province: Kyoto
+  street: Unit 104, 3--7 Ōetsukaharachō
+  city: Nishikyō-ku, Kyoto city
+  province: Kyoto prefecture
   country: Japan
   post: 610-1105
+
+sections:
+  - name: Education
+    type: education
+    items:
+      - date: April 2014--Present
+        school: Kyoto University
+        major: MS, Mechanical Engineering Science
