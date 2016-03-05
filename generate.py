@@ -98,11 +98,11 @@ def md5_hash(filename):
 
 
 class LoaderMeta(type):
-    def __new__(metacls, __name__, __bases__, __dict__):
+    def __new__(mcs, __name__, __bases__, __dict__):
         """Add include constructor to class."""
 
         # register the include constructor on the class
-        cls = super().__new__(metacls, __name__, __bases__, __dict__)
+        cls = super().__new__(mcs, __name__, __bases__, __dict__)
         cls.add_constructor('!include', cls.construct_include)
 
         return cls
