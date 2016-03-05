@@ -1,0 +1,25 @@
+~< extends "section.tex" >~
+
+~< block body >~
+  ~< for item in items >~
+    \begin{samepage}
+      \cventry
+        {<< item.date >>}
+        {~< if item.about is defined >~<< item.about >>~< endif >~}
+        {~< if item.employer is defined >~<< item.employer >>~< elif item.topic is defined >~<< item.topic >>~< endif >~}
+        {~< if item.location is defined >~<< item.location >>~< endif >~}
+        {}
+        { % TODO: make sure this doesn't cause an extra space when there aren't notes
+          ~< if item.notes >~
+            \begin{itemize}
+              ~< for note in item.notes >~
+                \item{<< note >>}
+              ~< endfor >~
+            \end{itemize}
+          ~< endif >~
+        }
+    \end{samepage}
+    \vspace{10pt}
+  ~< endfor >~
+  \vspace{-10pt}
+~< endblock body >~
