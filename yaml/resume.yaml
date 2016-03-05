@@ -69,6 +69,9 @@ sections:
         location: Kyoto, Japan
         major: Research student
         affiliation: Mechatronics Laboratory
+        urls:
+          school: http://kyoto-u.ac.jp
+          affiliation: www.mechatronics.me.kyoto-u.ac.jp
       - date: 2008--2013
         school: University of Waterloo
         location: Waterloo, ON
