@@ -124,7 +124,7 @@ class ContextRenderer(object):
             else:
                 section_type = config["DEFAULT_SECTION"]
 
-            if section_type == "doubleitems":
+            if section_type == "double_items":
                 section_data["items"] = self._make_double_list(
                     section_data["items"])
 
