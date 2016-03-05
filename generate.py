@@ -37,7 +37,7 @@ class RenderContext(object):
 
         context_templates_dir = os.path.join(TEMPLATES_DIR, context_name)
 
-        self.base_template = BASE_FILE_NAME + self.filetype
+        self.base_template = BASE_FILE_NAME
         self.context_type_name = context_name + "type"
 
         self.jinja_options = jinja_options.copy()
@@ -64,8 +64,9 @@ class RenderContext(object):
 
         return data
 
-    def _render_template(self, template_name, data):
-        return self.jinja_env.get_template(template_name).render(**data)
+    def render_template(self, template_name, data):
+        full_name = template_name + self.filetype
+        return self.jinja_env.get_template(full_name).render(**data)
 
     @staticmethod
     def _make_double_list(items):
@@ -93,10 +94,10 @@ class RenderContext(object):
                     section_data["items"])
 
             section_template_name = os.path.join(
-                SECTIONS_DIR, section_type + self.filetype
+                SECTIONS_DIR, section_type
             )
 
-            rendered_section = self._render_template(
+            rendered_section = self.render_template(
                 section_template_name, section_data
             )
             body += rendered_section.rstrip() + "\n\n\n"
@@ -104,7 +105,7 @@ class RenderContext(object):
         data["body"] = body
         data["updated"] = last_updated_string
 
-        return self._render_template(self.base_template, data).rstrip() + "\n"
+        return self.render_template(self.base_template, data).rstrip() + "\n"
 
     def write(self, output_data, base=BASE_FILE_NAME):
         output_file = os.path.join(
@@ -133,25 +134,12 @@ LATEX_CONTEXT = RenderContext(
 )
 
 
-latex = jinja2.Environment(
-    block_start_string='~<',
-    block_end_string='>~',
-    variable_start_string='<<',
-    variable_end_string='>>',
-    comment_start_string='<#',
-    comment_end_string='#>',
-    trim_blocks=True,
-    lstrip_blocks=True,
-    loader=jinja2.FileSystemLoader(os.path.abspath('.')),
-)
-
-
 def process_resume(context, data, base=BASE_FILE_NAME):
     rendered_resume = context.render(data)
     context.write(rendered_resume, base=base)
 
 
-def main2():
+def main():
     with open(os.path.join(YAML_DIR, YAML_MAIN + ".yaml")) as resume_data:
         yaml_data = yaml.load(resume_data)
     with open(os.path.join(YAML_DIR, YAML_STYLE + ".yaml")) as style_data:
@@ -162,50 +150,14 @@ def main2():
 
     process_resume(LATEX_CONTEXT, yaml_data)
 
-    body_template = latex.get_template("templates/latex/letter_body.tex")
     for business in businesses:
         data = {k: v for d in (yaml_data, businesses[business])
                 for k, v in d.items()}
-        body = body_template.render(**data)
-        data["business"]["body"] = body
+        data["business"]["body"] = LATEX_CONTEXT.render_template(
+            LETTER_FILE_NAME, data
+        )
         process_resume(LATEX_CONTEXT, data, base=business)
 
 
-def main():
-    main_template = latex.get_template("templates/latex/resume.tex")
-    body_template = latex.get_template("templates/latex/letter_body.tex")
-
-    with open("{}/{}.yaml".format(YAML_DIR,
-                                  YAML_STYLE)) as style_data:
-        style = yaml.load(style_data)
-
-    with open("{}/{}.yaml".format(YAML_DIR,
-                                  YAML_MAIN)) as resume_data:
-        data = yaml.load(resume_data)
-    file_root = data["name"]["abbrev"]
-    data["updated"] = last_updated_string
-
-    with open("{}/{}.yaml".format(YAML_DIR,
-                                  YAML_BUSINESSES)) as businesses_data:
-        businesses = yaml.load(businesses_data)
-
-    for business in businesses:
-        body = body_template.render(**data, **businesses[business])
-        businesses[business]["body"] = body
-        with open("{}/{}_{}.tex".format(BUILD_DIR, file_root, business),
-                  "w") as resume:
-            resume.write(main_template.render(
-                **style,
-                **data,
-                business=businesses[business],
-            ))
-
-    with open("{}/{}_resume.tex".format(BUILD_DIR, file_root), "w") as resume:
-        resume.write(main_template.render(
-            **style,
-            **data,
-        ))
-
-
 if __name__ == '__main__':
-    main2()
+    main()
