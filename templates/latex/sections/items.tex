@@ -14,11 +14,17 @@
 ~< macro listitem(item) >~
   ~< if item.description is defined >~
     \cvitem{<< item.name >>}{<< item.description >>}
-  ~< endif >~
-  ~< if item.notes is defined >~
+    ~< if item.notes is defined >~
+      ~< for note in item.notes >~
+        \cvlistitem{<< note >>}
+      ~< endfor >~
+    ~< endif >~
+  ~< elif item.notes is defined >~
     ~< for note in item.notes >~
       \cvlistitem{<< note >>}
     ~< endfor >~
+  ~< else >~
+    \cvlistitem{<< item >>}
   ~< endif >~
 ~< endmacro >~
 
