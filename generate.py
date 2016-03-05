@@ -1,48 +1,47 @@
 import copy
-import glob
-import hashlib
-import os
-import re
+from glob import iglob
+from hashlib import md5
+from os import makedirs
+from os.path import abspath, basename, curdir, exists, join, split, splitext
+from re import sub
 import shutil
-import subprocess
-import time
+from subprocess import call
+from time import localtime, strftime
 
-import git
-import jinja2
+from git import Repo
+from jinja2 import Environment, FileSystemLoader, StrictUndefined
 import yaml
+from yaml import load
 
 
 with open("config.yaml") as configuration_file:
-    config = yaml.load(configuration_file)
-os.makedirs(config["BUILD_DIR"], exist_ok=True)
-os.makedirs(os.path.join(config["OUTPUT_DIR"],
-                         config["LETTERS_DIR"]), exist_ok=True)
+    config = load(configuration_file)
+makedirs(config["BUILD_DIR"], exist_ok=True)
+makedirs(join(config["OUTPUT_DIR"], config["LETTERS_DIR"]), exist_ok=True)
 
-last_updated = time.localtime(git.Repo().head.commit.committed_date)
-last_updated_string = time.strftime(config["DATE_FMT"], last_updated)
+last_updated = localtime(Repo().head.commit.committed_date)
+last_updated_string = strftime(config["DATE_FMT"], last_updated)
 
 
 def main():
-    with open(os.path.join(config["YAML_DIR"],
-                           config["YAML_MAIN"] + ".yaml")) as resume_data:
-        data = yaml.load(resume_data, Loader)
-    with open(os.path.join(config["YAML_DIR"],
-                           config["YAML_STYLE"] + ".yaml")) as style_data:
-        data.update(**yaml.load(style_data))
-    with open(
-        os.path.join(config["YAML_DIR"], config["YAML_BUSINESSES"] + ".yaml")
-    ) as business_data:
-        businesses = yaml.load(business_data)
+    with open(join(config["YAML_DIR"],
+                   config["YAML_MAIN"] + ".yaml")) as resume_data:
+        data = load(resume_data, Loader)
+    with open(join(config["YAML_DIR"],
+                   config["YAML_STYLE"] + ".yaml")) as style_data:
+        data.update(**load(style_data))
+    with open(join(config["YAML_DIR"],
+                   config["YAML_BUSINESSES"] + ".yaml")) as business_data:
+        businesses = load(business_data)
 
     for section in data["sections"]:
         if ("type" in section
                 and section["type"] == "publications"
                 and "items" not in section):
             with open(
-                os.path.join(config["YAML_DIR"],
-                             config["YAML_PUBLICATIONS"] + ".yaml")
+                join(config["YAML_DIR"], config["YAML_PUBLICATIONS"] + ".yaml")
             ) as pub_data:
-                pubs = yaml.load(pub_data)
+                pubs = load(pub_data)
             if not pubs:
                 data["sections"].remove(section)
             else:
@@ -50,7 +49,7 @@ def main():
             break
 
     hashes = {f: md5_hash(f)
-              for f in glob.glob("{}/*.tex".format(config["BUILD_DIR"]))}
+              for f in iglob("{}/*.tex".format(config["BUILD_DIR"]))}
 
     process_resume(HTML_CONTEXT, data)
     process_resume(LATEX_CONTEXT, data)
@@ -76,28 +75,26 @@ def process_resume(context, data, base=config["BASE_FILE_NAME"]):
 
 
 def compile_latex(hashes):
-    for input_file in glob.glob("{}/*.tex".format(config["BUILD_DIR"])):
+    for input_file in iglob("{}/*.tex".format(config["BUILD_DIR"])):
         if (input_file in hashes and md5_hash(input_file) != hashes[input_file]
-                or not os.path.exists(input_file.replace(".tex", ".pdf"))):
-            subprocess.call(
-                "xelatex -output-dir={} {}".format(config["BUILD_DIR"],
-                                                   input_file).split()
-            )
+                or not exists(input_file.replace(".tex", ".pdf"))):
+            call("xelatex -output-dir={} {}".format(config["BUILD_DIR"],
+                                                    input_file).split())
 
 
 def copy_to_output():
     for ext in ("pdf", "md", "html"):
-        for pdf in glob.glob("{}/*.{}".format(config["BUILD_DIR"], ext)):
-            if os.path.basename(pdf).startswith("0_"):
+        for pdf in iglob("{}/*.{}".format(config["BUILD_DIR"], ext)):
+            if basename(pdf).startswith("0_"):
                 shutil.copy(pdf, config["OUTPUT_DIR"])
             else:
-                shutil.copy(pdf, os.path.join(config["OUTPUT_DIR"],
-                                              config["LETTERS_DIR"]))
+                shutil.copy(pdf, join(config["OUTPUT_DIR"],
+                                      config["LETTERS_DIR"]))
 
 
 def md5_hash(filename):
     with open(filename) as fin:
-        return hashlib.md5(fin.read().encode()).hexdigest()
+        return md5(fin.read().encode()).hexdigest()
 
 
 class LoaderMeta(type):
@@ -117,23 +114,21 @@ class Loader(yaml.Loader, metaclass=LoaderMeta):
         """Initialise Loader."""
 
         try:
-            self._root = os.path.split(stream.name)[0]
+            self._root = split(stream.name)[0]
         except AttributeError:
-            self._root = os.path.curdir
+            self._root = curdir
 
         super().__init__(stream)
 
     def construct_include(self, node):
         """Include file referenced at node."""
 
-        filename = os.path.abspath(os.path.join(
-            self._root, self.construct_scalar(node)
-        ))
-        extension = os.path.splitext(filename)[1].lstrip('.')
+        filename = abspath(join(self._root, self.construct_scalar(node)))
+        extension = splitext(filename)[1].lstrip('.')
 
         with open(filename, 'r') as f:
             if extension in ('yaml', 'yml'):
-                return yaml.load(f, Loader)
+                return load(f, Loader)
             else:
                 return ''.join(f.readlines())
 
@@ -143,25 +138,24 @@ class ContextRenderer(object):
         self.filetype = filetype
         self.replacements = replacements
 
-        context_templates_dir = os.path.join(config["TEMPLATES_DIR"],
-                                             context_name)
+        context_templates_dir = join(config["TEMPLATES_DIR"], context_name)
 
         self.base_template = config["BASE_FILE_NAME"]
         self.context_type_name = context_name + "type"
 
         self.jinja_options = jinja_options.copy()
-        self.jinja_options["loader"] = jinja2.FileSystemLoader(
+        self.jinja_options["loader"] = FileSystemLoader(
             searchpath=context_templates_dir
         )
-        self.jinja_options["undefined"] = jinja2.StrictUndefined
-        self.jinja_env = jinja2.Environment(**self.jinja_options)
+        self.jinja_options["undefined"] = StrictUndefined
+        self.jinja_env = Environment(**self.jinja_options)
 
     def make_replacements(self, data):
         data = copy.copy(data)
 
         if isinstance(data, str):
             for o, r in self.replacements:
-                data = re.sub(o, r, data)
+                data = sub(o, r, data)
 
         elif isinstance(data, dict):
             for k, v in data.items():
@@ -205,9 +199,7 @@ class ContextRenderer(object):
                 section_data["items"] = self._make_double_list(
                     section_data["items"])
 
-            section_template_name = os.path.join(
-                config["SECTIONS_DIR"], section_type
-            )
+            section_template_name = join(config["SECTIONS_DIR"], section_type)
 
             rendered_section = self.render_template(
                 section_template_name, section_data
@@ -224,13 +216,13 @@ class ContextRenderer(object):
             prefix = "0_"
         else:
             prefix = ""
-        output_file = os.path.join(
-            config["BUILD_DIR"],
-            "{prefix}{name}_{base}{ext}".format(prefix=prefix,
-                                                name=self._name,
-                                                base=base,
-                                                ext=self.filetype)
-        )
+        output_file = join(config["BUILD_DIR"],
+                           "{prefix}{name}_{base}{ext}".format(prefix=prefix,
+                                                               name=self._name,
+                                                               base=base,
+                                                               ext=self.filetype
+                                                               )
+                           )
         with open(output_file, "w") as fout:
             fout.write(output_data)
 
