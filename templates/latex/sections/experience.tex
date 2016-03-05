@@ -4,13 +4,20 @@
   ~< for item in items >~
     \begin{samepage}
       \cventry
-        {<< item.date >>}
-        {~< if item.about is defined >~<< item.about >>~< endif >~}
-        {~< if item.employer is defined >~<< item.employer >>~< elif item.topic is defined >~<< item.topic >>~< endif >~}
-        {~< if item.location is defined >~<< item.location >>~< endif >~}
+        ~< if theme.style == "banking" >~
+          {~< if item.location is defined >~<< item.location >>~< endif >~}
+          {~< if item.about is defined >~<< item.about >>~< endif >~}
+          {~< if item.employer is defined >~<< item.employer >>~< elif item.topic is defined >~<< item.topic >>~< endif >~}
+          {<< item.date >>}
+        ~< else >~
+          {<< item.date >>}
+          {~< if item.about is defined >~<< item.about >>~< endif >~}
+          {~< if item.employer is defined >~<< item.employer >>~< elif item.topic is defined >~<< item.topic >>~< endif >~}
+          {~< if item.location is defined >~<< item.location >>~< endif >~}
+        ~< endif >~
         {}
-        { % TODO: make sure this doesn't cause an extra space when there aren't notes
-          ~< if item.notes >~
+        {
+          ~< if item.notes is defined >~
             \begin{itemize}
               ~< for note in item.notes >~
                 \item{<< note >>}
@@ -19,7 +26,9 @@
           ~< endif >~
         }
     \end{samepage}
-    \vspace{10pt}
+    ~< if item.notes is defined or theme.style == "banking" >~
+      \vspace{10pt}
+    ~< endif >~
   ~< endfor >~
   \vspace{-10pt}
 ~< endblock body >~
