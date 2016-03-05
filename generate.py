@@ -52,7 +52,9 @@ def main():
     hashes = {f: md5_hash(f)
               for f in glob.glob("{}/*.tex".format(config["BUILD_DIR"]))}
 
+    process_resume(HTML_CONTEXT, data)
     process_resume(LATEX_CONTEXT, data)
+    process_resume(MARKDOWN_CONTEXT, data)
 
     try:
         for business in businesses:
@@ -65,7 +67,7 @@ def main():
         pass
 
     compile_latex(hashes)
-    copy_pdfs()
+    copy_to_output()
 
 
 def process_resume(context, data, base=config["BASE_FILE_NAME"]):
@@ -83,13 +85,14 @@ def compile_latex(hashes):
             )
 
 
-def copy_pdfs():
-    for pdf in glob.glob("{}/*.pdf".format(config["BUILD_DIR"])):
-        if os.path.basename(pdf).startswith("0_"):
-            shutil.copy(pdf, config["OUTPUT_DIR"])
-        else:
-            shutil.copy(pdf, os.path.join(config["OUTPUT_DIR"],
-                                          config["LETTERS_DIR"]))
+def copy_to_output():
+    for ext in ("pdf", "md", "html"):
+        for pdf in glob.glob("{}/*.{}".format(config["BUILD_DIR"], ext)):
+            if os.path.basename(pdf).startswith("0_"):
+                shutil.copy(pdf, config["OUTPUT_DIR"])
+            else:
+                shutil.copy(pdf, os.path.join(config["OUTPUT_DIR"],
+                                              config["LETTERS_DIR"]))
 
 
 def md5_hash(filename):

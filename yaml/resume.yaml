@@ -33,6 +33,10 @@ name:
   last: Nassar
   abbrev: jnassar
 
+# Markdown details
+pdf: /assets/resume.pdf
+source: https://github.com/emichael/resume
+
 contact:
   email: jeannassar5@gmail.com
   mobile: +81-080-8333-6065
@@ -148,7 +152,7 @@ sections:
         location: Freetown, Sierra Leone
         url: http://www.sierraconstructionsystems.com
         notes:
-          - Computerized payroll and significantly saved time and img using Microsoft Excel, Word, and VBA programming
+          - Computerized payroll and significantly saved time and resources using Microsoft Excel, Word, and VBA programming
           - Payroll productivity increased by approximately 6000\%
           - Performed cost and time estimation for various construction projects
 
