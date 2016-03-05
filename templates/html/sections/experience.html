@@ -1,0 +1,29 @@
+{% extends "section.html" %}
+
+{% block body %}
+  {% for item in items %}
+    <div class="experience">
+      <span class="title">
+        {% if item.employer is defined %}
+          {{ item.employer }}{% if item.location is defined %}, {{ item.location }}{% endif %}
+        {% elif item.topic %}
+          {{ item.topic }}
+        {% endif %}
+      </span> -
+
+      {% if item.about is defined %}
+        <span class="about">{{ item.about }}</span> -
+      {% endif %}
+
+      <span class="date">{{ item.date }}</span>
+
+      {% if item.notes is defined %}
+        <ul class="notes">
+          {% for note in item.notes %}
+            <li>{{ note }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  {% endfor %}
+{% endblock body %}

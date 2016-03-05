@@ -1,0 +1,7 @@
+<div {% if name is defined %}id="{{ "section-" + name | lower | replace(' ', '-') }}"{% endif %} class="section">
+  <h3 class="section-title">{% if name is defined %}{{ name }}{% endif %}</h3>
+
+  {% block body %}
+    {{ data }}
+  {% endblock body %}
+</div>

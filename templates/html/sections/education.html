@@ -1,0 +1,14 @@
+{% extends "section.html" %}
+
+{% block body %}
+  {% for school in items %}
+    <div class="school">
+      <span class="name">{{ school.school }}</span> -
+      <span class="date">{{ school.date }}</span><br>
+      <span class="major">{{ school.major }}</span><br>
+      {% if school.gpa is defined %}
+        GPA: <span class="gpa">{{ school.gpa }}</span>
+      {% endif %}
+    </div>
+  {% endfor %}
+{% endblock body %}
