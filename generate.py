@@ -16,6 +16,7 @@ DEFAULT_SECTION = "items"
 OUTPUT_DIR = "output"
 LETTERS_DIR = "with_letters"
 BASE_FILE_NAME = "resume"
+LETTER_FILE_NAME = "letter_body"
 YAML_STYLE = "style"
 YAML_MAIN = "resume"
 YAML_BUSINESSES = "businesses"
@@ -36,9 +37,6 @@ class RenderContext(object):
 
         context_templates_dir = os.path.join(TEMPLATES_DIR, context_name)
 
-        self.output_file = os.path.join(
-            BUILD_DIR, BASE_FILE_NAME + self.filetype
-        )
         self.base_template = BASE_FILE_NAME + self.filetype
         self.context_type_name = context_name + "type"
 
@@ -79,6 +77,7 @@ class RenderContext(object):
 
     def render(self, data):
         data = self.make_replacements(data)
+        self._name = data["name"]["abbrev"]
 
         body = ""
         for section_data in data["sections"]:
@@ -107,8 +106,13 @@ class RenderContext(object):
 
         return self._render_template(self.base_template, data).rstrip() + "\n"
 
-    def write(self, output_data):
-        with open(self.output_file, "w") as fout:
+    def write(self, output_data, base=BASE_FILE_NAME):
+        output_file = os.path.join(
+            BUILD_DIR, "{name}_{base}{ext}".format(name=self._name,
+                                                   base=base,
+                                                   ext=self.filetype)
+        )
+        with open(output_file, "w") as fout:
             fout.write(output_data)
 
 
@@ -142,20 +146,29 @@ latex = jinja2.Environment(
 )
 
 
-def process_resume(context, data):
+def process_resume(context, data, base=BASE_FILE_NAME):
     rendered_resume = context.render(data)
-    context.write(rendered_resume)
+    context.write(rendered_resume, base=base)
 
 
 def main2():
-    with open("{}/{}.yaml".format(YAML_DIR,
-                                  YAML_STYLE)) as style_data:
-        style = yaml.load(style_data)
-    with open("{}/{}.yaml".format(YAML_DIR,
-                                  YAML_MAIN)) as resume_data:
-        data = yaml.load(resume_data)
-    data.update(**style)
-    process_resume(LATEX_CONTEXT, data)
+    with open(os.path.join(YAML_DIR, YAML_MAIN + ".yaml")) as resume_data:
+        yaml_data = yaml.load(resume_data)
+    with open(os.path.join(YAML_DIR, YAML_STYLE + ".yaml")) as style_data:
+        yaml_data.update(**yaml.load(style_data))
+    with open(os.path.join(YAML_DIR,
+                           YAML_BUSINESSES + ".yaml")) as businesses_data:
+        businesses = yaml.load(businesses_data)
+
+    process_resume(LATEX_CONTEXT, yaml_data)
+
+    body_template = latex.get_template("templates/latex/letter_body.tex")
+    for business in businesses:
+        data = {k: v for d in (yaml_data, businesses[business])
+                for k, v in d.items()}
+        body = body_template.render(**data)
+        data["business"]["body"] = body
+        process_resume(LATEX_CONTEXT, data, base=business)
 
 
 def main():

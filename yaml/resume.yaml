@@ -55,9 +55,6 @@ sections:
         urls:
           school: http://kyoto-u.ac.jp
           affiliation: www.mechatronics.me.kyoto-u.ac.jp
-        notes:
-          - Something
-          - Something else has
       - date: 2013--2014
         school: Kyoto University
         location: Kyoto, Japan
@@ -70,6 +67,3 @@ sections:
         urls:
           school: http://www.uwaterloo.ca
           major: https://uwaterloo.ca/mechanical-mechatronics/engineering/program-overview
-        notes:
-          - Something
-          - Something else has
