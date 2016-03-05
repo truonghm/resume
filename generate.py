@@ -8,26 +8,14 @@ import jinja2
 import yaml
 
 
-YAML_DIR = "yaml"
-BUILD_DIR = "build"
-TEMPLATES_DIR = "templates"
-SECTIONS_DIR = "sections"
-DEFAULT_SECTION = "items"
-OUTPUT_DIR = "output"
-LETTERS_DIR = "with_letters"
-BASE_FILE_NAME = "resume"
-LETTER_FILE_NAME = "letter_body"
-YAML_STYLE = "style"
-YAML_MAIN = "resume"
-YAML_BUSINESSES = "businesses"
-YAML_PUBLICATIONS = "publications"
-DATE_FMT = "%Y--%m--%d"
-
-os.makedirs(BUILD_DIR, exist_ok=True)
-os.makedirs(os.path.join(OUTPUT_DIR, LETTERS_DIR), exist_ok=True)
+with open("config.yaml") as configuration_file:
+    config = yaml.load(configuration_file)
+os.makedirs(config["BUILD_DIR"], exist_ok=True)
+os.makedirs(os.path.join(config["OUTPUT_DIR"],
+                         config["LETTERS_DIR"]), exist_ok=True)
 
 last_updated = localtime(git.Repo().head.commit.committed_date)
-last_updated_string = strftime(DATE_FMT, last_updated)
+last_updated_string = strftime(config["DATE_FMT"], last_updated)
 
 
 class RenderContext(object):
@@ -35,9 +23,10 @@ class RenderContext(object):
         self.filetype = filetype
         self.replacements = replacements
 
-        context_templates_dir = os.path.join(TEMPLATES_DIR, context_name)
+        context_templates_dir = os.path.join(config["TEMPLATES_DIR"],
+                                             context_name)
 
-        self.base_template = BASE_FILE_NAME
+        self.base_template = config["BASE_FILE_NAME"]
         self.context_type_name = context_name + "type"
 
         self.jinja_options = jinja_options.copy()
@@ -87,14 +76,14 @@ class RenderContext(object):
             elif "type" in section_data:
                 section_type = section_data["type"]
             else:
-                section_type = DEFAULT_SECTION
+                section_type = config["DEFAULT_SECTION"]
 
             if section_type == "doubleitems":
                 section_data["items"] = self._make_double_list(
                     section_data["items"])
 
             section_template_name = os.path.join(
-                SECTIONS_DIR, section_type
+                config["SECTIONS_DIR"], section_type
             )
 
             rendered_section = self.render_template(
@@ -107,11 +96,11 @@ class RenderContext(object):
 
         return self.render_template(self.base_template, data).rstrip() + "\n"
 
-    def write(self, output_data, base=BASE_FILE_NAME):
+    def write(self, output_data, base=config["BASE_FILE_NAME"]):
         output_file = os.path.join(
-            BUILD_DIR, "{name}_{base}{ext}".format(name=self._name,
-                                                   base=base,
-                                                   ext=self.filetype)
+            config["BUILD_DIR"], "{name}_{base}{ext}".format(name=self._name,
+                                                             base=base,
+                                                             ext=self.filetype)
         )
         with open(output_file, "w") as fout:
             fout.write(output_data)
@@ -134,19 +123,22 @@ LATEX_CONTEXT = RenderContext(
 )
 
 
-def process_resume(context, data, base=BASE_FILE_NAME):
+def process_resume(context, data, base=config["BASE_FILE_NAME"]):
     rendered_resume = context.render(data)
     context.write(rendered_resume, base=base)
 
 
 def main():
-    with open(os.path.join(YAML_DIR, YAML_MAIN + ".yaml")) as resume_data:
+    with open(os.path.join(config["YAML_DIR"],
+                           config["YAML_MAIN"] + ".yaml")) as resume_data:
         yaml_data = yaml.load(resume_data)
-    with open(os.path.join(YAML_DIR, YAML_STYLE + ".yaml")) as style_data:
+    with open(os.path.join(config["YAML_DIR"],
+                           config["YAML_STYLE"] + ".yaml")) as style_data:
         yaml_data.update(**yaml.load(style_data))
-    with open(os.path.join(YAML_DIR,
-                           YAML_BUSINESSES + ".yaml")) as businesses_data:
-        businesses = yaml.load(businesses_data)
+    with open(
+        os.path.join(config["YAML_DIR"], config["YAML_BUSINESSES"] + ".yaml")
+    ) as business_data:
+        businesses = yaml.load(business_data)
 
     process_resume(LATEX_CONTEXT, yaml_data)
 
@@ -154,7 +146,7 @@ def main():
         data = {k: v for d in (yaml_data, businesses[business])
                 for k, v in d.items()}
         data["business"]["body"] = LATEX_CONTEXT.render_template(
-            LETTER_FILE_NAME, data
+            config["LETTER_FILE_NAME"], data
         )
         process_resume(LATEX_CONTEXT, data, base=business)
 
