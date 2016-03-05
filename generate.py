@@ -30,6 +30,21 @@ def main():
     ) as business_data:
         businesses = yaml.load(business_data)
 
+    for section in yaml_data["sections"]:
+        if ("type" in section
+                and section["type"] == "publications"
+                and "items" not in section):
+            with open(
+                os.path.join(config["YAML_DIR"],
+                             config["YAML_PUBLICATIONS"] + ".yaml")
+            ) as pub_data:
+                pubs = yaml.load(pub_data)
+            if not pubs:
+                yaml_data["sections"].remove(section)
+            else:
+                section["items"] = pubs
+            break
+
     process_resume(LATEX_CONTEXT, yaml_data)
 
     for business in businesses:

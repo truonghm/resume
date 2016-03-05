@@ -67,3 +67,6 @@ sections:
         urls:
           school: http://www.uwaterloo.ca
           major: https://uwaterloo.ca/mechanical-mechatronics/engineering/program-overview
+
+  - name: Publications
+    type: publications

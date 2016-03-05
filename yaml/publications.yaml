@@ -1,9 +1,10 @@
 # Can have URL and Month
-- title: Developing a System of Superimposed Past Image Records Implemented for Teleoperation of an Unmanned Multirotor
-  authors: "Jean Nassar. Supervisor: Fumitoshi Matsuno"
-  key: jnassarthesis16
-  year: 2016
-  venuetype: "Masters thesis, "
-  venue: Kyoto University
-  abstract: >
-    Some weird stuff with octrees and hextrees too.
+ - title: Developing a System of Superimposed Past Image Records Implemented for Teleoperation of an Unmanned Multirotor
+   authors: "Jean Nassar. Supervisor: Fumitoshi Matsuno"
+   key: jnassarthesis16
+   year: 2016
+   venuetype: "Masters thesis, "
+   venue: Kyoto University
+   abstract: >
+     Some weird stuff with octrees and hextrees too.
+
