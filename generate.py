@@ -100,6 +100,8 @@ class ContextRenderer(object):
 
         body = ""
         for section_data in data["sections"]:
+            section_data["theme"] = data["theme"]
+
             if self.context_type_name in section_data:
                 section_type = section_data[self.context_type_name]
             elif "type" in section_data:
