@@ -1,3 +1,26 @@
+# Format
+# [company]: the name used in the filename
+#   name:
+#     formal:
+#     informal:
+#     abbrev: abbreviation
+#
+#   position: what you want to work as
+#     name: the name of the position, capitalized as necessary
+#     article: a or an; indefinite article for the name
+#     has_posting: does the job have a posting? True or False
+#     posting_id: the job ID, if available
+#
+#   field: what kind of company is it? plural
+#   best_in: which location is it a leader in?
+#
+#   addressee: who will receive the letter? default is HR Department
+#   address: what is the address?
+#   greeting: the start of the letter; default is To whom it may concern
+#   closing: the end of the letter; default is sincerely yours
+#
+#   You can also add any fields that you want at this level, and also add them to the template.
+
 scs:
   name:
     formal: Sierra Construction Systems, Ltd.
