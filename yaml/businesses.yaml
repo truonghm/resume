@@ -1,45 +1,42 @@
 # Format
 # [company]: the name used in the filename
-#   business:
-#     name:
-#       formal:
-#       informal:
-#       abbrev: abbreviation
-#     field: what kind of company is it? plural
-#     best_in: which location is it a leader in?
+#   name:
+#     formal:
+#     informal:
+#     abbrev: abbreviation
+#   field: what kind of company is it? plural
+#   best_in: which location is it a leader in?
 #
-#     position: what you want to work as
-#       name: the name of the position, capitalized as necessary
-#       article: a or an; indefinite article for the name
-#       has_posting: does the job have a posting? True or False
-#       posting_id: the job ID, if available
+#   position: what you want to work as
+#     name: the name of the position, capitalized as necessary
+#     article: a or an; indefinite article for the name
+#     has_posting: does the job have a posting? True or False
+#     posting_id: the job ID, if available
 #
-#
-#     letter:
-#       addressee: who will receive the letter? default is HR Department
-#       address: what is the address?
-#       greeting: the start of the letter; default is To whom it may concern
-#       closing: the end of the letter; default is sincerely yours
+#   letter:
+#     addressee: who will receive the letter? default is HR Department
+#     address: what is the address?
+#     greeting: the start of the letter; default is To whom it may concern
+#     closing: the end of the letter; default is sincerely yours
 #
 #   You can also add any fields that you want at this level, and also add them to the template.
 
 scs:
-  business:
-    name:
-      formal: Sierra Construction Systems, Ltd.
-      informal: Sierra Construction Systems
-      abbrev: SCS
-    field: construction companies
-    best_in: Sierra Leone
+  name:
+    formal: Sierra Construction Systems, Ltd.
+    informal: Sierra Construction Systems
+    abbrev: SCS
+  field: construction companies
+  best_in: Sierra Leone
 
-    position:
-      name: Chief Engineer
-      article: a
-      has_posting: True
-      posting_id: Job ID \#A313
+  position:
+    name: Chief Engineer
+    article: a
+    has_posting: True
+    posting_id: Job ID \#A313
 
-    letter:
-      addressee: Ziad Nassar
-      address: 69B Smart Farm, Off Wilkinson Road \\ Freetown, Sierra Leone
-      greeting: Dear Mr. Nassar
-      closing: Sincerely yours
+  letter:
+    addressee: Ziad Nassar
+    address: 69B Smart Farm, Off Wilkinson Road \\ Freetown, Sierra Leone
+    greeting: Dear Mr. Nassar
+    closing: Sincerely yours

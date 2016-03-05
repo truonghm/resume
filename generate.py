@@ -25,16 +25,16 @@ last_updated_string = strftime(config["DATE_FMT"], last_updated)
 def main():
     with open(os.path.join(config["YAML_DIR"],
                            config["YAML_MAIN"] + ".yaml")) as resume_data:
-        yaml_data = yaml.load(resume_data)
+        data = yaml.load(resume_data)
     with open(os.path.join(config["YAML_DIR"],
                            config["YAML_STYLE"] + ".yaml")) as style_data:
-        yaml_data.update(**yaml.load(style_data))
+        data.update(**yaml.load(style_data))
     with open(
         os.path.join(config["YAML_DIR"], config["YAML_BUSINESSES"] + ".yaml")
     ) as business_data:
         businesses = yaml.load(business_data)
 
-    for section in yaml_data["sections"]:
+    for section in data["sections"]:
         if ("type" in section
                 and section["type"] == "publications"
                 and "items" not in section):
@@ -44,7 +44,7 @@ def main():
             ) as pub_data:
                 pubs = yaml.load(pub_data)
             if not pubs:
-                yaml_data["sections"].remove(section)
+                data["sections"].remove(section)
             else:
                 section["items"] = pubs
             break
@@ -52,11 +52,10 @@ def main():
     hashes = {f: md5_hash(f)
               for f in glob.glob("{}/*.tex".format(config["BUILD_DIR"]))}
 
-    process_resume(LATEX_CONTEXT, yaml_data)
+    process_resume(LATEX_CONTEXT, data)
 
     for business in businesses:
-        data = {k: v for d in (yaml_data, businesses[business])
-                for k, v in d.items()}
+        data["business"] = businesses[business]
         data["business"]["body"] = LATEX_CONTEXT.render_template(
             config["LETTER_FILE_NAME"], data
         )
