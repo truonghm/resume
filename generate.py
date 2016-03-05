@@ -25,7 +25,7 @@ last_updated_string = strftime(config["DATE_FMT"], last_updated)
 def main():
     with open(os.path.join(config["YAML_DIR"],
                            config["YAML_MAIN"] + ".yaml")) as resume_data:
-        data = yaml.load(resume_data)
+        data = yaml.load(resume_data, Loader)
     with open(os.path.join(config["YAML_DIR"],
                            config["YAML_STYLE"] + ".yaml")) as style_data:
         data.update(**yaml.load(style_data))
@@ -98,6 +98,44 @@ def copy_to_output():
 def md5_hash(filename):
     with open(filename) as fin:
         return hashlib.md5(fin.read().encode()).hexdigest()
+
+
+class LoaderMeta(type):
+    def __new__(metacls, __name__, __bases__, __dict__):
+        """Add include constructor to class."""
+
+        # register the include constructor on the class
+        cls = super().__new__(metacls, __name__, __bases__, __dict__)
+        cls.add_constructor('!include', cls.construct_include)
+
+        return cls
+
+
+class Loader(yaml.Loader, metaclass=LoaderMeta):
+    """YAML Loader with `!include` constructor."""
+    def __init__(self, stream):
+        """Initialise Loader."""
+
+        try:
+            self._root = os.path.split(stream.name)[0]
+        except AttributeError:
+            self._root = os.path.curdir
+
+        super().__init__(stream)
+
+    def construct_include(self, node):
+        """Include file referenced at node."""
+
+        filename = os.path.abspath(os.path.join(
+            self._root, self.construct_scalar(node)
+        ))
+        extension = os.path.splitext(filename)[1].lstrip('.')
+
+        with open(filename, 'r') as f:
+            if extension in ('yaml', 'yml'):
+                return yaml.load(f, Loader)
+            else:
+                return ''.join(f.readlines())
 
 
 class ContextRenderer(object):

@@ -1,0 +1,5 @@
+name: Selected projects
+items:
+  - Software lead for lab's teleoperation robot (built from scratch)
+  - Automation of assembly line robot using Allen-Bradley PLCs
+  - Résumé and cover letter generator using Python, Jinja, and \LaTeX
