@@ -1,6 +1,9 @@
 import copy
+import glob
+import hashlib
 import os
 import re
+import shutil
 import subprocess
 from time import localtime, strftime
 
@@ -46,6 +49,9 @@ def main():
                 section["items"] = pubs
             break
 
+    hashes = {f: md5_hash(f)
+              for f in glob.glob("{}/*.tex".format(config["BUILD_DIR"]))}
+
     process_resume(LATEX_CONTEXT, yaml_data)
 
     for business in businesses:
@@ -56,10 +62,37 @@ def main():
         )
         process_resume(LATEX_CONTEXT, data, base=business)
 
+    compile_latex(hashes)
+    copy_pdfs()
+
 
 def process_resume(context, data, base=config["BASE_FILE_NAME"]):
     rendered_resume = context.render(data)
     context.write(rendered_resume, base=base)
+
+
+def compile_latex(hashes):
+    for input_file in glob.glob("{}/*.tex".format(config["BUILD_DIR"])):
+        if (input_file in hashes and md5_hash(input_file) != hashes[input_file]
+                or not os.path.exists(input_file.replace(".tex", ".pdf"))):
+            subprocess.call(
+                "xelatex -output-dir={} {}".format(config["BUILD_DIR"],
+                                                   input_file).split()
+            )
+
+
+def copy_pdfs():
+    for pdf in glob.glob("{}/*.pdf".format(config["BUILD_DIR"])):
+        if os.path.basename(pdf).startswith("0_"):
+            shutil.copy(pdf, config["OUTPUT_DIR"])
+        else:
+            shutil.copy(pdf, os.path.join(config["OUTPUT_DIR"],
+                                          config["LETTERS_DIR"]))
+
+
+def md5_hash(filename):
+    with open(filename) as fin:
+        return hashlib.md5(fin.read().encode()).hexdigest()
 
 
 class ContextRenderer(object):
@@ -144,10 +177,16 @@ class ContextRenderer(object):
         return self.render_template(self.base_template, data).rstrip() + "\n"
 
     def write(self, output_data, base=config["BASE_FILE_NAME"]):
+        if base == config["BASE_FILE_NAME"]:
+            prefix = "0_"
+        else:
+            prefix = ""
         output_file = os.path.join(
-            config["BUILD_DIR"], "{name}_{base}{ext}".format(name=self._name,
-                                                             base=base,
-                                                             ext=self.filetype)
+            config["BUILD_DIR"],
+            "{prefix}{name}_{base}{ext}".format(prefix=prefix,
+                                                name=self._name,
+                                                base=base,
+                                                ext=self.filetype)
         )
         with open(output_file, "w") as fout:
             fout.write(output_data)
