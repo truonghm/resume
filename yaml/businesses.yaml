@@ -21,22 +21,4 @@
 #
 #   You can also add any fields that you want at this level, and also add them to the template.
 
-scs:
-  name:
-    formal: Sierra Construction Systems, Ltd.
-    informal: Sierra Construction Systems
-    abbrev: SCS
-  field: construction companies
-  best_in: Sierra Leone
 
-  position:
-    name: Chief Engineer
-    article: a
-    has_posting: True
-    posting_id: Job ID \#A313
-
-  letter:
-    addressee: Ziad Nassar
-    address: 69B Smart Farm, Off Wilkinson Road \\ Freetown, Sierra Leone
-    greeting: Dear Mr. Nassar
-    closing: Sincerely yours

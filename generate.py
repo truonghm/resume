@@ -54,12 +54,15 @@ def main():
 
     process_resume(LATEX_CONTEXT, data)
 
-    for business in businesses:
-        data["business"] = businesses[business]
-        data["business"]["body"] = LATEX_CONTEXT.render_template(
-            config["LETTER_FILE_NAME"], data
-        )
-        process_resume(LATEX_CONTEXT, data, base=business)
+    try:
+        for business in businesses:
+            data["business"] = businesses[business]
+            data["business"]["body"] = LATEX_CONTEXT.render_template(
+                config["LETTER_FILE_NAME"], data
+            )
+            process_resume(LATEX_CONTEXT, data, base=business)
+    except TypeError:
+        pass
 
     compile_latex(hashes)
     copy_pdfs()
