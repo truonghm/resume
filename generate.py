@@ -84,12 +84,13 @@ def compile_latex(hashes):
 
 def copy_to_output():
     for ext in ("pdf", "md", "html"):
-        for pdf in iglob("{}/*.{}".format(config["BUILD_DIR"], ext)):
-            if basename(pdf).startswith("0_"):
-                shutil.copy(pdf, config["OUTPUT_DIR"])
+        for file in iglob("{}/*.{}".format(config["BUILD_DIR"], ext)):
+            if basename(file).startswith("0_"):
+                shutil.copyfile(file,
+                                join(config["OUTPUT_DIR"], basename(file)[2:]))
             else:
-                shutil.copy(pdf, join(config["OUTPUT_DIR"],
-                                      config["LETTERS_DIR"]))
+                shutil.copy(file, join(config["OUTPUT_DIR"],
+                                       config["LETTERS_DIR"]))
 
 
 def md5_hash(filename):
