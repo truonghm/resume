@@ -1,4 +1,4 @@
-YAML_DIR: "yaml"
+YAML_DIR: "inputs"
 BUILD_DIR: "build"
 TEMPLATES_DIR: "templates"
 SECTIONS_DIR: "sections"
