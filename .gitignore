@@ -149,7 +149,7 @@ __pycache__/
 .Python
 env/
 build/
-output/
+pdfs/
 develop-eggs/
 dist/
 downloads/
