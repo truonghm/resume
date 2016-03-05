@@ -18,7 +18,35 @@ last_updated = localtime(git.Repo().head.commit.committed_date)
 last_updated_string = strftime(config["DATE_FMT"], last_updated)
 
 
-class RenderContext(object):
+def main():
+    with open(os.path.join(config["YAML_DIR"],
+                           config["YAML_MAIN"] + ".yaml")) as resume_data:
+        yaml_data = yaml.load(resume_data)
+    with open(os.path.join(config["YAML_DIR"],
+                           config["YAML_STYLE"] + ".yaml")) as style_data:
+        yaml_data.update(**yaml.load(style_data))
+    with open(
+        os.path.join(config["YAML_DIR"], config["YAML_BUSINESSES"] + ".yaml")
+    ) as business_data:
+        businesses = yaml.load(business_data)
+
+    process_resume(LATEX_CONTEXT, yaml_data)
+
+    for business in businesses:
+        data = {k: v for d in (yaml_data, businesses[business])
+                for k, v in d.items()}
+        data["business"]["body"] = LATEX_CONTEXT.render_template(
+            config["LETTER_FILE_NAME"], data
+        )
+        process_resume(LATEX_CONTEXT, data, base=business)
+
+
+def process_resume(context, data, base=config["BASE_FILE_NAME"]):
+    rendered_resume = context.render(data)
+    context.write(rendered_resume, base=base)
+
+
+class ContextRenderer(object):
     def __init__(self, context_name, filetype, jinja_options, replacements):
         self.filetype = filetype
         self.replacements = replacements
@@ -65,6 +93,7 @@ class RenderContext(object):
             double_list.append({"first": items[-1]})
         return double_list
 
+    # noinspection PyTypeChecker
     def render(self, data):
         data = self.make_replacements(data)
         self._name = data["name"]["abbrev"]
@@ -106,7 +135,7 @@ class RenderContext(object):
             fout.write(output_data)
 
 
-LATEX_CONTEXT = RenderContext(
+LATEX_CONTEXT = ContextRenderer(
     "latex",
     ".tex",
     dict(
@@ -123,32 +152,44 @@ LATEX_CONTEXT = RenderContext(
 )
 
 
-def process_resume(context, data, base=config["BASE_FILE_NAME"]):
-    rendered_resume = context.render(data)
-    context.write(rendered_resume, base=base)
+MARKDOWN_CONTEXT = ContextRenderer(
+    'markdown',
+    '.md',
+    dict(
+        trim_blocks=True,
+        lstrip_blocks=True
+    ),
+    [
+        (r'\\ ', ' '),                      # spaces
+        (r'\\textbf{([^}]*)}', r'**\1**'),  # bold text
+        (r'\\textit{([^}]*)}', r'*\1*'),    # italic text
+        (r'\\LaTeX', 'LaTeX'),              # \LaTeX to boring old LaTeX
+        (r'\\TeX', 'TeX'),                  # \TeX to boring old TeX
+        ('---', '-'),                       # em dash
+        ('--', '-'),                        # en dash
+        (r'``([^\']*)\'\'', r'"\1"'),       # quotes
+    ]
+)
 
 
-def main():
-    with open(os.path.join(config["YAML_DIR"],
-                           config["YAML_MAIN"] + ".yaml")) as resume_data:
-        yaml_data = yaml.load(resume_data)
-    with open(os.path.join(config["YAML_DIR"],
-                           config["YAML_STYLE"] + ".yaml")) as style_data:
-        yaml_data.update(**yaml.load(style_data))
-    with open(
-        os.path.join(config["YAML_DIR"], config["YAML_BUSINESSES"] + ".yaml")
-    ) as business_data:
-        businesses = yaml.load(business_data)
-
-    process_resume(LATEX_CONTEXT, yaml_data)
-
-    for business in businesses:
-        data = {k: v for d in (yaml_data, businesses[business])
-                for k, v in d.items()}
-        data["business"]["body"] = LATEX_CONTEXT.render_template(
-            config["LETTER_FILE_NAME"], data
-        )
-        process_resume(LATEX_CONTEXT, data, base=business)
+HTML_CONTEXT = ContextRenderer(
+    'html',
+    '.html',
+    dict(
+        trim_blocks=True,
+        lstrip_blocks=True
+    ),
+    [
+        (r'\\ ', '&nbsp;'),                              # spaces
+        (r'\\textbf{([^}]*)}', r'<strong>\1</strong>'),  # bold
+        (r'\\textit{([^}]*)}', r'<em>\1</em>'),          # italic
+        (r'\\LaTeX', 'LaTeX'),                           # \LaTeX
+        (r'\\TeX', 'TeX'),                               # \TeX
+        ('---', '&mdash;'),                              # em dash
+        ('--', '&ndash;'),                               # en dash
+        (r'``([^\']*)\'\'', r'"\1"'),                    # quotes
+    ]
+)
 
 
 if __name__ == '__main__':
