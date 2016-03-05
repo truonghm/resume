@@ -7,12 +7,12 @@
 
 ~< if best_in is defined >~
     I know that
-    ~< if name.abbrev is defined >~
-        << name.abbrev >>
+    ~< if business.name.abbrev is defined >~
+        << business.name.abbrev >>
     ~< else >~
-        << name.informal >>
+        << business.name.informal >>
     ~< endif >~
-    is one of the leading << field >> in << best_in >>.
+    is one of the leading << business.field >> in << business.best_in >>.
 ~< endif >~
 
 Thank you for taking the time to review my résumé and letter.

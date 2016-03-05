@@ -40,7 +40,7 @@ def main():
         businesses = yaml.load(businesses_data)
 
     for business in businesses:
-        body = body_template.render(**businesses[business])
+        body = body_template.render(**data, **businesses[business])
         businesses[business]["body"] = body
         with open("build/{}_{}.tex".format(file_root, business), "w") as resume:
             resume.write(main_template.render(
