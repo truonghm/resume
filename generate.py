@@ -1,35 +1,35 @@
 import copy
-from glob import iglob
-from hashlib import md5
+import glob
+import hashlib
 import os
 import re
 import shutil
 import subprocess
 import time
 
-from git import Repo
+import git
 import jinja2
-from yaml import load
-
+import tqdm
+import yaml
 
 with open("config.yaml") as configuration_file:
-    config = load(configuration_file)
+    config = yaml.load(configuration_file)
 os.makedirs(config["BUILD_DIR"], exist_ok=True)
 os.makedirs(os.path.join(config["OUTPUT_DIR"], config["LETTERS_DIR"]),
             exist_ok=True)
 
-last_updated = time.localtime(Repo().head.commit.committed_date)
+last_updated = time.localtime(git.Repo().head.commit.committed_date)
 last_updated_string = time.strftime(config["DATE_FMT"], last_updated)
 
 
 def main():
     with open(os.path.join(config["YAML_DIR"],
                            config["YAML_MAIN"] + ".yaml")) as resume_data:
-        data = load(resume_data)
+        data = yaml.load(resume_data)
     with open(
         os.path.join(config["YAML_DIR"], config["YAML_BUSINESSES"] + ".yaml")
     ) as business_data:
-        businesses = load(business_data)
+        businesses = yaml.load(business_data)
 
     if any("publications" in item for item in data["order"]):
         if "publications" not in data:
@@ -37,7 +37,7 @@ def main():
                 os.path.join(config["YAML_DIR"],
                              config["YAML_PUBLICATIONS"] + ".yaml")
             ) as pub_data:
-                pubs = load(pub_data)
+                pubs = yaml.load(pub_data)
             if pubs:
                 data["publications"] = pubs
             else:
@@ -47,7 +47,7 @@ def main():
                         break
 
     hashes = {f: md5_hash(f)
-              for f in iglob("{}/*.tex".format(config["BUILD_DIR"]))}
+              for f in glob.iglob("{}/*.tex".format(config["BUILD_DIR"]))}
 
     process_resume(HTML_CONTEXT, data)
     process_resume(LATEX_CONTEXT, data)
@@ -71,7 +71,7 @@ def process_resume(context, data, base=config["BASE_FILE_NAME"]):
 
 
 def compile_latex(engine, hashes):
-    for input_file in iglob("{}/*.tex".format(config["BUILD_DIR"])):
+    for input_file in glob.iglob("{}/*.tex".format(config["BUILD_DIR"])):
         if (input_file in hashes and md5_hash(input_file) != hashes[input_file]
                 or not os.path.exists(input_file.replace(".tex", ".pdf"))):
             subprocess.call("{} -output-dir={} {}".format(engine,
@@ -81,7 +81,7 @@ def compile_latex(engine, hashes):
 
 def copy_to_output():
     for ext in ("pdf", "md", "html"):
-        for file in iglob("{}/*.{}".format(config["BUILD_DIR"], ext)):
+        for file in glob.iglob("{}/*.{}".format(config["BUILD_DIR"], ext)):
             if os.path.basename(file).startswith("0_"):
                 shutil.copyfile(file,
                                 os.path.join(config["OUTPUT_DIR"],
@@ -93,7 +93,7 @@ def copy_to_output():
 
 def md5_hash(filename):
     with open(filename) as fin:
-        return md5(fin.read().encode()).hexdigest()
+        return hashlib.md5(fin.read().encode()).hexdigest()
 
 
 class ContextRenderer(object):
@@ -116,7 +116,7 @@ class ContextRenderer(object):
         self.jinja_env = jinja2.Environment(**self.jinja_options)
 
         self.known_types = [os.path.splitext(os.path.basename(s))[0]
-                            for s in iglob(
+                            for s in glob.iglob(
                                 os.path.join(context_templates_dir,
                                              config["SECTIONS_DIR"],
                                              "*{}".format(self.filetype)))]
@@ -158,8 +158,7 @@ class ContextRenderer(object):
 
         body = ""
         for (section_tag, show_title, section_title,
-             section_type) in data["order"]:
-            print(" +Processing section: {}".format(section_tag))
+             section_type) in tqdm.tqdm(data["order"]):
             section_data = {"name": section_title} if show_title else {}
             if section_tag == "NEWPAGE":
                 section_content = None
