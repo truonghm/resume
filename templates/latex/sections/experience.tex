@@ -6,7 +6,8 @@
       \cventry
         ~< if theme.style == "banking" >~
           {~< if item.location is defined >~<< item.location >>~< endif >~}
-          {~< if item.about is defined >~<< item.about >>~< endif >~}
+          {~< if item.about is defined >~<< item.about >>~< if item.department is defined >~, ~< endif >~~< endif >~%
+             ~<if item.department is defined >~<< item.department >>~< endif >~}
           {~< if item.url is defined >~\href{<< item.url >>}{~< endif >~%
              ~< if item.employer is defined >~<< item.employer >>~< elif item.topic is defined >~<< item.topic >>~< endif >~%
            ~< if item.url is defined >~}~< endif >~}
@@ -15,6 +16,7 @@
           {<< item.date >>}
           {~< if item.about is defined >~<< item.about >>~< endif >~}
           {~< if item.url is defined >~\href{<< item.url >>}{~< endif >~%
+             ~<if item.department is defined >~<< item.department >>, ~< endif >~
              ~< if item.employer is defined >~<< item.employer >>~< elif item.topic is defined >~<< item.topic >>~< endif >~%
            ~< if item.url is defined >~}~< endif >~}
           {~< if item.location is defined >~<< item.location >>~< endif >~}
@@ -31,8 +33,8 @@
         }
     \end{samepage}
     ~< if item.notes is defined or theme.style == "banking" >~
-      \vspace{10pt}
+      %\vspace{10pt}
     ~< endif >~
   ~< endfor >~
-  \vspace{-10pt}
+  %\vspace{-10pt}
 ~< endblock body >~

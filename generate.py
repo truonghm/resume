@@ -31,7 +31,7 @@ def main():
         businesses = load(business_data)
 
     if any("publications" in item for item in data["order"]):
-        if not "publications" in data:
+        if "publications" not in data:
             with open(
                 join(config["YAML_DIR"], config["YAML_PUBLICATIONS"] + ".yaml")
             ) as pub_data:
@@ -59,7 +59,7 @@ def main():
             )
             process_resume(LATEX_CONTEXT, data, base=business)
 
-    compile_latex(hashes)
+    compile_latex(data["engine"], hashes)
     copy_to_output()
 
 
@@ -68,12 +68,13 @@ def process_resume(context, data, base=config["BASE_FILE_NAME"]):
     context.write(rendered_resume, base=base)
 
 
-def compile_latex(hashes):
+def compile_latex(engine, hashes):
     for input_file in iglob("{}/*.tex".format(config["BUILD_DIR"])):
         if (input_file in hashes and md5_hash(input_file) != hashes[input_file]
                 or not exists(input_file.replace(".tex", ".pdf"))):
-            call("xelatex -output-dir={} {}".format(config["BUILD_DIR"],
-                                                    input_file).split())
+            call("{} -output-dir={} {}".format(engine,
+                                               config["BUILD_DIR"],
+                                               input_file).split())
 
 
 def copy_to_output():

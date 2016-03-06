@@ -3,16 +3,10 @@
 \usepackage{ifthen}
 \usepackage{lastpage}
 
-\usepackage{xltxtra}
-\usepackage{xunicode}
-\setmainfont[Numbers=OldStyle]{Linux Libertine O}
-\setromanfont[Numbers=OldStyle]{Linux Libertine O}
-\setsansfont[Numbers=OldStyle]{Linux Biolinum O}
-\setmonofont{Inconsolata}
-
-\usepackage{xeCJK}
-\setCJKromanfont{IPAMincho}
-\setCJKsansfont{IPAGothic}
+~< if engine == "pdflatex" >~
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+~< endif >~
 
 \moderncvtheme[<< theme.colour >>]{<< theme.style >>}
 
