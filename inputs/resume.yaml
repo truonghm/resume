@@ -5,6 +5,13 @@
 #   last:
 #   abbrev: the name used in the filename
 #
+# theme:
+#   font_size: default is 12pt
+#   style: banking, casual, classic, empty, oldstyle; default is casual
+#   colour: black, blue, green, grey, orange, purple, red; default is blue
+#
+# title:
+#
 # extra_info: optional
 # quote: optional
 # photo: optional
@@ -31,6 +38,13 @@ name:
   first: Jean
   last: Nassar
   abbrev: jnassar
+
+theme:
+  font_size: 10pt
+  style: casual
+  colour: blue
+
+title: Résumé
 
 # Markdown details
 # pdf: /assets/resume.pdf

@@ -27,9 +27,6 @@ def main():
                    config["YAML_MAIN"] + ".yaml")) as resume_data:
         data = load(resume_data)
     with open(join(config["YAML_DIR"],
-                   config["YAML_STYLE"] + ".yaml")) as style_data:
-        data.update(**load(style_data))
-    with open(join(config["YAML_DIR"],
                    config["YAML_BUSINESSES"] + ".yaml")) as business_data:
         businesses = load(business_data)
 
