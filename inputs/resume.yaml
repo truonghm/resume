@@ -43,9 +43,8 @@ name:
 engine: pdflatex
 theme:
   font_size: 10pt
-  style: casual
+  style: banking
   colour: purple
-#   colour: black, blue, green, grey, orange, purple, red; default is blue
 
 title: Résumé
 
@@ -75,7 +74,6 @@ order:
   - [courses, 1, Selected courses, latextype_double_items]
   - [skills, 1, Technical skills, 0]
   - [languages, 1, Natural languages, 0]
-#  - [certifications, 1, Certifications, latextype_double_items]
 
 general:
   - name: Interests
@@ -84,10 +82,6 @@ general:
     description: Canada, Lebanon, Sierra Leone
   - name: Certifications
     description: CPR HCP (Health Care Provider), Lebanese driving license
-
-certifications:
-  - CPR HCP (Health Care Provider)
-  - Lebanese driving license
 
 skills:
   - Python (incl. SciPy stack), C++, C, ROS, Matlab, gnuplot, \LaTeX
