@@ -3,15 +3,15 @@
 #   name:
 #     formal:
 #     informal:
-#     abbrev: abbreviation
+#     abbrev: abbreviation; optional
 #   field: what kind of company is it? plural
-#   best_in: which location is it a leader in?
+#   best_in: which location is it a leader in; optional
 #
 #   position: what you want to work as
 #     name: the name of the position, capitalized as necessary
 #     article: a or an; indefinite article for the name
 #     has_posting: does the job have a posting? True or False
-#     posting_id: the job ID, if available
+#     posting_id: the job ID, if available; optional
 #
 #   letter:
 #     addressee: who will receive the letter? default is HR Department

@@ -78,7 +78,7 @@ class ResumeGenerator(object):
     def generate_resumes(self):
         contexts = (HTML_CONTEXT, LATEX_CONTEXT, MARKDOWN_CONTEXT)
         for context in tqdm.tqdm(contexts, leave=True, desc="Rendering résumé",
-                                 unit="versions"):
+                                 unit="formats"):
             self.process_resume(context)
 
     def generate_cover_letters(self):

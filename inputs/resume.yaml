@@ -1,40 +1,4 @@
-# Template
-#
-# name:
-#   first:
-#   last:
-#   abbrev: the name used in the filename
-#
-# engine: xelatex or pdflatex
-# theme:
-#   font_size: default is 12pt
-#   style: banking, casual, classic, empty, oldstyle; default is casual
-#   colour: black, blue, green, grey, orange, purple, red; default is blue
-#
-# title:
-#
-# extra_info: optional
-# quote: optional
-# photo: optional
-#   path: path to photo
-#   size: height of the photo, optional
-#
-# contact:
-#   email:
-#   mobile: optional
-#   website: optional
-#   github: optional
-#   linkedin: optional
-#
-# address: optional
-#   street:
-#   city:
-#   province:
-#   country: optional
-#   post:
-#
-# order: list of tag, show_title, name, type. Use 0 if you want to leave it empty.
-
+# Documentation at bottom of file
 name:
   first: Jean
   last: Nassar
@@ -203,3 +167,136 @@ courses:
   - Microproc. systems and interfacing
   - Electromechanical machine design
   - Algorithms and data structures
+
+
+# Template
+#
+# name:
+#   first:
+#   last:
+#   abbrev: the name used in the filename
+#
+# engine: xelatex or pdflatex
+# theme:
+#   font_size: default is 12pt
+#   style: banking, casual, classic, empty, oldstyle; default is casual
+#   colour: black, blue, green, grey, orange, purple, red; default is blue
+#
+# title: what you want to call it
+#
+# extra_info: optional
+# quote: optional
+# photo: optional
+#   path: path to photo
+#   size: height of the photo, optional
+#
+# contact:
+#   email:
+#   mobile: optional
+#   website: optional
+#   github: optional
+#   linkedin: optional
+#
+# address: optional
+#   street:
+#   city:
+#   province:
+#   country: optional
+#   post:
+#
+# order: list of tag, show_title, name, type of sections. Use 0 if you want to leave it empty.
+#
+## section_types:
+## cvitem: a two-column table. The first column is in the margin or bold, depending on the style.
+# section_tag:
+#   - name: text in the margin
+#     description: text on the right
+#     notes:
+#       - list
+#       - of
+#       - items
+#
+## cvlistitem: a regular list
+## you can make it without notes (recommended), or with notes
+## without notes
+# section_tag:
+#   - list
+#   - of
+#   - items
+#
+## and with notes
+# section_tag:
+#   - name: not used in pdf unless there's  also a description
+#     notes:
+#       - list
+#       - of
+#       - items
+#
+## latextype_double_list: a double list. LaTeX only. The directive is ignored by other formats.
+# section_tag:
+#   - list
+#   - of
+#   - items
+#
+## subsections: lets you define multiple subsections.
+# section_tag:
+#   subsections:
+#     - name: first subsection
+#       subitems:
+#         - list
+#         - of
+#         - items
+#     - name: second subsection
+#       subitems:
+#         - list
+#         - of
+#         - items
+##      you can even nest types!
+#     - name: third subsection
+#       subitems:
+#         - list
+#         - of
+#         - items
+#         - name: and a cvitem
+#           description: this is what it says
+#
+## experience
+# section_tag:
+#   - date:
+#     about: position, or supervisor etc. optional
+#     department: optional
+#     employer: optional
+#     topic: research type. not used if employer is defined. must be defined if employer is not defined.
+#     location: optional
+#     url: the url of the company or department; optional
+#     notes: optional
+#       - first item
+#       - second item
+#
+## education
+# section_tag:
+#    - date:
+#      school:
+#      location: optional
+#      major:
+#      affiliation: lab etc; optional
+#      gpa: optional
+#      urls: optional
+#        school: optional
+#        major: optional
+#        affiliation: optional
+#
+## publications
+# section_tag
+# - title:
+#   authors:
+#   url: optional
+#   key: bibtex key; optional
+#   month: optional
+#   year:
+#   venuetype:
+#   venue:
+#   abstract: >
+#     You can have multiple paragraphs.
+#
+#     Like this!
