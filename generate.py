@@ -1,39 +1,41 @@
 import copy
 from glob import iglob
 from hashlib import md5
-from os import makedirs
-from os.path import basename, exists, join, splitext
-from re import sub
+import os
+import re
 import shutil
-from subprocess import call
-from time import localtime, strftime
+import subprocess
+import time
 
 from git import Repo
-from jinja2 import Environment, FileSystemLoader, StrictUndefined
+import jinja2
 from yaml import load
 
 
 with open("config.yaml") as configuration_file:
     config = load(configuration_file)
-makedirs(config["BUILD_DIR"], exist_ok=True)
-makedirs(join(config["OUTPUT_DIR"], config["LETTERS_DIR"]), exist_ok=True)
+os.makedirs(config["BUILD_DIR"], exist_ok=True)
+os.makedirs(os.path.join(config["OUTPUT_DIR"], config["LETTERS_DIR"]),
+            exist_ok=True)
 
-last_updated = localtime(Repo().head.commit.committed_date)
-last_updated_string = strftime(config["DATE_FMT"], last_updated)
+last_updated = time.localtime(Repo().head.commit.committed_date)
+last_updated_string = time.strftime(config["DATE_FMT"], last_updated)
 
 
 def main():
-    with open(join(config["YAML_DIR"],
-                   config["YAML_MAIN"] + ".yaml")) as resume_data:
+    with open(os.path.join(config["YAML_DIR"],
+                           config["YAML_MAIN"] + ".yaml")) as resume_data:
         data = load(resume_data)
-    with open(join(config["YAML_DIR"],
-                   config["YAML_BUSINESSES"] + ".yaml")) as business_data:
+    with open(
+        os.path.join(config["YAML_DIR"], config["YAML_BUSINESSES"] + ".yaml")
+    ) as business_data:
         businesses = load(business_data)
 
     if any("publications" in item for item in data["order"]):
         if "publications" not in data:
             with open(
-                join(config["YAML_DIR"], config["YAML_PUBLICATIONS"] + ".yaml")
+                os.path.join(config["YAML_DIR"],
+                             config["YAML_PUBLICATIONS"] + ".yaml")
             ) as pub_data:
                 pubs = load(pub_data)
             if pubs:
@@ -71,21 +73,22 @@ def process_resume(context, data, base=config["BASE_FILE_NAME"]):
 def compile_latex(engine, hashes):
     for input_file in iglob("{}/*.tex".format(config["BUILD_DIR"])):
         if (input_file in hashes and md5_hash(input_file) != hashes[input_file]
-                or not exists(input_file.replace(".tex", ".pdf"))):
-            call("{} -output-dir={} {}".format(engine,
-                                               config["BUILD_DIR"],
-                                               input_file).split())
+                or not os.path.exists(input_file.replace(".tex", ".pdf"))):
+            subprocess.call("{} -output-dir={} {}".format(engine,
+                                                          config["BUILD_DIR"],
+                                                          input_file).split())
 
 
 def copy_to_output():
     for ext in ("pdf", "md", "html"):
         for file in iglob("{}/*.{}".format(config["BUILD_DIR"], ext)):
-            if basename(file).startswith("0_"):
+            if os.path.basename(file).startswith("0_"):
                 shutil.copyfile(file,
-                                join(config["OUTPUT_DIR"], basename(file)[2:]))
+                                os.path.join(config["OUTPUT_DIR"],
+                                             os.path.basename(file)[2:]))
             else:
-                shutil.copy(file, join(config["OUTPUT_DIR"],
-                                       config["LETTERS_DIR"]))
+                shutil.copy(file, os.path.join(config["OUTPUT_DIR"],
+                                               config["LETTERS_DIR"]))
 
 
 def md5_hash(filename):
@@ -98,30 +101,32 @@ class ContextRenderer(object):
         self.filetype = filetype
         self.replacements = replacements
 
-        context_templates_dir = join(config["TEMPLATES_DIR"], context_name)
+        context_templates_dir = os.path.join(config["TEMPLATES_DIR"],
+                                             context_name)
 
         self.base_template = config["BASE_FILE_NAME"]
         self.context_name = context_name
         self.context_type_name = self.context_name + "type"
 
         self.jinja_options = jinja_options.copy()
-        self.jinja_options["loader"] = FileSystemLoader(
+        self.jinja_options["loader"] = jinja2.FileSystemLoader(
             searchpath=context_templates_dir
         )
-        self.jinja_options["undefined"] = StrictUndefined
-        self.jinja_env = Environment(**self.jinja_options)
+        self.jinja_options["undefined"] = jinja2.StrictUndefined
+        self.jinja_env = jinja2.Environment(**self.jinja_options)
 
-        self.known_types = [splitext(basename(s))[0]
-                            for s in iglob(join(context_templates_dir,
-                                                config["SECTIONS_DIR"],
-                                                "*{}".format(self.filetype)))]
+        self.known_types = [os.path.splitext(os.path.basename(s))[0]
+                            for s in iglob(
+                                os.path.join(context_templates_dir,
+                                             config["SECTIONS_DIR"],
+                                             "*{}".format(self.filetype)))]
 
     def make_replacements(self, data):
         data = copy.copy(data)
 
         if isinstance(data, str):
             for o, r in self.replacements:
-                data = sub(o, r, data)
+                data = re.sub(o, r, data)
 
         elif isinstance(data, dict):
             for k, v in data.items():
@@ -176,7 +181,8 @@ class ContextRenderer(object):
                 section_data["items"] = self._make_double_list(
                     section_data["items"])
 
-            section_template_name = join(config["SECTIONS_DIR"], section_type)
+            section_template_name = os.path.join(config["SECTIONS_DIR"],
+                                                 section_type)
 
             rendered_section = self.render_template(
                 section_template_name, section_data)
@@ -192,13 +198,13 @@ class ContextRenderer(object):
             prefix = "0_"
         else:
             prefix = ""
-        output_file = join(config["BUILD_DIR"],
-                           "{prefix}{name}_{base}{ext}".format(prefix=prefix,
-                                                               name=self._name,
-                                                               base=base,
-                                                               ext=self.filetype
-                                                               )
-                           )
+        output_file = os.path.join(config["BUILD_DIR"],
+                                   "{prefix}{name}_{base}{ext}".format(
+                                       prefix=prefix,
+                                       name=self._name,
+                                       base=base,
+                                       ext=self.filetype)
+                                   )
         with open(output_file, "w") as fout:
             fout.write(output_data)
 
