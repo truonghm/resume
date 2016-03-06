@@ -13,46 +13,70 @@ import tqdm
 import yaml
 
 
-last_updated = time.localtime(git.Repo().head.commit.committed_date)
 with open("config.yaml") as config_file:
-    config = yaml.load(config_file)
-config["updated"] = time.strftime(config["DATE_FMT"], last_updated)
+    CONFIG = yaml.load(config_file)
 
 
 def main():
-    os.makedirs(config["BUILD_DIR"], exist_ok=True)
-    os.makedirs(os.path.join(config["OUTPUT_DIR"], config["LETTERS_DIR"]),
+    environment_setup()
+
+    data = load_yaml(os.path.join(CONFIG["YAML_DIR"],
+                                  CONFIG["YAML_MAIN"] + ".yaml"))
+    handle_publications(data)
+
+    hashes = hash_map()
+    generate_resumes(data)
+    generate_cover_letters(data)
+
+    compile_latex(data["engine"], hashes)
+    copy_to_output_dir()
+
+
+def load_yaml(filename):
+    with open(filename) as file:
+        return yaml.load(file)
+
+
+def files_of_type(ext, location="."):
+    yield from glob.iglob("{}/*{}".format(location, ext))
+
+
+def environment_setup():
+    os.makedirs(CONFIG["BUILD_DIR"], exist_ok=True)
+    os.makedirs(os.path.join(CONFIG["OUTPUT_DIR"], CONFIG["LETTERS_DIR"]),
                 exist_ok=True)
 
-    with open(os.path.join(config["YAML_DIR"],
-                           config["YAML_MAIN"] + ".yaml")) as resume_data:
-        data = yaml.load(resume_data)
-    with open(
-        os.path.join(config["YAML_DIR"], config["YAML_BUSINESSES"] + ".yaml")
-    ) as business_data:
-        businesses = yaml.load(business_data)
 
-    if any("publications" in item for item in data["order"]):
-        if "publications" not in data:
-            with open(
-                os.path.join(config["YAML_DIR"],
-                             config["YAML_PUBLICATIONS"] + ".yaml")
-            ) as pub_data:
-                pubs = yaml.load(pub_data)
-            if pubs:
-                data["publications"] = pubs
-            else:
-                for item in data["order"]:
-                    if "publications" in item:
-                        data["order"].remove(item)
-                        break
+def handle_publications(data):
+    if not any("publications" in item for item in data["order"]):
+        return
 
-    hashes = {f: md5_hash(f)
-              for f in glob.iglob("{}/*.tex".format(config["BUILD_DIR"]))}
+    if "publications" not in data:
+        pubs = load_yaml(os.path.join(CONFIG["YAML_DIR"],
+                                      CONFIG["YAML_PUBLICATIONS"] + ".yaml"))
+        if pubs:
+            data["publications"] = pubs
+        else:
+            for item in data["order"]:
+                if "publications" in item:
+                    data["order"].remove(item)
+                    break
 
+
+def process_resume(context, data, base=CONFIG["BASE_FILE_NAME"]):
+    rendered_resume = context.render(data)
+    context.write(rendered_resume, base=base)
+
+
+def generate_resumes(data):
     for context in tqdm.tqdm((HTML_CONTEXT, LATEX_CONTEXT, MARKDOWN_CONTEXT),
                              leave=True, desc="Rendering résumé", unit="type"):
         process_resume(context, data)
+
+
+def generate_cover_letters(data):
+    businesses = load_yaml(os.path.join(CONFIG["YAML_DIR"],
+                                        CONFIG["YAML_BUSINESSES"] + ".yaml"))
 
     if businesses:
         for business in tqdm.tqdm(businesses,
@@ -61,54 +85,42 @@ def main():
                                   leave=True):
             data["business"] = businesses[business]
             data["business"]["body"] = LATEX_CONTEXT.render_template(
-                config["LETTER_FILE_NAME"], data
+                CONFIG["LETTER_FILE_NAME"], data
             )
             process_resume(LATEX_CONTEXT, data, base=business)
 
-    compile_latex(data["engine"], hashes)
-    copy_to_output()
-
-
-def load_yaml(filename):
-    with open(filename) as file:
-        return yaml.load(file)
-
-
-def process_resume(context, data, base=config["BASE_FILE_NAME"]):
-    rendered_resume = context.render(data)
-    context.write(rendered_resume, base=base)
-
 
 def compile_latex(engine, hashes):
-    files = [file for file in glob.iglob("{}/*.tex".format(config["BUILD_DIR"]))
-             if (file in hashes and md5_hash(file) != hashes[file])
-                 or not os.path.exists(file.replace(".tex", ".pdf"))
+    files = [file for file in files_of_type(".tex", CONFIG["BUILD_DIR"])
+             if ((file in hashes and md5(file) != hashes[file])
+                 or not os.path.exists(file.replace(".tex", ".pdf")))
              ]
     if files:
-        for file in tqdm.tqdm(files,
-                              desc="Generating PDFs",
-                              leave=True,
+        for file in tqdm.tqdm(files, desc="Generating PDFs", leave=True,
                               unit="pdf"):
             subprocess.call("{} -output-dir={} {}".format(engine,
-                                                          config["BUILD_DIR"],
+                                                          CONFIG["BUILD_DIR"],
                                                           file).split())
 
 
-def copy_to_output():
+def copy_to_output_dir():
     for ext in ("pdf", "md", "html"):
-        for file in glob.iglob("{}/*.{}".format(config["BUILD_DIR"], ext)):
+        for file in files_of_type(ext, CONFIG["BUILD_DIR"]):
             if os.path.basename(file).startswith("0_"):
                 shutil.copyfile(file,
-                                os.path.join(config["OUTPUT_DIR"],
+                                os.path.join(CONFIG["OUTPUT_DIR"],
                                              os.path.basename(file)[2:]))
             else:
-                shutil.copy(file, os.path.join(config["OUTPUT_DIR"],
-                                               config["LETTERS_DIR"]))
+                shutil.copy(file, os.path.join(CONFIG["OUTPUT_DIR"],
+                                               CONFIG["LETTERS_DIR"]))
 
 
-def md5_hash(filename):
-    with open(filename) as fin:
-        return hashlib.md5(fin.read().encode()).hexdigest()
+def hash_map(ext=".tex"):
+    def md5(filename):
+        with open(filename) as fin:
+            return hashlib.md5(fin.read().encode()).hexdigest()
+
+    return {f: md5(f) for f in files_of_type(ext, CONFIG["BUILD_DIR"])}
 
 
 class ContextRenderer(object):
@@ -116,10 +128,10 @@ class ContextRenderer(object):
         self.filetype = filetype
         self.replacements = replacements
 
-        context_templates_dir = os.path.join(config["TEMPLATES_DIR"],
+        context_templates_dir = os.path.join(CONFIG["TEMPLATES_DIR"],
                                              context_name)
 
-        self.base_template = config["BASE_FILE_NAME"]
+        self.base_template = CONFIG["BASE_FILE_NAME"]
         self.context_name = context_name
         self.context_type_name = self.context_name + "type"
 
@@ -131,10 +143,10 @@ class ContextRenderer(object):
         self.jinja_env = jinja2.Environment(**self.jinja_options)
 
         self.known_types = [os.path.splitext(os.path.basename(s))[0]
-                            for s in glob.iglob(
+                            for s in files_of_type(
+                                self.filetype,
                                 os.path.join(context_templates_dir,
-                                             config["SECTIONS_DIR"],
-                                             "*{}".format(self.filetype)))]
+                                             CONFIG["SECTIONS_DIR"]))]
 
     def make_replacements(self, data):
         data = copy.copy(data)
@@ -187,7 +199,7 @@ class ContextRenderer(object):
             if not section_type and section_tag in self.known_types:
                 section_type = section_tag
             if section_type not in self.known_types:
-                section_type = config["DEFAULT_SECTION"]
+                section_type = CONFIG["DEFAULT_SECTION"]
 
             section_data["type"] = section_type
 
@@ -195,7 +207,7 @@ class ContextRenderer(object):
                 section_data["items"] = self._make_double_list(
                     section_data["items"])
 
-            section_template_name = os.path.join(config["SECTIONS_DIR"],
+            section_template_name = os.path.join(CONFIG["SECTIONS_DIR"],
                                                  section_type)
 
             rendered_section = self.render_template(
@@ -203,16 +215,18 @@ class ContextRenderer(object):
             body += rendered_section.rstrip() + "\n\n\n"
 
         data["body"] = body
-        data["updated"] = config["updated"]
+
+        last_updated = time.localtime(git.Repo().head.commit.committed_date)
+        data["updated"] = time.strftime(CONFIG["DATE_FMT"], last_updated)
 
         return self.render_template(self.base_template, data).rstrip() + "\n"
 
-    def write(self, output_data, base=config["BASE_FILE_NAME"]):
-        if base == config["BASE_FILE_NAME"]:
+    def write(self, output_data, base=CONFIG["BASE_FILE_NAME"]):
+        if base == CONFIG["BASE_FILE_NAME"]:
             prefix = "0_"
         else:
             prefix = ""
-        output_file = os.path.join(config["BUILD_DIR"],
+        output_file = os.path.join(CONFIG["BUILD_DIR"],
                                    "{prefix}{name}_{base}{ext}".format(
                                        prefix=prefix,
                                        name=self._name,
@@ -224,9 +238,9 @@ class ContextRenderer(object):
 
 
 LATEX_CONTEXT = ContextRenderer(
-    "latex",
-    ".tex",
-    dict(
+    context_name="latex",
+    filetype=".tex",
+    jinja_options=dict(
         block_start_string='~<',
         block_end_string='>~',
         variable_start_string='<<',
@@ -236,18 +250,18 @@ LATEX_CONTEXT = ContextRenderer(
         trim_blocks=True,
         lstrip_blocks=True,
     ),
-    []
+    replacements=[]
 )
 
 
 MARKDOWN_CONTEXT = ContextRenderer(
-    'markdown',
-    '.md',
-    dict(
+    context_name='markdown',
+    filetype='.md',
+    jinja_options=dict(
         trim_blocks=True,
         lstrip_blocks=True
     ),
-    [
+    replacements=[
         (r'\\ ', ' '),                      # spaces
         (r'\\textbf{([^}]*)}', r'**\1**'),  # bold text
         (r'\\textit{([^}]*)}', r'*\1*'),    # italic text
@@ -261,13 +275,13 @@ MARKDOWN_CONTEXT = ContextRenderer(
 
 
 HTML_CONTEXT = ContextRenderer(
-    'html',
-    '.html',
-    dict(
+    context_name='html',
+    filetype='.html',
+    jinja_options=dict(
         trim_blocks=True,
         lstrip_blocks=True
     ),
-    [
+    replacements=[
         (r'\\ ', '&nbsp;'),                              # spaces
         (r'\\textbf{([^}]*)}', r'<strong>\1</strong>'),  # bold
         (r'\\textit{([^}]*)}', r'<em>\1</em>'),          # italic
