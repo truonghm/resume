@@ -49,12 +49,15 @@ def main():
     hashes = {f: md5_hash(f)
               for f in glob.iglob("{}/*.tex".format(config["BUILD_DIR"]))}
 
-    process_resume(HTML_CONTEXT, data)
-    process_resume(LATEX_CONTEXT, data)
-    process_resume(MARKDOWN_CONTEXT, data)
+    for context in tqdm.tqdm((HTML_CONTEXT, LATEX_CONTEXT, MARKDOWN_CONTEXT),
+                             leave=True, desc="Rendering résumé", unit="type"):
+        process_resume(context, data)
 
     if businesses:
-        for business in businesses:
+        for business in tqdm.tqdm(businesses,
+                                  desc="Generating cover letters",
+                                  unit="letter",
+                                  leave=True):
             data["business"] = businesses[business]
             data["business"]["body"] = LATEX_CONTEXT.render_template(
                 config["LETTER_FILE_NAME"], data
@@ -71,12 +74,20 @@ def process_resume(context, data, base=config["BASE_FILE_NAME"]):
 
 
 def compile_latex(engine, hashes):
-    for input_file in glob.iglob("{}/*.tex".format(config["BUILD_DIR"])):
-        if (input_file in hashes and md5_hash(input_file) != hashes[input_file]
-                or not os.path.exists(input_file.replace(".tex", ".pdf"))):
+    files = [file for file in glob.iglob("{}/*.tex".format(config["BUILD_DIR"]))
+             if (file in hashes
+                 and md5_hash(file) != hashes[file]
+                 or not os.path.exists(file.replace(".tex", ".pdf")))
+             ]
+    with open(os.devnull) as devnull:
+        for input_file in tqdm.tqdm(files,
+                                    desc="Generating PDFs",
+                                    leave=True,
+                                    unit="pdf"):
             subprocess.call("{} -output-dir={} {}".format(engine,
                                                           config["BUILD_DIR"],
-                                                          input_file).split())
+                                                          input_file).split(),
+                                                          stdout=devnull)
 
 
 def copy_to_output():
@@ -152,18 +163,18 @@ class ContextRenderer(object):
 
     # noinspection PyTypeChecker
     def render(self, data):
-        print("Rendering {} résumé".format(self.context_name))
         data = self.make_replacements(data)
         self._name = data["name"]["abbrev"]
 
         body = ""
         for (section_tag, show_title, section_title,
-             section_type) in tqdm.tqdm(data["order"]):
+             section_type) in tqdm.tqdm(data["order"],
+                                        desc=self.context_name,
+                                        unit="sections",
+                                        nested=True,
+                                        leave=True):
             section_data = {"name": section_title} if show_title else {}
-            if section_tag == "NEWPAGE":
-                section_content = None
-            else:
-                section_content = data[section_tag]
+            section_content = data[section_tag]
             section_data["items"] = section_content
             section_data["theme"] = data["theme"]
 
