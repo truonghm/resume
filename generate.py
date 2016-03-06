@@ -77,13 +77,13 @@ class ResumeGenerator(object):
                         break
 
     def process_resume(self, context, base=CONFIG["BASE_FILE_NAME"]):
-        rendered_resume = context.render(self.data)
+        rendered_resume = context.render_resume(self.data)
         context.write(rendered_resume, base=base)
 
     def generate_resumes(self):
         contexts = (HTML_CONTEXT, LATEX_CONTEXT, MARKDOWN_CONTEXT)
         for context in tqdm.tqdm(contexts, leave=True, desc="Rendering résumé",
-                                 unit="type"):
+                                 unit="versions"):
             self.process_resume(context)
 
     def generate_cover_letters(self):
@@ -97,7 +97,7 @@ class ResumeGenerator(object):
         for business in tqdm.tqdm(businesses, desc="Generating cover letters",
                                   unit="letter", leave=True):
             self.data["business"] = businesses[business]
-            self.data["business"]["body"] = LATEX_CONTEXT.render_template(
+            self.data["business"]["body"] = LATEX_CONTEXT._render_template(
                 CONFIG["LETTER_FILE_NAME"], self.data
             )
             self.process_resume(LATEX_CONTEXT, base=business)
@@ -156,7 +156,7 @@ class ContextRenderer(object):
                                 os.path.join(context_templates_dir,
                                              CONFIG["SECTIONS_DIR"]))]
 
-    def make_replacements(self, data):
+    def _make_replacements(self, data):
         data = copy.copy(data)
 
         if isinstance(data, str):
@@ -165,17 +165,13 @@ class ContextRenderer(object):
 
         elif isinstance(data, dict):
             for k, v in data.items():
-                data[k] = self.make_replacements(v)
+                data[k] = self._make_replacements(v)
 
         elif isinstance(data, list):
             for idx, item in enumerate(data):
-                data[idx] = self.make_replacements(item)
+                data[idx] = self._make_replacements(item)
 
         return data
-
-    def render_template(self, template_name, data):
-        full_name = template_name + self.filetype
-        return self.jinja_env.get_template(full_name).render(**data)
 
     @staticmethod
     def _make_double_list(items):
@@ -185,49 +181,52 @@ class ContextRenderer(object):
             double_list.append({"first": items[-1]})
         return double_list
 
+    def _render_template(self, template_name, data):
+        full_name = template_name + self.filetype
+        return self.jinja_env.get_template(full_name).render(**data)
+
+    def _render_section(self, data, section):
+        section_tag, show_title, section_title, section_type = section
+        section_data = {"name": section_title} if show_title else {}
+        section_content = data[section_tag]
+        section_data["items"] = section_content
+        section_data["theme"] = data["theme"]
+
+        if section_type and section_type.startswith(self.context_type_name):
+            section_type = section_type.split("_", maxsplit=1)[1]
+        if not section_type and section_tag in self.known_types:
+            section_type = section_tag
+        if section_type not in self.known_types:
+            section_type = CONFIG["DEFAULT_SECTION"]
+
+        section_data["type"] = section_type
+
+        if section_type == "double_items":
+            section_data["items"] = self._make_double_list(
+                section_data["items"])
+
+        section_template_name = os.path.join(CONFIG["SECTIONS_DIR"],
+                                             section_type)
+
+        rendered_section = self._render_template(
+            section_template_name, section_data)
+        return rendered_section
+
     # noinspection PyTypeChecker
-    def render(self, data):
-        data = self.make_replacements(data)
-        self._name = data["name"]["abbrev"]
+    def render_resume(self, data):
+        data = self._make_replacements(data)
+        self.username = data["name"]["abbrev"]
 
         body = ""
-        for (section_tag, show_title, section_title,
-             section_type) in tqdm.tqdm(data["order"],
-                                        desc=self.context_name,
-                                        unit="sections",
-                                        nested=True,
-                                        leave=True):
-            section_data = {"name": section_title} if show_title else {}
-            section_content = data[section_tag]
-            section_data["items"] = section_content
-            section_data["theme"] = data["theme"]
-
-            if section_type and section_type.startswith(self.context_type_name):
-                section_type = section_type.split("_", maxsplit=1)[1]
-            if not section_type and section_tag in self.known_types:
-                section_type = section_tag
-            if section_type not in self.known_types:
-                section_type = CONFIG["DEFAULT_SECTION"]
-
-            section_data["type"] = section_type
-
-            if section_type == "double_items":
-                section_data["items"] = self._make_double_list(
-                    section_data["items"])
-
-            section_template_name = os.path.join(CONFIG["SECTIONS_DIR"],
-                                                 section_type)
-
-            rendered_section = self.render_template(
-                section_template_name, section_data)
-            body += rendered_section.rstrip() + "\n\n\n"
-
+        for section in tqdm.tqdm(data["order"], desc=self.context_name,
+                                 unit="sections", nested=True, leave=True):
+            body += self._render_section(data, section).rstrip() + "\n\n\n"
         data["body"] = body
 
         last_updated = time.localtime(git.Repo().head.commit.committed_date)
         data["updated"] = time.strftime(CONFIG["DATE_FMT"], last_updated)
 
-        return self.render_template(self.base_template, data).rstrip() + "\n"
+        return self._render_template(self.base_template, data).rstrip() + "\n"
 
     def write(self, output_data, base=CONFIG["BASE_FILE_NAME"]):
         if base == CONFIG["BASE_FILE_NAME"]:
@@ -237,7 +236,7 @@ class ContextRenderer(object):
         output_file = os.path.join(CONFIG["BUILD_DIR"],
                                    "{prefix}{name}_{base}{ext}".format(
                                        prefix=prefix,
-                                       name=self._name,
+                                       name=self.username,
                                        base=base,
                                        ext=self.filetype)
                                    )
