@@ -2,7 +2,7 @@ import copy
 from glob import iglob
 from hashlib import md5
 from os import makedirs
-from os.path import abspath, basename, curdir, exists, join, split, splitext
+from os.path import basename, exists, join, splitext
 from re import sub
 import shutil
 from subprocess import call
@@ -10,7 +10,6 @@ from time import localtime, strftime
 
 from git import Repo
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
-import yaml
 from yaml import load
 
 
@@ -26,7 +25,7 @@ last_updated_string = strftime(config["DATE_FMT"], last_updated)
 def main():
     with open(join(config["YAML_DIR"],
                    config["YAML_MAIN"] + ".yaml")) as resume_data:
-        data = load(resume_data, Loader)
+        data = load(resume_data)
     with open(join(config["YAML_DIR"],
                    config["YAML_STYLE"] + ".yaml")) as style_data:
         data.update(**load(style_data))
@@ -34,19 +33,19 @@ def main():
                    config["YAML_BUSINESSES"] + ".yaml")) as business_data:
         businesses = load(business_data)
 
-    for section in data["sections"]:
-        if ("type" in section
-                and section["type"] == "publications"
-                and "items" not in section):
+    if any("publications" in item for item in data["order"]):
+        if not "publications" in data:
             with open(
                 join(config["YAML_DIR"], config["YAML_PUBLICATIONS"] + ".yaml")
             ) as pub_data:
                 pubs = load(pub_data)
-            if not pubs:
-                data["sections"].remove(section)
+            if pubs:
+                data["publications"] = pubs
             else:
-                section["items"] = pubs
-            break
+                for item in data["order"]:
+                    if "publications" in item:
+                        data["order"].remove(item)
+                        break
 
     hashes = {f: md5_hash(f)
               for f in iglob("{}/*.tex".format(config["BUILD_DIR"]))}
@@ -55,15 +54,13 @@ def main():
     process_resume(LATEX_CONTEXT, data)
     process_resume(MARKDOWN_CONTEXT, data)
 
-    try:
+    if businesses:
         for business in businesses:
             data["business"] = businesses[business]
             data["business"]["body"] = LATEX_CONTEXT.render_template(
                 config["LETTER_FILE_NAME"], data
             )
             process_resume(LATEX_CONTEXT, data, base=business)
-    except TypeError:
-        pass
 
     compile_latex(hashes)
     copy_to_output()
@@ -98,42 +95,6 @@ def md5_hash(filename):
         return md5(fin.read().encode()).hexdigest()
 
 
-class LoaderMeta(type):
-    def __new__(mcs, __name__, __bases__, __dict__):
-        """Add include constructor to class."""
-
-        # register the include constructor on the class
-        cls = super().__new__(mcs, __name__, __bases__, __dict__)
-        cls.add_constructor('!include', cls.construct_include)
-
-        return cls
-
-
-class Loader(yaml.Loader, metaclass=LoaderMeta):
-    """YAML Loader with `!include` constructor."""
-    def __init__(self, stream):
-        """Initialise Loader."""
-
-        try:
-            self._root = split(stream.name)[0]
-        except AttributeError:
-            self._root = curdir
-
-        super().__init__(stream)
-
-    def construct_include(self, node):
-        """Include file referenced at node."""
-
-        filename = abspath(join(self._root, self.construct_scalar(node)))
-        extension = splitext(filename)[1].lstrip('.')
-
-        with open(filename, 'r') as f:
-            if extension in ('yaml', 'yml'):
-                return load(f, Loader)
-            else:
-                return ''.join(f.readlines())
-
-
 class ContextRenderer(object):
     def __init__(self, context_name, filetype, jinja_options, replacements):
         self.filetype = filetype
@@ -142,7 +103,8 @@ class ContextRenderer(object):
         context_templates_dir = join(config["TEMPLATES_DIR"], context_name)
 
         self.base_template = config["BASE_FILE_NAME"]
-        self.context_type_name = context_name + "type"
+        self.context_name = context_name
+        self.context_type_name = self.context_name + "type"
 
         self.jinja_options = jinja_options.copy()
         self.jinja_options["loader"] = FileSystemLoader(
@@ -150,6 +112,11 @@ class ContextRenderer(object):
         )
         self.jinja_options["undefined"] = StrictUndefined
         self.jinja_env = Environment(**self.jinja_options)
+
+        self.known_types = [splitext(basename(s))[0]
+                            for s in iglob(join(context_templates_dir,
+                                                config["SECTIONS_DIR"],
+                                                "*{}".format(self.filetype)))]
 
     def make_replacements(self, data):
         data = copy.copy(data)
@@ -182,19 +149,30 @@ class ContextRenderer(object):
 
     # noinspection PyTypeChecker
     def render(self, data):
+        print("Rendering {} résumé".format(self.context_name))
         data = self.make_replacements(data)
         self._name = data["name"]["abbrev"]
 
         body = ""
-        for section_data in data["sections"]:
+        for (section_tag, show_title, section_title,
+             section_type) in data["order"]:
+            print(" +Processing section: {}".format(section_tag))
+            section_data = {"name": section_title} if show_title else {}
+            if section_tag == "NEWPAGE":
+                section_content = None
+            else:
+                section_content = data[section_tag]
+            section_data["items"] = section_content
             section_data["theme"] = data["theme"]
 
-            if self.context_type_name in section_data:
-                section_type = section_data[self.context_type_name]
-            elif "type" in section_data:
-                section_type = section_data["type"]
-            else:
+            if section_type and section_type.startswith(self.context_type_name):
+                section_type = section_type.split("_", maxsplit=1)[1]
+            if not section_type and section_tag in self.known_types:
+                section_type = section_tag
+            if section_type not in self.known_types:
                 section_type = config["DEFAULT_SECTION"]
+
+            section_data["type"] = section_type
 
             if section_type == "double_items":
                 section_data["items"] = self._make_double_list(
@@ -203,8 +181,7 @@ class ContextRenderer(object):
             section_template_name = join(config["SECTIONS_DIR"], section_type)
 
             rendered_section = self.render_template(
-                section_template_name, section_data
-            )
+                section_template_name, section_data)
             body += rendered_section.rstrip() + "\n\n\n"
 
         data["body"] = body

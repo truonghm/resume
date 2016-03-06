@@ -25,8 +25,7 @@
 #   country: optional
 #   post:
 #
-# sections:
-#   pass
+# order: list of tag, show_title, name, type. Use 0 if you want to leave it empty.
 
 name:
   first: Jean
@@ -50,12 +49,139 @@ address:
   country: Japan
   post: 610-1105
 
-sections:
-  - !include sections/general.yaml
-  - !include sections/education.yaml
-  - !include sections/publications.yaml
-  - !include sections/coop.yaml
-  - !include sections/projects.yaml
-  - !include sections/courses.yaml
-  - !include sections/skills.yaml
-  - !include sections/languages.yaml
+order:
+  - [general, 0, 0, 0]
+  - [education, 1, Education, 0]
+  - [publications, 1, Publications, 0]
+  - [coop, 1, Co-op experience, experience]
+  - [projects, 1, Selected projects, 0]
+  - [courses, 1, Selected courses, latextype_double_items]
+  - [skills, 1, Technical skills, 0]
+  - [languages, 1, Natural languages, 0]
+
+general:
+  - name: Interests
+    description: Programming, automation, statistics, AI, robotics, space, anatomy
+  - name: Citizenships
+    description: Canada, Lebanon, Sierra Leone
+  - name: Certifications
+    description: CPR HCP (Health Care Provider), Lebanese driving license
+
+skills:
+  - Python (incl. SciPy stack), C++, C, ROS, Matlab, gnuplot, \LaTeX
+  - Linux (Arch, Fedora, Gentoo, Ubuntu), Windows (XP, Vista, 7, 10)
+  - Raspberry Pi, Arduino, mbed, AVR, Allen Bradley PLC
+  - Solidworks, Autodesk Inventor, AutoCAD, Sketchup
+  - Vim, Git, Gimp, Inkscape, LibreOffice, Microsoft Office
+
+languages:
+  - name: Fluent
+    description: English, French, Lebanese, Japanese
+  - name: Intermediate
+    description: Spanish, Arabic
+  - name: Beginner
+    description: German, Mandarin, Russian, Krio
+
+coop:
+  - date: Spring 2012
+    about: Junior Engineer
+    employer: Starquip Integrated Systems, Ltd
+    location: Toronto, ON
+    url: http://starquip.com
+    notes:
+      - Assisted in the mechanical design of custom pneumatic lift-assist devices
+      - Created modular assemblies and circuits
+      - Reduced design time for new systems
+      - Converted 2D drawings to 3D assemblies
+      - Produced ASME-compliant drawings
+
+  - date: Fall 2011
+    about: Junior Project Engineer
+    employer: Kevin Quan Studios, Ltd
+    location: Toronto, ON
+    url: http://www.kqbikes.com
+    notes:
+      - Completed basic and intermediate Solidworks instruction
+      - Created assemblies and drawings of mountain and racing bicycles
+      - Wrote airfoil generator and exporter using LibreOffice Calc and Python
+      - Performed 2D and 3D CFD analysis of airfoils and bicycles
+      - Determined the optimum configuration for several racing bicycles
+      - Designed tooling molds and parts for various bicycle components
+
+  - date: Winter 2011
+    about: Hardware Associate
+    employer: Intelligent Mechatronics Systems, Inc
+    location: Waterloo, ON
+    url: http://www.intellimec.com
+    notes:
+      - Prototyped hardware solutions for future products
+      - Provided general assistance to lead design engineers
+
+  - date: Spring 2010
+    about: Research Assistant
+    employer: Multiscale Additive Manufacturing Laboratory
+    location: Waterloo, ON
+    url: http://rpl.uwaterloo.ca
+    notes:
+      - Designed, procured, and built essential parts for the enclosure, printhead assembly, and environmental isolation system for a solid freeform fabrication workstation
+      - Workstation produces 3D scaffolds for regrowth of bone and cartilage
+      - Performed image processing on electron micrographs using Octave
+
+  - date: Fall 2009
+    about: Research Assistant
+    employer: Computer Vision and Mobile Robotics Laboratory
+    location: Beirut, Lebanon
+    url: http://www.aub.edu.lb/fea/me/research_labs/cvl/Pages/home.aspx
+    notes:
+      - Researched and developed a positional navigation system for robots
+      - Quantized Inertial Measurement Unit (IMU) error
+
+  - date: Winter 2009
+    about: Engineer in Training
+    employer: Sierra Construction Systems, Ltd
+    location: Freetown, Sierra Leone
+    url: http://www.sierraconstructionsystems.com
+    notes:
+      - Computerized payroll and significantly saved time and resources using Microsoft Excel, Word, and VBA programming
+      - Payroll productivity increased by approximately 6000\%
+      - Performed cost and time estimation for various construction projects
+
+education:
+  - date: 2014--Present
+    school: Kyoto University
+    location: Kyoto, Japan
+    major: MS Mechanical Engineering Science
+    affiliation: Mechatronics Laboratory
+    urls:
+      school: http://kyoto-u.ac.jp
+      affiliation: www.mechatronics.me.kyoto-u.ac.jp
+  - date: 2013--2014
+    school: Kyoto University
+    location: Kyoto, Japan
+    major: Research student
+    affiliation: Mechatronics Laboratory
+    urls:
+      school: http://kyoto-u.ac.jp
+      affiliation: www.mechatronics.me.kyoto-u.ac.jp
+  - date: 2008--2013
+    school: University of Waterloo
+    location: Waterloo, ON
+    major: BASc, Honours Mechatronics Engineering
+    urls:
+      school: http://www.uwaterloo.ca
+      major: https://uwaterloo.ca/mechanical-mechatronics/engineering/program-overview
+
+projects:
+  - Software lead for lab's teleoperation robot (built from scratch)
+  - Automation of assembly line robot using Allen-Bradley PLCs
+  - Résumé and cover letter generator using Python, Jinja, and \LaTeX
+
+courses:
+  - Robotics
+  - Modern control theory
+  - Automatic control systems
+  - Finite element analysis
+  - Mechatronics integration
+  - Microprocessors \& interfacing
+  - Electromech. machine design
+  - Algorithms and data structures
