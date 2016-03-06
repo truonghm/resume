@@ -17,11 +17,6 @@ with open("config.yaml") as config_file:
     CONFIG = yaml.load(config_file)
 
 
-def main():
-    environment_setup()
-    ResumeGenerator().run()
-
-
 def load_yaml(filename):
     with open(filename) as file:
         return yaml.load(file)
@@ -299,6 +294,11 @@ HTML_CONTEXT = ContextRenderer(
         (r'``([^\']*)\'\'', r'"\1"'),                    # quotes
     ]
 )
+
+
+def main():
+    environment_setup()
+    ResumeGenerator().run()
 
 
 if __name__ == '__main__':
