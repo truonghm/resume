@@ -12,17 +12,18 @@ import jinja2
 import tqdm
 import yaml
 
-with open("config.yaml") as configuration_file:
-    config = yaml.load(configuration_file)
-os.makedirs(config["BUILD_DIR"], exist_ok=True)
-os.makedirs(os.path.join(config["OUTPUT_DIR"], config["LETTERS_DIR"]),
-            exist_ok=True)
 
 last_updated = time.localtime(git.Repo().head.commit.committed_date)
-last_updated_string = time.strftime(config["DATE_FMT"], last_updated)
+with open("config.yaml") as config_file:
+    config = yaml.load(config_file)
+config["updated"] = time.strftime(config["DATE_FMT"], last_updated)
 
 
 def main():
+    os.makedirs(config["BUILD_DIR"], exist_ok=True)
+    os.makedirs(os.path.join(config["OUTPUT_DIR"], config["LETTERS_DIR"]),
+                exist_ok=True)
+
     with open(os.path.join(config["YAML_DIR"],
                            config["YAML_MAIN"] + ".yaml")) as resume_data:
         data = yaml.load(resume_data)
@@ -68,6 +69,11 @@ def main():
     copy_to_output()
 
 
+def load_yaml(filename):
+    with open(filename) as file:
+        return yaml.load(file)
+
+
 def process_resume(context, data, base=config["BASE_FILE_NAME"]):
     rendered_resume = context.render(data)
     context.write(rendered_resume, base=base)
@@ -75,19 +81,17 @@ def process_resume(context, data, base=config["BASE_FILE_NAME"]):
 
 def compile_latex(engine, hashes):
     files = [file for file in glob.iglob("{}/*.tex".format(config["BUILD_DIR"]))
-             if (file in hashes
-                 and md5_hash(file) != hashes[file]
-                 or not os.path.exists(file.replace(".tex", ".pdf")))
+             if (file in hashes and md5_hash(file) != hashes[file])
+                 or not os.path.exists(file.replace(".tex", ".pdf"))
              ]
-    with open(os.devnull) as devnull:
-        for input_file in tqdm.tqdm(files,
-                                    desc="Generating PDFs",
-                                    leave=True,
-                                    unit="pdf"):
+    if files:
+        for file in tqdm.tqdm(files,
+                              desc="Generating PDFs",
+                              leave=True,
+                              unit="pdf"):
             subprocess.call("{} -output-dir={} {}".format(engine,
                                                           config["BUILD_DIR"],
-                                                          input_file).split(),
-                                                          stdout=devnull)
+                                                          file).split())
 
 
 def copy_to_output():
@@ -199,7 +203,7 @@ class ContextRenderer(object):
             body += rendered_section.rstrip() + "\n\n\n"
 
         data["body"] = body
-        data["updated"] = last_updated_string
+        data["updated"] = config["updated"]
 
         return self.render_template(self.base_template, data).rstrip() + "\n"
 
