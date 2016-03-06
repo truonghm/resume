@@ -19,17 +19,7 @@ with open("config.yaml") as config_file:
 
 def main():
     environment_setup()
-
-    data = load_yaml(os.path.join(CONFIG["YAML_DIR"],
-                                  CONFIG["YAML_MAIN"] + ".yaml"))
-    handle_publications(data)
-
-    hashes = hash_map()
-    generate_resumes(data)
-    generate_cover_letters(data)
-
-    compile_latex(data["engine"], hashes)
-    copy_to_output_dir()
+    ResumeGenerator().run()
 
 
 def load_yaml(filename):
@@ -47,80 +37,98 @@ def environment_setup():
                 exist_ok=True)
 
 
-def handle_publications(data):
-    if not any("publications" in item for item in data["order"]):
-        return
-
-    if "publications" not in data:
-        pubs = load_yaml(os.path.join(CONFIG["YAML_DIR"],
-                                      CONFIG["YAML_PUBLICATIONS"] + ".yaml"))
-        if pubs:
-            data["publications"] = pubs
-        else:
-            for item in data["order"]:
-                if "publications" in item:
-                    data["order"].remove(item)
-                    break
-
-
-def process_resume(context, data, base=CONFIG["BASE_FILE_NAME"]):
-    rendered_resume = context.render(data)
-    context.write(rendered_resume, base=base)
-
-
-def generate_resumes(data):
-    for context in tqdm.tqdm((HTML_CONTEXT, LATEX_CONTEXT, MARKDOWN_CONTEXT),
-                             leave=True, desc="Rendering résumé", unit="type"):
-        process_resume(context, data)
-
-
-def generate_cover_letters(data):
-    businesses = load_yaml(os.path.join(CONFIG["YAML_DIR"],
-                                        CONFIG["YAML_BUSINESSES"] + ".yaml"))
-
-    if businesses:
-        for business in tqdm.tqdm(businesses,
-                                  desc="Generating cover letters",
-                                  unit="letter",
-                                  leave=True):
-            data["business"] = businesses[business]
-            data["business"]["body"] = LATEX_CONTEXT.render_template(
-                CONFIG["LETTER_FILE_NAME"], data
-            )
-            process_resume(LATEX_CONTEXT, data, base=business)
-
-
-def compile_latex(engine, hashes):
-    files = [file for file in files_of_type(".tex", CONFIG["BUILD_DIR"])
-             if ((file in hashes and md5(file) != hashes[file])
-                 or not os.path.exists(file.replace(".tex", ".pdf")))
-             ]
-    if files:
-        for file in tqdm.tqdm(files, desc="Generating PDFs", leave=True,
-                              unit="pdf"):
-            subprocess.call("{} -output-dir={} {}".format(engine,
-                                                          CONFIG["BUILD_DIR"],
-                                                          file).split())
-
-
-def copy_to_output_dir():
-    for ext in ("pdf", "md", "html"):
-        for file in files_of_type(ext, CONFIG["BUILD_DIR"]):
-            if os.path.basename(file).startswith("0_"):
-                shutil.copyfile(file,
-                                os.path.join(CONFIG["OUTPUT_DIR"],
-                                             os.path.basename(file)[2:]))
-            else:
-                shutil.copy(file, os.path.join(CONFIG["OUTPUT_DIR"],
-                                               CONFIG["LETTERS_DIR"]))
+def md5(filename):
+    with open(filename) as fin:
+        return hashlib.md5(fin.read().encode()).hexdigest()
 
 
 def hash_map(ext=".tex"):
-    def md5(filename):
-        with open(filename) as fin:
-            return hashlib.md5(fin.read().encode()).hexdigest()
-
     return {f: md5(f) for f in files_of_type(ext, CONFIG["BUILD_DIR"])}
+
+
+class ResumeGenerator(object):
+    def __init__(self):
+        self.data = load_yaml(os.path.join(CONFIG["YAML_DIR"],
+                                           CONFIG["YAML_MAIN"] + ".yaml"))
+        self.starting_hashes = hash_map()
+
+    def run(self):
+        self.handle_publications()
+        self.generate_resumes()
+        self.generate_cover_letters()
+
+        self.compile_latex()
+        self.copy_to_output_dir()
+
+    def handle_publications(self):
+        if not any("publications" in item for item in self.data["order"]):
+            return
+
+        if "publications" not in self.data:
+            pubs = load_yaml(
+                os.path.join(CONFIG["YAML_DIR"],
+                             CONFIG["YAML_PUBLICATIONS"] + ".yaml"))
+            if pubs:
+                self.data["publications"] = pubs
+            else:
+                for item in self.data["order"]:
+                    if "publications" in item:
+                        self.data["order"].remove(item)
+                        break
+
+    def process_resume(self, context, base=CONFIG["BASE_FILE_NAME"]):
+        rendered_resume = context.render(self.data)
+        context.write(rendered_resume, base=base)
+
+    def generate_resumes(self):
+        contexts = (HTML_CONTEXT, LATEX_CONTEXT, MARKDOWN_CONTEXT)
+        for context in tqdm.tqdm(contexts, leave=True, desc="Rendering résumé",
+                                 unit="type"):
+            self.process_resume(context)
+
+    def generate_cover_letters(self):
+        businesses = load_yaml(
+            os.path.join(CONFIG["YAML_DIR"],
+                         CONFIG["YAML_BUSINESSES"] + ".yaml"))
+
+        if not businesses:
+            return
+
+        for business in tqdm.tqdm(businesses, desc="Generating cover letters",
+                                  unit="letter", leave=True):
+            self.data["business"] = businesses[business]
+            self.data["business"]["body"] = LATEX_CONTEXT.render_template(
+                CONFIG["LETTER_FILE_NAME"], self.data
+            )
+            self.process_resume(LATEX_CONTEXT, base=business)
+
+    def compile_latex(self):
+        changed_files = [file
+                         for file in files_of_type(".tex", CONFIG["BUILD_DIR"])
+                         if ((file in self.starting_hashes
+                              and md5(file) != self.starting_hashes[file])
+                             or not os.path.exists(file.replace(".tex",
+                                                                ".pdf")))]
+        if not changed_files:
+            return
+
+        for file in tqdm.tqdm(changed_files, desc="Generating PDFs",
+                              leave=True, unit="pdf"):
+            subprocess.call("{} -output-dir={} {}".format(self.data["engine"],
+                                                          CONFIG["BUILD_DIR"],
+                                                          file).split())
+
+    @staticmethod
+    def copy_to_output_dir():
+        for ext in ("pdf", "md", "html"):
+            for file in files_of_type(ext, CONFIG["BUILD_DIR"]):
+                if os.path.basename(file).startswith("0_"):
+                    shutil.copyfile(file,
+                                    os.path.join(CONFIG["OUTPUT_DIR"],
+                                                 os.path.basename(file)[2:]))
+                else:
+                    shutil.copy(file, os.path.join(CONFIG["OUTPUT_DIR"],
+                                                   CONFIG["LETTERS_DIR"]))
 
 
 class ContextRenderer(object):
