@@ -7,6 +7,7 @@ name:
 engine: pdflatex
 theme:
   font_size: 10pt
+  paper_size: a4paper
   style: banking
   colour: purple
 
@@ -179,6 +180,7 @@ courses:
 # engine: xelatex or pdflatex
 # theme:
 #   font_size: default is 12pt
+#   paper_size: a4paper, letterpaper, etc
 #   style: banking, casual, classic, empty, oldstyle; default is casual
 #   colour: black, blue, green, grey, orange, purple, red; default is blue
 #
