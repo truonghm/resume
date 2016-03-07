@@ -47,13 +47,15 @@ class ResumeGenerator(object):
                                            CONFIG["YAML_MAIN"] + ".yaml"))
         self.starting_hashes = hash_map()
 
-    def run(self):
+    def run(self, contexts):
         self.handle_publications()
-        self.generate_resumes()
-        self.generate_cover_letters()
+        self.generate_resumes(contexts)
 
-        self.compile_latex()
-        self.copy_to_output_dir()
+        if LATEX_CONTEXT in contexts:
+            self.generate_cover_letters()
+            self.compile_latex()
+
+        self.copy_to_output_dir(contexts)
 
     def handle_publications(self):
         if not any("publications" in item for item in self.data["order"]):
@@ -75,8 +77,7 @@ class ResumeGenerator(object):
         rendered_resume = context.render_resume(self.data)
         context.write(rendered_resume, base=base)
 
-    def generate_resumes(self):
-        contexts = (HTML_CONTEXT, LATEX_CONTEXT, MARKDOWN_CONTEXT)
+    def generate_resumes(self, contexts):
         for context in tqdm.tqdm(contexts, leave=True, desc="Rendering résumé",
                                  unit="formats"):
             self.process_resume(context)
@@ -114,9 +115,9 @@ class ResumeGenerator(object):
                                                           file).split())
 
     @staticmethod
-    def copy_to_output_dir():
-        for ext in ("pdf", "md", "html"):
-            for file in files_of_type(ext, CONFIG["BUILD_DIR"]):
+    def copy_to_output_dir(contexts):
+        for context in contexts:
+            for file in files_of_type(context.filetype, CONFIG["BUILD_DIR"]):
                 if os.path.basename(file).startswith("0_"):
                     shutil.copyfile(file,
                                     os.path.join(CONFIG["OUTPUT_DIR"],
@@ -307,7 +308,9 @@ HTML_CONTEXT = ContextRenderer(
 
 def main():
     environment_setup()
-    ResumeGenerator().run()
+    ResumeGenerator().run(contexts=(HTML_CONTEXT,
+                                    LATEX_CONTEXT,
+                                    MARKDOWN_CONTEXT))
 
 
 if __name__ == '__main__':
