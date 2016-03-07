@@ -489,7 +489,7 @@ class ContextRenderer(object):
 
         body = ""
         for section in tqdm.tqdm(data["order"], desc=self.context_name,
-                                 unit="sections", nested=True, leave=True):
+                                 unit="sections", nested=True):
             body += self._render_section(section, data).rstrip() + "\n\n\n"
         data["body"] = body
 
