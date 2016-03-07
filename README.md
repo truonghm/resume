@@ -3,7 +3,7 @@ About
 This repo contains the source I use to automatically generate [my résumé]
 (http://github.com/masasin/resume) as a webpage and PDF from YAML input.
 
-Samples are in the [samples](http://github.com/masasin/resume/samples) directory.
+Samples are in the [samples](http://github.com/masasin/resume/tree/master/samples) directory.
 Note that they were automatically generated, as opposed to optimized separately.
 
 It was forked from [emichael/resume](https://github.com/emichael/resume),
