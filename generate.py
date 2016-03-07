@@ -129,6 +129,9 @@ class ResumeGenerator(object):
 
 class ContextRenderer(object):
     def __init__(self, *, context_name, filetype, jinja_options, replacements):
+        self.base_template = CONFIG["BASE_FILE_NAME"]
+        self.context_name = context_name
+
         self.filetype = filetype
         self.replacements = replacements
 
@@ -174,8 +177,8 @@ class ContextRenderer(object):
         return double_list
 
     def _render_template(self, template_name, data):
-        full_name = template_name + self.filetype
-        return self.jinja_env.get_template(full_name).render(**data)
+        return self.jinja_env.get_template(template_name + self.filetype)\
+                             .render(**data)
 
     def _render_section(self, data, section):
         section_tag, show_title, section_title, section_type = section
@@ -193,8 +196,8 @@ class ContextRenderer(object):
         section_template_name = os.path.join(CONFIG["SECTIONS_DIR"],
                                              section_type)
 
-        rendered_section = self._render_template(
-            section_template_name, section_data)
+        rendered_section = self._render_template(section_template_name,
+                                                 section_data)
         return rendered_section
 
     def _find_section_type(self, section_tag, section_type):
