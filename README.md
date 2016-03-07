@@ -3,6 +3,9 @@ About
 This repo contains the source I use to automatically generate [my résumé]
 (http://github.com/masasin/resume) as a webpage and PDF from YAML input.
 
+Samples are in the [samples](http://github.com/masasin/resume/samples) directory.
+Note that they were automatically generated, as opposed to optimized separately.
+
 It was forked from [emichael/resume](https://github.com/emichael/resume),
 which was in turn forked from [bamos/cv](https://github.com/bamos/cv).
 I have added the ability to automatically generate PDFs with cover letters,
