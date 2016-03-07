@@ -183,10 +183,24 @@ class ContextRenderer(object):
     def _render_section(self, data, section):
         section_tag, show_title, section_title, section_type = section
         section_data = {"name": section_title} if show_title else {}
-        section_content = data[section_tag]
-        section_data["items"] = section_content
+        section_data["items"] = data[section_tag]
         section_data["theme"] = data["theme"]
 
+        section_type = self._find_section_type(section_tag, section_type)
+        section_data["type"] = section_type
+
+        if section_type == "double_items":
+            section_data["items"] = self._make_double_list(
+                section_data["items"])
+
+        section_template_name = os.path.join(CONFIG["SECTIONS_DIR"],
+                                             section_type)
+
+        rendered_section = self._render_template(
+            section_template_name, section_data)
+        return rendered_section
+
+    def _find_section_type(self, section_tag, section_type):
         if isinstance(section_type, list):
             for t in section_type:
                 if t.startswith(self.context_type_name):
@@ -200,19 +214,7 @@ class ContextRenderer(object):
             section_type = section_tag
         if section_type not in self.known_types:
             section_type = CONFIG["DEFAULT_SECTION"]
-
-        section_data["type"] = section_type
-
-        if section_type == "double_items":
-            section_data["items"] = self._make_double_list(
-                section_data["items"])
-
-        section_template_name = os.path.join(CONFIG["SECTIONS_DIR"],
-                                             section_type)
-
-        rendered_section = self._render_template(
-            section_template_name, section_data)
-        return rendered_section
+        return section_type
 
     # noinspection PyTypeChecker
     def render_resume(self, data):
