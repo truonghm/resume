@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+"""
+Generates LaTeX, Markdown, and HTML copies of my résumé.
+
+More information is available in the README file.
+
+"""
 import copy
 import glob
 import hashlib
@@ -18,36 +25,120 @@ with open("config.yaml") as config_file:
 
 
 def load_yaml(filename):
+    """
+    Load a YAML file.
+
+    Parameters
+    ----------
+    filename : str
+        The name of the file to load
+
+    Returns
+    -------
+    dict
+        The contents of the file.
+
+    """
     with open(filename) as file:
         return yaml.load(file)
 
 
 def files_of_type(ext, directory="."):
+    """
+    Find all files of a given type.
+
+    Parameters
+    ----------
+    ext : str
+        The file extension.
+    directory : Optional[str]
+        The directory to use. Default is the current directory.
+
+    Yields
+    ------
+    str
+        The matching filenames.
+
+    """
     yield from glob.iglob("{}/*{}".format(directory, ext))
 
 
 def environment_setup():
+    """
+    Create the build and output directories if they don't exist.
+
+    """
     os.makedirs(CONFIG["BUILD_DIR"], exist_ok=True)
     os.makedirs(os.path.join(CONFIG["OUTPUT_DIR"], CONFIG["LETTERS_DIR"]),
                 exist_ok=True)
 
 
 def md5(filename):
+    """
+    Return the MD5 hash of a file.
+
+    Parameters
+    ----------
+    filename : str
+        The name of the file to check.
+
+    Returns
+    -------
+    str
+        The MD5 hash in hexadecimal.
+
+    """
     with open(filename) as fin:
         return hashlib.md5(fin.read().encode()).hexdigest()
 
 
 def hash_map(ext=".tex"):
+    """
+    Generate a dictionary of all files of a given type and their hashes.
+
+    Parameters
+    ----------
+    ext : Optional[str]
+        The extension to search for. Default is ".tex".
+
+    Returns
+    -------
+    dict[str, str]
+        A list of filenames with their md5 hash.
+
+        **Dictionary format :** {filename: md5}
+
+    """
     return {f: md5(f) for f in files_of_type(ext, CONFIG["BUILD_DIR"])}
 
 
 class ResumeGenerator(object):
+    """
+    Generates résumés.
+
+    Attributes
+    ----------
+    data : dict
+        The contents of the main YAML file.
+    starting_hashes : dict[str, str]
+        A list of all tex files with their MD5 hash before running.
+
+    """
     def __init__(self):
         self.data = load_yaml(os.path.join(CONFIG["YAML_DIR"],
                                            CONFIG["YAML_MAIN"] + ".yaml"))
         self.starting_hashes = hash_map()
 
     def run(self, contexts):
+        """
+        Generate the résumé in various formats.
+
+        Parameters
+        ----------
+        contexts : tuple[ContextRenderer]
+            The renderers for the formats to use.
+
+        """
         self.handle_publications()
         self.generate_resumes(contexts)
 
@@ -58,6 +149,10 @@ class ResumeGenerator(object):
         self.copy_to_output_dir(contexts)
 
     def handle_publications(self):
+        """
+        Fill or remove the publication section, if available.
+
+        """
         if not any("publications" in item for item in self.data["order"]):
             return
 
@@ -74,15 +169,40 @@ class ResumeGenerator(object):
                         break
 
     def process_resume(self, context, base=CONFIG["BASE_FILE_NAME"]):
+        """
+        Render and save a résumé.
+
+        Parameters
+        ----------
+        context : ContextRenderer
+            The renderer to use.
+        base : str
+            The root filename for the résumé. The user's name would be prepended
+            to this.
+
+        """
         rendered_resume = context.render_resume(self.data)
         context.write(rendered_resume, base=base)
 
     def generate_resumes(self, contexts):
+        """
+        Process the necessary résumés.
+
+        Parameters
+        ----------
+        contexts : tuple[ContextRenderer]
+            The renderers for the formats to use.
+
+        """
         for context in tqdm.tqdm(contexts, leave=True, desc="Rendering résumé",
                                  unit="formats"):
             self.process_resume(context)
 
     def generate_cover_letters(self):
+        """
+        Generate cover letters for all companies in the business YAML file.
+
+        """
         businesses = load_yaml(
             os.path.join(CONFIG["YAML_DIR"],
                          CONFIG["YAML_BUSINESSES"] + ".yaml"))
@@ -99,6 +219,10 @@ class ResumeGenerator(object):
             self.process_resume(LATEX_CONTEXT, base=business)
 
     def compile_latex(self):
+        """
+        Compile changed LaTeX files into PDF.
+
+        """
         changed_files = [file
                          for file in files_of_type(".tex", CONFIG["BUILD_DIR"])
                          if ((file in self.starting_hashes
@@ -116,6 +240,15 @@ class ResumeGenerator(object):
 
     @staticmethod
     def copy_to_output_dir(contexts):
+        """
+        Copy compiled résumés from the build directory to the output directory.
+
+        Parameters
+        ----------
+        contexts : tuple[ContextRenderer]
+            The renderers for the formats to use.
+
+        """
         for context in contexts:
             for file in files_of_type(context.filetype, CONFIG["BUILD_DIR"]):
                 if os.path.basename(file).startswith("0_"):
@@ -128,6 +261,40 @@ class ResumeGenerator(object):
 
 
 class ContextRenderer(object):
+    """
+    Renders a given context.
+
+    Parameters
+    ----------
+    context_name : str
+        The name of the context, corresponding to one of the template
+        subdirectories.
+    filetype : str
+        The file extension to use.
+    jinja_options : dict
+        Options for Jinja.
+    replacements : dict[str, str]
+        A list of replacements to perform in order to change LaTeX formatting to
+        the corresponding code for the context.
+
+    Attributes
+    ----------
+    base_template : str
+        The root filename for the résumé. The user's name would be prepended to
+        this.
+    context_name : str
+        The name of the context.
+    filetype : str
+        The file extension to use.
+    jinja_env : dict
+        The Jinja environment.
+    known_section_types : list
+        A list of known sections for the context.
+    replacements : dict[str, str]
+        A list of replacements to perform in order to change LaTeX formatting to
+        the corresponding code for the context.
+
+    """
     def __init__(self, *, context_name, filetype, jinja_options, replacements):
         self.base_template = CONFIG["BASE_FILE_NAME"]
         self.context_name = context_name
@@ -152,6 +319,21 @@ class ContextRenderer(object):
                                                      CONFIG["SECTIONS_DIR"]))]
 
     def _make_replacements(self, data):
+        """
+        Perform replacements in order to change LaTeX formatting to the
+        corresponding code for the context.
+
+        Parameters
+        ----------
+        data : dict
+            The résumé data to render.
+
+        Returns
+        -------
+        data : dict
+            A copy of the data containing the replaced strings.
+
+        """
         data = copy.copy(data)
 
         if isinstance(data, str):
@@ -170,6 +352,22 @@ class ContextRenderer(object):
 
     @staticmethod
     def _make_double_list(items):
+        """
+        Change a list to a double list.
+
+        Parameters
+        ----------
+        items : Iterable
+            A list of items to double.
+
+        Returns
+        -------
+        double_list : list[dict]
+            A double list which can be used by the LaTeX renderer.
+
+            **Dictionary format :** {first: second}
+
+        """
         double_list = [{"first": items[i * 2], "second": items[i * 2 + 1]}
                        for i in range(len(items) // 2)]
         if len(items) % 2:
@@ -177,10 +375,48 @@ class ContextRenderer(object):
         return double_list
 
     def _render_template(self, template_name, data):
+        """
+        Render a template.
+
+        Parameters
+        ----------
+        template_name : str
+            The name of the template.
+        data : dict
+            The data to be rendered.
+
+        Returns
+        -------
+        str
+            The rendered template.
+
+        """
         return self.jinja_env.get_template(template_name + self.filetype)\
                              .render(**data)
 
     def _render_section(self, section, data):
+        """
+
+        Parameters
+        ----------
+        section : list[str, bool, str|bool, list[str]|str|bool]
+            Details about the section:
+
+            - section tag (str)
+            - whether to show a title (bool)
+            - the title of the section (str, or False if not shown)
+            - the type of section (False to use the section tag, or a string, or
+                                   or a list of strings)
+
+        data : dict
+            The data to be rendered.
+
+        Returns
+        -------
+        str
+            The rendered section.
+
+        """
         section_tag, show_title, section_title, section_type = section
         section_data = {"name": section_title} if show_title else {}
         section_data["items"] = data[section_tag]
@@ -201,6 +437,25 @@ class ContextRenderer(object):
         return rendered_section
 
     def _find_section_type(self, section_tag, section_type):
+        """
+        Determine a section's type.
+
+        If the section type is unknown, the default type as defined in the
+        config file is used.
+
+        Parameters
+        ----------
+        section_tag : str
+            The tag of the section.
+        section_type : list[str]|str|bool
+            The declared type of the section. Use False to use the section tag.
+
+        Returns
+        -------
+        section_type : str
+            The type of the section.
+
+        """
         context_type_name = self.context_name + "type"
         if isinstance(section_type, list):
             for t in section_type:
@@ -221,6 +476,20 @@ class ContextRenderer(object):
 
     # noinspection PyTypeChecker
     def render_resume(self, data):
+        """
+        Render the entire résumé.
+
+        Parameters
+        ----------
+        data : dict
+            The data to render.
+
+        Returns
+        -------
+        str
+            The rendered résumé.
+
+        """
         data = self._make_replacements(data)
         self.username = data["name"]["abbrev"]
 
@@ -236,6 +505,23 @@ class ContextRenderer(object):
         return self._render_template(self.base_template, data).rstrip() + "\n"
 
     def write(self, output_data, base=CONFIG["BASE_FILE_NAME"]):
+        """
+        Save the résumé to file.
+
+        Parameters
+        ----------
+        output_data : str
+            The data to be written.
+        base : str
+            The root filename for the résumé. The user's name would be prepended
+            to this.
+
+        Notes
+        -----
+        If the base is the default name, then a "0_" is also prepended to
+        visually separate the base résumé from potential business résumés.
+
+        """
         if base == CONFIG["BASE_FILE_NAME"]:
             prefix = "0_"
         else:
@@ -309,6 +595,10 @@ HTML_CONTEXT = ContextRenderer(
 
 
 def main():
+    """
+    Main hook for script.
+
+    """
     environment_setup()
     ResumeGenerator().run(contexts=(HTML_CONTEXT,
                                     LATEX_CONTEXT,
