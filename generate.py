@@ -146,7 +146,7 @@ class ResumeGenerator(object):
             self.generate_cover_letters()
             self.compile_latex()
 
-        self.copy_to_output_dir(contexts)
+        self.copy_to_output_dir()
 
     def handle_publications(self):
         """
@@ -239,18 +239,13 @@ class ResumeGenerator(object):
                                                           file).split())
 
     @staticmethod
-    def copy_to_output_dir(contexts):
+    def copy_to_output_dir():
         """
         Copy compiled résumés from the build directory to the output directory.
 
-        Parameters
-        ----------
-        contexts : tuple[ContextRenderer]
-            The renderers for the formats to use.
-
         """
-        for context in contexts:
-            for file in files_of_type(context.filetype, CONFIG["BUILD_DIR"]):
+        for ext in CONFIG["OUTPUT_TYPES"]:
+            for file in files_of_type(ext, CONFIG["BUILD_DIR"]):
                 if os.path.basename(file).startswith("0_"):
                     shutil.copyfile(file,
                                     os.path.join(CONFIG["OUTPUT_DIR"],
