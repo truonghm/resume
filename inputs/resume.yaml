@@ -205,15 +205,15 @@ courses:
 #   post:
 #
 # order: list of tag, show_title, name, type of sections. Use 0 if you want to leave it empty.
-#   - [general, 0, 0, 0]
-#   - [education, 1, Education, 0]
-#   - [publications, 1, Publications, 0]
-#   - [coop, 1, Co-op experience, experience]
-#   - [research, 1, Research experience, [experience, markdowntype_research]]
-#   - [projects, 1, Selected projects, 0]
-#   - [courses, 1, Selected courses, latextype_double_items]
-#   - [skills, 1, Technical skills, 0]
-#   - [languages, 1, Natural languages, 0]
+#   - (general, 0, 0, 0)
+#   - (education, 1, Education, 0)
+#   - (publications, 1, Publications, 0)
+#   - (coop, 1, Co-op experience, experience)
+#   - (research, 1, Research experience, [experience, markdowntype_research])
+#   - (projects, 1, Selected projects, 0)
+#   - (courses, 1, Selected courses, latextype_double_items)
+#   - (skills, 1, Technical skills, 0)
+#   - (languages, 1, Natural languages, 0)
 #
 ## section_types:
 ## cvitem: a two-column table. The first column is in the margin or bold, depending on the style.
