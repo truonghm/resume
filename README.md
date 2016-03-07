@@ -52,7 +52,8 @@ All the resulting PDFs will be named appropriately and stored in the `outputs/co
    normal LaTeX. See `generate.py` for details.
 4. LaTeX files are only regenerated when the source changes or when the PDF
    does not exist.
-5. The update date changes based on the time of the latest git commit on the current branch.
+5. By default, the update date changes based on the time of the latest git commit on the current branch.
+   You can change it in `resume.yaml`
 
 
 License

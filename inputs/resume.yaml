@@ -5,6 +5,7 @@ name:
   abbrev: jnassar
 
 engine: pdflatex
+last_updated_method: git
 theme:
   font_size: 10pt
   paper_size: letterpaper
@@ -178,6 +179,7 @@ courses:
 #   abbrev: the name used in the filename
 #
 # engine: xelatex or pdflatex
+# last_updated_method: git or time
 # theme:
 #   font_size: default is 12pt
 #   paper_size: a4paper, letterpaper, etc

@@ -494,7 +494,10 @@ class ContextRenderer(object):
             body += self._render_section(section, data).rstrip() + "\n\n\n"
         data["body"] = body
 
-        last_updated = time.localtime(git.Repo().head.commit.committed_date)
+        if data["last_updated_method"] == "git":
+            last_updated = time.localtime(git.Repo().head.commit.committed_date)
+        elif data["last_updated_method"] == "time":
+            last_updated = time.localtime(time.time())
         data["updated"] = time.strftime(CONFIG["DATE_FMT"], last_updated)
 
         return self._render_template(self.base_template, data).rstrip() + "\n"
