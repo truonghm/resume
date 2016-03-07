@@ -233,11 +233,12 @@ class ResumeGenerator(object):
         if not changed_files:
             return
 
+        os.chdir(CONFIG["BUILD_DIR"])
         for file in tqdm.tqdm(changed_files, desc="Generating PDFs",
                               leave=True, unit="pdf"):
-            subprocess.call("{} -output-dir={} {}".format(self.data["engine"],
-                                                          CONFIG["BUILD_DIR"],
-                                                          file).split())
+            subprocess.call("{} {}".format(self.data["engine"],
+                                           os.path.basename(file)).split())
+        os.chdir("..")
 
     @staticmethod
     def copy_to_output_dir():
