@@ -187,6 +187,13 @@ class ContextRenderer(object):
         section_data["items"] = section_content
         section_data["theme"] = data["theme"]
 
+        if isinstance(section_type, list):
+            for t in section_type:
+                if t.startswith(self.context_type_name):
+                    section_type = t
+                    break
+            else:
+                section_type = section_type[0]
         if section_type and section_type.startswith(self.context_type_name):
             section_type = section_type.split("_", maxsplit=1)[1]
         if not section_type and section_tag in self.known_types:

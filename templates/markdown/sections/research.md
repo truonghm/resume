@@ -2,7 +2,7 @@
 
 {% block body %}
 {% for r in items %}
-**{{ r.topic }}** - {{ r.date }}  
+**{{ r.topic }}** - {{ r.date }}
 {% if r.about is defined %}*{{ r.about }}*
 {% endif %}
 
