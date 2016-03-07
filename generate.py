@@ -128,7 +128,7 @@ class ResumeGenerator(object):
 
 
 class ContextRenderer(object):
-    def __init__(self, context_name, filetype, jinja_options, replacements):
+    def __init__(self, *, context_name, filetype, jinja_options, replacements):
         self.filetype = filetype
         self.replacements = replacements
 
