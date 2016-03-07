@@ -13,6 +13,8 @@ See the original repo for details about the choices of YAML, LaTeX, and Markdown
 
 How to run
 ----------
+You will need Python 3, git, and LaTeX installed on your computer.
+
 The dependencies are included in `requirements.txt` and can be installed using
 `pip` with `pip install -r requirements.txt`. I recommend doing this inside a
 `virtualenv`.
@@ -22,20 +24,21 @@ To run, call `generate.py`, which will look for YAML files in the input director
 
 What to Modify
 --------------
-You can change any of the YAML files in the `inputs` directory. If you want
-to change folders or file naming, change `config.yaml`. The image file in `img`,
-should you be using one, also needs to change. Finally, take a look at the
-`templates` directory to see if you want to edit anything.
+You can change folders or file naming in `config.yaml`.
+The names used in the README are the default values.
+You can change any of the YAML files in the `inputs` directory.
+The image file in `img`, should you be using one, also needs to change.
+Finally, take a look at the `templates` directory to see if you want to edit anything.
 
-Currently, you can `!include` different YAML files in `resume.yaml` to change
-the order of the sections, but that might change in the future. `style.yaml`
-defines the style of the résumé, and `publications.yaml` should contain all the
-publications you want to show.
-
+The main résumé is in `resume.yaml`.
+You can change the order of items in the `order` section.
+`publications.yaml` should contain all the publications you want to show.
 Finally, `businesses.yaml` should contain details about prospective employers.
-A cover letter will be generated from `templates/latex/letter_body.tex`, and all
-PDFs would be stored in the `outputs/cover_letters` directory, with each company
-having its own name.
+Each YAML file contains documentation showing which fields can be used and which are optional.
+
+A cover letter will be automatically generated for each business from `templates/latex/letter_body.tex`.
+Don't forget to edit that file.
+All the resulting PDFs will be named appropriately and stored in the `outputs/cover_letters` directory.
 
 ### Warnings
 1. Strings in `resume.yaml` should be LaTeX (though, the actual LaTeX formatting
@@ -46,6 +49,7 @@ having its own name.
    normal LaTeX. See `generate.py` for details.
 4. LaTeX files are only regenerated when the source changes or when the PDF
    does not exist.
+5. The update date changes based on the time of the latest git commit on the current branch.
 
 
 License
