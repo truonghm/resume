@@ -156,7 +156,7 @@ class ContextRenderer(object):
         data = copy.copy(data)
 
         if isinstance(data, str):
-            for o, r in self.replacements:
+            for o, r in self.replacements.items():
                 data = re.sub(o, r, data)
 
         elif isinstance(data, dict):
@@ -262,7 +262,7 @@ LATEX_CONTEXT = ContextRenderer(
         trim_blocks=True,
         lstrip_blocks=True,
     ),
-    replacements=[]
+    replacements={}
 )
 
 
@@ -273,16 +273,16 @@ MARKDOWN_CONTEXT = ContextRenderer(
         trim_blocks=True,
         lstrip_blocks=True
     ),
-    replacements=[
-        (r'\\ ', ' '),                      # spaces
-        (r'\\textbf{([^}]*)}', r'**\1**'),  # bold text
-        (r'\\textit{([^}]*)}', r'*\1*'),    # italic text
-        (r'\\LaTeX', 'LaTeX'),              # \LaTeX to boring old LaTeX
-        (r'\\TeX', 'TeX'),                  # \TeX to boring old TeX
-        ('---', '-'),                       # em dash
-        ('--', '-'),                        # en dash
-        (r'``([^\']*)\'\'', r'"\1"'),       # quotes
-    ]
+    replacements={
+        r'\\ ': ' ',                      # spaces
+        r'\\textbf{([^}]*)}': r'**\1**',  # bold text
+        r'\\textit{([^}]*)}': r'*\1*',    # italic text
+        r'\\LaTeX': 'LaTeX',              # \LaTeX
+        r'\\TeX': 'TeX',                  # \TeX
+        '---': '-',                       # em dash
+        '--': '-',                        # en dash
+        r'``([^\']*)\'\'': r'"\1"',       # quotes
+    }
 )
 
 
@@ -293,16 +293,16 @@ HTML_CONTEXT = ContextRenderer(
         trim_blocks=True,
         lstrip_blocks=True
     ),
-    replacements=[
-        (r'\\ ', '&nbsp;'),                              # spaces
-        (r'\\textbf{([^}]*)}', r'<strong>\1</strong>'),  # bold
-        (r'\\textit{([^}]*)}', r'<em>\1</em>'),          # italic
-        (r'\\LaTeX', 'LaTeX'),                           # \LaTeX
-        (r'\\TeX', 'TeX'),                               # \TeX
-        ('---', '&mdash;'),                              # em dash
-        ('--', '&ndash;'),                               # en dash
-        (r'``([^\']*)\'\'', r'"\1"'),                    # quotes
-    ]
+    replacements={
+        r'\\ ': '&nbsp;',                              # spaces
+        r'\\textbf{([^}]*)}': r'<strong>\1</strong>',  # bold
+        r'\\textit{([^}]*)}': r'<em>\1</em>',          # italic
+        r'\\LaTeX': 'LaTeX',                           # \LaTeX
+        r'\\TeX': 'TeX',                               # \TeX
+        '---': '&mdash;',                              # em dash
+        '--': '&ndash;',                               # en dash
+        r'``([^\']*)\'\'': r'"\1"',                    # quotes
+    }
 )
 
 
