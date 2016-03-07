@@ -474,7 +474,6 @@ class ContextRenderer(object):
 
         return section_type
 
-    # noinspection PyTypeChecker
     def render_resume(self, data):
         """
         Render the entire résumé.
