@@ -146,11 +146,11 @@ class ContextRenderer(object):
         self.jinja_options["undefined"] = jinja2.StrictUndefined
         self.jinja_env = jinja2.Environment(**self.jinja_options)
 
-        self.known_types = [os.path.splitext(os.path.basename(s))[0]
-                            for s in files_of_type(
-                                self.filetype,
-                                os.path.join(context_templates_dir,
-                                             CONFIG["SECTIONS_DIR"]))]
+        self.known_section_types = [os.path.splitext(os.path.basename(s))[0]
+                                    for s in files_of_type(
+                                        self.filetype,
+                                        os.path.join(context_templates_dir,
+                                                     CONFIG["SECTIONS_DIR"]))]
 
     def _make_replacements(self, data):
         data = copy.copy(data)
@@ -211,9 +211,9 @@ class ContextRenderer(object):
                 section_type = section_type[0]
         if section_type and section_type.startswith(self.context_type_name):
             section_type = section_type.split("_", maxsplit=1)[1]
-        if not section_type and section_tag in self.known_types:
+        if not section_type and section_tag in self.known_section_types:
             section_type = section_tag
-        if section_type not in self.known_types:
+        if section_type not in self.known_section_types:
             section_type = CONFIG["DEFAULT_SECTION"]
         return section_type
 
