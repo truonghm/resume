@@ -180,7 +180,7 @@ class ContextRenderer(object):
         return self.jinja_env.get_template(template_name + self.filetype)\
                              .render(**data)
 
-    def _render_section(self, data, section):
+    def _render_section(self, section, data):
         section_tag, show_title, section_title, section_type = section
         section_data = {"name": section_title} if show_title else {}
         section_data["items"] = data[section_tag]
@@ -227,7 +227,7 @@ class ContextRenderer(object):
         body = ""
         for section in tqdm.tqdm(data["order"], desc=self.context_name,
                                  unit="sections", nested=True, leave=True):
-            body += self._render_section(data, section).rstrip() + "\n\n\n"
+            body += self._render_section(section, data).rstrip() + "\n\n\n"
         data["body"] = body
 
         last_updated = time.localtime(git.Repo().head.commit.committed_date)
