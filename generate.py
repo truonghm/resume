@@ -135,16 +135,12 @@ class ContextRenderer(object):
         context_templates_dir = os.path.join(CONFIG["TEMPLATES_DIR"],
                                              context_name)
 
-        self.base_template = CONFIG["BASE_FILE_NAME"]
-        self.context_name = context_name
-        self.context_type_name = self.context_name + "type"
-
-        self.jinja_options = jinja_options.copy()
-        self.jinja_options["loader"] = jinja2.FileSystemLoader(
+        jinja_options = jinja_options.copy()
+        jinja_options["loader"] = jinja2.FileSystemLoader(
             searchpath=context_templates_dir
         )
-        self.jinja_options["undefined"] = jinja2.StrictUndefined
-        self.jinja_env = jinja2.Environment(**self.jinja_options)
+        jinja_options["undefined"] = jinja2.StrictUndefined
+        self.jinja_env = jinja2.Environment(**jinja_options)
 
         self.known_section_types = [os.path.splitext(os.path.basename(s))[0]
                                     for s in files_of_type(
@@ -202,19 +198,22 @@ class ContextRenderer(object):
         return rendered_section
 
     def _find_section_type(self, section_tag, section_type):
+        context_type_name = self.context_name + "type"
         if isinstance(section_type, list):
             for t in section_type:
-                if t.startswith(self.context_type_name):
+                if t.startswith(context_type_name):
                     section_type = t
                     break
             else:
                 section_type = section_type[0]
-        if section_type and section_type.startswith(self.context_type_name):
+
+        if section_type and section_type.startswith(context_type_name):
             section_type = section_type.split("_", maxsplit=1)[1]
         if not section_type and section_tag in self.known_section_types:
             section_type = section_tag
         if section_type not in self.known_section_types:
             section_type = CONFIG["DEFAULT_SECTION"]
+
         return section_type
 
     # noinspection PyTypeChecker
