@@ -7,7 +7,7 @@ name:
 engine: pdflatex
 theme:
   font_size: 10pt
-  paper_size: a4paper
+  paper_size: letterpaper
   style: banking
   colour: purple
 
@@ -23,12 +23,12 @@ contact:
   github: masasin
   linkedin: masasin
 
-address:
-  street: Unit 104, 3--7 \={O}etsukaharach\={o}
-  city: Nishiky\={o}-ku, Ky\={o}to City
-  province: Ky\={o}to Prefecture
-  country: Japan
-  post: 610-1105
+# address:
+#   street: Unit 104, 3--7 \={O}etsukaharach\={o}
+#   city: Nishiky\={o}-ku, Ky\={o}to City
+#   province: Ky\={o}to Prefecture
+#   country: Japan
+#   post: 610-1105
 
 order:
   - [general, 0, 0, 0]
