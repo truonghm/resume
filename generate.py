@@ -9,6 +9,7 @@ import copy
 import glob
 import hashlib
 import os
+import posixpath
 import re
 import shutil
 import subprocess
@@ -69,7 +70,7 @@ def environment_setup():
 
     """
     os.makedirs(CONFIG["BUILD_DIR"], exist_ok=True)
-    os.makedirs(os.path.join(CONFIG["OUTPUT_DIR"], CONFIG["LETTERS_DIR"]),
+    os.makedirs(posixpath.join(CONFIG["OUTPUT_DIR"], CONFIG["LETTERS_DIR"]),
                 exist_ok=True)
 
 
@@ -125,8 +126,8 @@ class ResumeGenerator(object):
 
     """
     def __init__(self):
-        self.data = load_yaml(os.path.join(CONFIG["YAML_DIR"],
-                                           CONFIG["YAML_MAIN"] + ".yaml"))
+        self.data = load_yaml(posixpath.join(CONFIG["YAML_DIR"],
+                                             CONFIG["YAML_MAIN"] + ".yaml"))
         self.starting_hashes = hash_map()
 
     def run(self, contexts):
@@ -158,8 +159,8 @@ class ResumeGenerator(object):
 
         if "publications" not in self.data:
             pubs = load_yaml(
-                os.path.join(CONFIG["YAML_DIR"],
-                             CONFIG["YAML_PUBLICATIONS"] + ".yaml"))
+                posixpath.join(CONFIG["YAML_DIR"],
+                               CONFIG["YAML_PUBLICATIONS"] + ".yaml"))
             if pubs:
                 self.data["publications"] = pubs
             else:
@@ -204,8 +205,8 @@ class ResumeGenerator(object):
 
         """
         businesses = load_yaml(
-            os.path.join(CONFIG["YAML_DIR"],
-                         CONFIG["YAML_BUSINESSES"] + ".yaml"))
+            posixpath.join(CONFIG["YAML_DIR"],
+                           CONFIG["YAML_BUSINESSES"] + ".yaml"))
 
         if not businesses:
             return
@@ -248,11 +249,11 @@ class ResumeGenerator(object):
             for file in files_of_type(ext, CONFIG["BUILD_DIR"]):
                 if os.path.basename(file).startswith("0_"):
                     shutil.copyfile(file,
-                                    os.path.join(CONFIG["OUTPUT_DIR"],
-                                                 os.path.basename(file)[2:]))
+                                    posixpath.join(CONFIG["OUTPUT_DIR"],
+                                                   os.path.basename(file)[2:]))
                 else:
-                    shutil.copy(file, os.path.join(CONFIG["OUTPUT_DIR"],
-                                                   CONFIG["LETTERS_DIR"]))
+                    shutil.copy(file, posixpath.join(CONFIG["OUTPUT_DIR"],
+                                                     CONFIG["LETTERS_DIR"]))
 
 
 class ContextRenderer(object):
@@ -297,8 +298,8 @@ class ContextRenderer(object):
         self.filetype = filetype
         self.replacements = replacements
 
-        context_templates_dir = os.path.join(CONFIG["TEMPLATES_DIR"],
-                                             context_name)
+        context_templates_dir = posixpath.join(CONFIG["TEMPLATES_DIR"],
+                                               context_name)
 
         jinja_options = jinja_options.copy()
         jinja_options["loader"] = jinja2.FileSystemLoader(
@@ -310,8 +311,8 @@ class ContextRenderer(object):
         self.known_section_types = [os.path.splitext(os.path.basename(s))[0]
                                     for s in files_of_type(
                                         self.filetype,
-                                        os.path.join(context_templates_dir,
-                                                     CONFIG["SECTIONS_DIR"]))]
+                                        posixpath.join(context_templates_dir,
+                                                       CONFIG["SECTIONS_DIR"]))]
 
     def _make_replacements(self, data):
         """
@@ -424,8 +425,8 @@ class ContextRenderer(object):
             section_data["items"] = self._make_double_list(
                 section_data["items"])
 
-        section_template_name = os.path.join(CONFIG["SECTIONS_DIR"],
-                                             section_type)
+        section_template_name = posixpath.join(CONFIG["SECTIONS_DIR"],
+                                               section_type)
 
         rendered_section = self._render_template(section_template_name,
                                                  section_data)
@@ -520,13 +521,13 @@ class ContextRenderer(object):
             prefix = "0_"
         else:
             prefix = ""
-        output_file = os.path.join(CONFIG["BUILD_DIR"],
-                                   "{prefix}{name}_{base}{ext}".format(
-                                       prefix=prefix,
-                                       name=self.username,
-                                       base=base,
-                                       ext=self.filetype)
-                                   )
+        output_file = posixpath.join(CONFIG["BUILD_DIR"],
+                                     "{prefix}{name}_{base}{ext}".format(
+                                         prefix=prefix,
+                                         name=self.username,
+                                         base=base,
+                                         ext=self.filetype)
+                                     )
         with open(output_file, "w") as fout:
             fout.write(output_data)
 
