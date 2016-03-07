@@ -22,8 +22,8 @@ def load_yaml(filename):
         return yaml.load(file)
 
 
-def files_of_type(ext, location="."):
-    yield from glob.iglob("{}/*{}".format(location, ext))
+def files_of_type(ext, directory="."):
+    yield from glob.iglob("{}/*{}".format(directory, ext))
 
 
 def environment_setup():
