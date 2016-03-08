@@ -4,6 +4,8 @@ name:
   last: Nassar
   abbrev: jnassar
 
+extra_info: Engineer in Training
+
 engine: pdflatex
 last_updated_method: git
 theme:
