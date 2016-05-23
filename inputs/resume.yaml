@@ -34,12 +34,12 @@ address:
   post: 610-1105
 
 order:
-  - [general, 0, {}, 0]
   - [education, 1, Education, 0]
   - [courses, 1, Selected courses, latextype_double_items]
   - [skills, 1, Technical skills, 0]
   - [languages, 1, Languages, 0]
   - [coop, 1, Co-op experience, experience]
+  - [general, 1, {}, 0]
 
 general:
   - name: Interests
@@ -86,7 +86,7 @@ coop:
       - Completed basic and intermediate Solidworks instruction
       - Created assemblies and drawings of mountain and racing bicycles
       - Wrote airfoil generator and exporter using LibreOffice Calc, Python
-      - Performed 2D and 3D CFD analysis of airfoils and bicycles
+      - Performed 2D and 3D Computational Fluid Dynamics analysis of airfoils and bicycles
       - Determined the optimum configuration for several racing bicycles
       - Designed tooling molds and parts for various bicycle components
 
@@ -96,7 +96,7 @@ coop:
     location: Waterloo, ON
     url: http://www.intellimec.com
     notes:
-      - Prototyped hardware solutions for future products using Altium
+      - Prototyped hardware solutions for future products using Altium Designer
       - Programmed microcontrollers using C and C++
       - Provided general assistance to lead design engineers
 
@@ -162,24 +162,21 @@ education:
     notes:
       - Final project was a portable water purification system
       - Automated an assembly line robot (Allen-Bradley PLCs)
-      - Built an autonomous boat
-      - Secretary of Club for Undergraduate Bioengineers
+      - Built an autonomous boat using Arduino
       - Cofounder of Engineering Ambassador program
+      - Director of the Mental Health Awareness directorship
+      - Secretary of Club for Undergraduate Bioengineers; organized international symposium
 
 projects:
   - Résumé and cover letter generator (Python, Jinja, and \LaTeX)
 
 courses:
-  - Robotics
   - Modern control theory
   - Digital control applications
   - Automatic control systems
-  - Linear systems and signals
-  - Finite element analysis
   - Microproc. systems and interfacing
   - Electromechanical machine design
   - Mechatronic system integration
-  - Sensors and instrumentation
   - Computer structures and RT systems
   - Algorithms and data structures
 
