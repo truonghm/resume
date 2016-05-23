@@ -39,7 +39,7 @@ order:
   - [skills, 1, Technical skills, 0]
   - [languages, 1, Languages, 0]
   - [coop, 1, Co-op experience, experience]
-  - [general, 1, {}, 0]
+  - [general, 1, Additional information, 0]
 
 general:
   - name: Interests
@@ -142,8 +142,8 @@ education:
       affiliation: www.mechatronics.me.kyoto-u.ac.jp
     notes:
       - Researching a third-person view for teleoperated drones using ROS and OpenGL
-      - Software lead for lab's teleoperation robot, built from scratch
-      - Assist labmates with programming (including swarm robotics)
+      - Assisting labmates with programming (including swarm robotics)
+      - Was software lead for the lab's teleoperation robot, which participated in RoboCup
   - date: 2013--2014
     school: Kyoto University
     location: Kyoto, Japan
