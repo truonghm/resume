@@ -45,7 +45,9 @@ order:
 
 general:
   - name: Interests
-    description: Automation, robotics, AI, astronomy, anatomy, astrodynamics, space
+    description: Robotics, process automation, machine learning, statistics, space
+  - name: Availability
+    description: April 2017
 
 certifications:
   - CPR HCP, 2012
@@ -59,7 +61,7 @@ skills:
 
 languages:
   - name: Fluent
-    description: English, French, Lebanese, Japanese
+    description: Japanese, English, French, Lebanese
   - name: Intermediate
     description: Spanish, Arabic
   - name: Beginner
