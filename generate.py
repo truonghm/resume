@@ -486,6 +486,12 @@ class ContextRenderer(object):
             The rendered résumé.
 
         """
+        if data["last_updated_method"] == "git":
+            last_updated = time.localtime(git.Repo().head.commit.committed_date)
+        elif data["last_updated_method"] == "time":
+            last_updated = time.localtime(time.time())
+        data["updated"] = time.strftime(CONFIG["DATE_FMT"], last_updated)
+
         data = self._make_replacements(data)
         self.username = data["name"]["abbrev"]
 
@@ -494,12 +500,6 @@ class ContextRenderer(object):
                                  unit="sections", nested=True):
             body += self._render_section(section, data).rstrip() + "\n\n\n"
         data["body"] = body
-
-        if data["last_updated_method"] == "git":
-            last_updated = time.localtime(git.Repo().head.commit.committed_date)
-        elif data["last_updated_method"] == "time":
-            last_updated = time.localtime(time.time())
-        data["updated"] = time.strftime(CONFIG["DATE_FMT"], last_updated)
 
         return self._render_template(self.base_template, data).rstrip() + "\n"
 
@@ -536,20 +536,24 @@ class ContextRenderer(object):
             fout.write(output_data)
 
 
-LATEX_CONTEXT = ContextRenderer(
-    context_name="latex",
-    filetype=".tex",
+HTML_CONTEXT = ContextRenderer(
+    context_name='html',
+    filetype='.html',
     jinja_options=dict(
-        block_start_string='~<',
-        block_end_string='>~',
-        variable_start_string='<<',
-        variable_end_string='>>',
-        comment_start_string='<#',
-        comment_end_string='#>',
         trim_blocks=True,
-        lstrip_blocks=True,
+        lstrip_blocks=True
     ),
-    replacements={}
+    replacements={
+        r'\\ ': '&nbsp;',                              # spaces
+        r'\\textbf{([^}]*)}': r'<strong>\1</strong>',  # bold
+        r'\\textit{([^}]*)}': r'<em>\1</em>',          # italic
+        r'\\LaTeX': 'LaTeX',                           # \LaTeX
+        r'\\TeX': 'TeX',                               # \TeX
+        '---': '&mdash;',                              # em dash
+        '--': '&ndash;',                               # en dash
+        r'``([^\']*)\'\'': r'"\1"',                    # quotes
+        r'\\%': '%',                                    # percent
+    }
 )
 
 
@@ -569,26 +573,45 @@ MARKDOWN_CONTEXT = ContextRenderer(
         '---': '-',                       # em dash
         '--': '-',                        # en dash
         r'``([^\']*)\'\'': r'"\1"',       # quotes
+        r'\\%': '%' ,                       # percent
     }
 )
 
 
-HTML_CONTEXT = ContextRenderer(
-    context_name='html',
-    filetype='.html',
+LATEX_CONTEXT = ContextRenderer(
+    context_name="latex",
+    filetype=".tex",
+    jinja_options=dict(
+        block_start_string='~<',
+        block_end_string='>~',
+        variable_start_string='<<',
+        variable_end_string='>>',
+        comment_start_string='<#',
+        comment_end_string='#>',
+        trim_blocks=True,
+        lstrip_blocks=True,
+    ),
+    replacements={}
+)
+
+
+PLAINTEXT_CONTEXT = ContextRenderer(
+    context_name='plaintext',
+    filetype='.md',
     jinja_options=dict(
         trim_blocks=True,
         lstrip_blocks=True
     ),
     replacements={
-        r'\\ ': '&nbsp;',                              # spaces
-        r'\\textbf{([^}]*)}': r'<strong>\1</strong>',  # bold
-        r'\\textit{([^}]*)}': r'<em>\1</em>',          # italic
-        r'\\LaTeX': 'LaTeX',                           # \LaTeX
-        r'\\TeX': 'TeX',                               # \TeX
-        '---': '&mdash;',                              # em dash
-        '--': '&ndash;',                               # en dash
-        r'``([^\']*)\'\'': r'"\1"',                    # quotes
+        r'\\ ': ' ',                      # spaces
+        r'\\textbf{([^}]*)}': r'**\1**',  # bold text
+        r'\\textit{([^}]*)}': r'*\1*',    # italic text
+        r'\\LaTeX': 'LaTeX',              # \LaTeX
+        r'\\TeX': 'TeX',                  # \TeX
+        '---': '-',                       # em dash
+        '--': '-',                        # en dash
+        r'``([^\']*)\'\'': r'"\1"',       # quotes
+        r'\\%': '%' ,                       # percent
     }
 )
 
@@ -599,9 +622,12 @@ def main():
 
     """
     environment_setup()
-    ResumeGenerator().run(contexts=(HTML_CONTEXT,
-                                    LATEX_CONTEXT,
-                                    MARKDOWN_CONTEXT))
+    ResumeGenerator().run(contexts=(
+        # HTML_CONTEXT,
+        LATEX_CONTEXT,
+        # MARKDOWN_CONTEXT,
+        PLAINTEXT_CONTEXT,
+    ))
 
 
 if __name__ == '__main__':
