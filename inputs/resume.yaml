@@ -72,7 +72,8 @@ coop:
     about: Junior Engineer
     employer: Starquip Integrated Systems, Ltd
     location: Toronto, ON
-    url: http://starquip.com
+    urls:
+      employer: http://starquip.com
     notes:
       - Assisted in the mechanical design of custom pneumatic lift-assist devices
       - Created modular assemblies and circuits
@@ -84,7 +85,8 @@ coop:
     about: Junior Project Engineer
     employer: Kevin Quan Studios, Ltd
     location: Toronto, ON
-    url: http://www.kqbikes.com
+    urls:
+      employer: http://www.kqbikes.com
     notes:
       - Completed basic and intermediate Solidworks instruction
       - Created assemblies and drawings of mountain and racing bicycles
@@ -97,7 +99,8 @@ coop:
     about: Hardware Associate
     employer: Intelligent Mechatronics Systems, Inc
     location: Waterloo, ON
-    url: http://www.intellimec.com
+    urls:
+      employer: http://www.intellimec.com
     notes:
       - Prototyped hardware solutions for future products using Altium Designer
       - Programmed microcontrollers using C and C++
@@ -108,7 +111,9 @@ coop:
     department: Multiscale Additive Manufacturing Lab
     employer: University of Waterloo
     location: Waterloo, ON
-    url: http://rpl.uwaterloo.ca
+    urls:
+      employer: http://uwaterloo.ca
+      department: http://rpl.uwaterloo.ca
     notes:
       - Designed, procured, and built essential parts for the enclosure, printhead assembly, and environmental isolation system for a solid freeform fabrication workstation
       - Workstation produces 3D scaffolds for bone and cartilage regrowth
@@ -119,7 +124,9 @@ coop:
     department: Computer Vision and Mobile Robotics Lab
     employer: American University of Beirut
     location: Beirut, Lebanon
-    url: http://www.aub.edu.lb/fea/me/research_labs/cvl/Pages/home.aspx
+    urls:
+      employer: http://www.aub.edu.lb/
+      department: http://www.aub.edu.lb/fea/me/research_labs/cvl/Pages/home.aspx
     notes:
       - Researched and developed a positional navigation system for robots using C++
       - Quantized Inertial Measurement Unit (IMU) error
@@ -128,7 +135,8 @@ coop:
     about: Engineer in Training
     employer: Sierra Construction Systems, Ltd
     location: Freetown, Sierra Leone
-    url: http://www.sierraconstructionsystems.com
+    urls:
+      employer: http://www.sierraconstructionsystems.com
     notes:
       - Computerized payroll and significantly saved time and resources using Microsoft Excel, Word, and VBA programming
       - Payroll productivity increased by approximately 6000\%
@@ -294,7 +302,9 @@ courses:
 #     employer: optional
 #     topic: research type. not used if employer is defined. must be defined if employer is not defined.
 #     location: optional
-#     url: the url of the company or department; optional
+#     urls: optional
+#       employer: optional
+#       department: optional
 #     notes: optional
 #       - first item
 #       - second item
