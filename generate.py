@@ -552,7 +552,7 @@ HTML_CONTEXT = ContextRenderer(
         '---': '&mdash;',                              # em dash
         '--': '&ndash;',                               # en dash
         r'``([^\']*)\'\'': r'"\1"',                    # quotes
-        r'\\%': '%',                                    # percent
+        r'\\%': '%',                                   # percent
     }
 )
 
@@ -573,7 +573,7 @@ MARKDOWN_CONTEXT = ContextRenderer(
         '---': '-',                       # em dash
         '--': '-',                        # en dash
         r'``([^\']*)\'\'': r'"\1"',       # quotes
-        r'\\%': '%' ,                       # percent
+        r'\\%': '%' ,                     # percent
     }
 )
 
@@ -611,7 +611,7 @@ PLAINTEXT_CONTEXT = ContextRenderer(
         '---': '-',                       # em dash
         '--': '-',                        # en dash
         r'``([^\']*)\'\'': r'"\1"',       # quotes
-        r'\\%': '%' ,                       # percent
+        r'\\%': '%' ,                     # percent
     }
 )
 
@@ -626,7 +626,7 @@ def main():
         # HTML_CONTEXT,
         LATEX_CONTEXT,
         # MARKDOWN_CONTEXT,
-        PLAINTEXT_CONTEXT,
+        # PLAINTEXT_CONTEXT,
     ))
 
 
