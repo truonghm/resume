@@ -1,0 +1,20 @@
+{% extends "section.md" %}
+
+{% block body %}
+{% for school in items %}
+{{ school.school }}{% if school.location is defined %} ({{ school.location }}) {% endif %}- {{ school.date }}
+  {{ school.major }}  
+{% if school.affiliation is defined %}
+  {{ school.affiliation }}
+{% endif %}
+{% if school.gpa is defined %}
+  GPA: {{ school.gpa }}
+{% endif %}
+{% if school.notes is defined %}
+  {% for note in school.notes %}
+  - {{ note | wordwrap(width=76, wrapstring='\n    ') }}
+  {% endfor %}
+{% endif %}
+
+{% endfor %}
+{% endblock body %}
