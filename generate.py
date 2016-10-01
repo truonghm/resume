@@ -211,7 +211,7 @@ class ResumeGenerator(object):
         if not businesses:
             return
 
-        self.data["pwd"] = os.path.abspath(".")
+        self.data["pwd"] = posixpath.abspath(".").replace("\\", "/")
 
         for business in tqdm.tqdm(businesses, desc="Generating cover letters",
                                   unit="letter", leave=True):
