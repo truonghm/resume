@@ -14,7 +14,7 @@
 #     posting_id: the job ID, if available; optional
 #
 #   letter:
-#     template: must match filename.
+#     template: must match filename. Default is general.tex
 #     addressee: who will receive the letter? default is HR Department
 #     address: what is the address?
 #     greeting: the start of the letter; default is To whom it may concern
@@ -33,7 +33,7 @@ acme:
   position:
     name: Test Subject
     article: a
-    has_posting: True
+    has_posting: False
     posting_id: D347H
 
   letter:
