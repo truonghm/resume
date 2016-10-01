@@ -211,6 +211,8 @@ class ResumeGenerator(object):
         if not businesses:
             return
 
+        self.data["pwd"] = os.path.abspath(".")
+
         for business in tqdm.tqdm(businesses, desc="Generating cover letters",
                                   unit="letter", leave=True):
             self.data["business"] = businesses[business]
