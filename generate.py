@@ -628,7 +628,7 @@ def main():
         # HTML_CONTEXT,
         LATEX_CONTEXT,
         # MARKDOWN_CONTEXT,
-        # PLAINTEXT_CONTEXT,
+        PLAINTEXT_CONTEXT,
     ))
 
 
