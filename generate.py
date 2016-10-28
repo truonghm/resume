@@ -70,8 +70,7 @@ def environment_setup():
 
     """
     os.makedirs(CONFIG["BUILD_DIR"], exist_ok=True)
-    os.makedirs(posixpath.join(CONFIG["OUTPUT_DIR"], CONFIG["LETTERS_DIR"]),
-                exist_ok=True)
+    os.makedirs(CONFIG["OUTPUT_DIR"], exist_ok=True)
 
 
 def md5(filename):
@@ -214,6 +213,10 @@ class ResumeGenerator(object):
 
         if not businesses:
             return
+
+        # Create cover letter directory
+        os.makedirs(posixpath.join(CONFIG["OUTPUT_DIR"], CONFIG["LETTERS_DIR"]),
+                    exist_ok=True)
 
         self.data["pwd"] = posixpath.abspath(".").replace("\\", "/")
 
