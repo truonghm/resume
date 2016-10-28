@@ -599,7 +599,7 @@ LATEX_CONTEXT = ContextRenderer(
 
 PLAINTEXT_CONTEXT = ContextRenderer(
     context_name="plaintext",
-    filetype=".md",
+    filetype=".txt",
     jinja_options=dict(
         trim_blocks=True,
         lstrip_blocks=True
