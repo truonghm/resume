@@ -3,7 +3,6 @@ BUILD_DIR: "build"
 TEMPLATES_DIR: "templates"
 SECTIONS_DIR: "sections"
 DEFAULT_SECTION: "items"
-OUTPUT_TYPES: ["pdf", "md", "html"]
 OUTPUT_DIR: "outputs"
 LETTERS_DIR: "cover_letters"
 BASE_FILE_NAME: "resume"
