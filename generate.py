@@ -70,8 +70,7 @@ def environment_setup():
 
     """
     os.makedirs(CONFIG["BUILD_DIR"], exist_ok=True)
-    os.makedirs(posixpath.join(CONFIG["OUTPUT_DIR"], CONFIG["LETTERS_DIR"]),
-                exist_ok=True)
+    os.makedirs(CONFIG["OUTPUT_DIR"], exist_ok=True)
 
 
 def md5(filename):
@@ -140,7 +139,10 @@ class ResumeGenerator(object):
             The renderers for the formats to use.
 
         """
-        output_types = set(context.filetype for context in contexts)
+        output_types = set(context.output_filetype
+                           if context.output_filetype is not None
+                           else context.filetype
+                           for context in contexts)
         self.handle_publications()
         self.generate_resumes(contexts)
 
@@ -211,6 +213,10 @@ class ResumeGenerator(object):
 
         if not businesses:
             return
+
+        # Create cover letter directory
+        os.makedirs(posixpath.join(CONFIG["OUTPUT_DIR"], CONFIG["LETTERS_DIR"]),
+                    exist_ok=True)
 
         self.data["pwd"] = posixpath.abspath(".").replace("\\", "/")
 
@@ -295,11 +301,13 @@ class ContextRenderer(object):
         the corresponding code for the context.
 
     """
-    def __init__(self, *, context_name, filetype, jinja_options, replacements):
+    def __init__(self, *, context_name, filetype, output_filetype=None,
+                 jinja_options, replacements):
         self.base_template = CONFIG["BASE_FILE_NAME"]
         self.context_name = context_name
 
         self.filetype = filetype
+        self.output_filetype = output_filetype
         self.replacements = replacements
 
         context_templates_dir = posixpath.join(CONFIG["TEMPLATES_DIR"],
@@ -584,6 +592,7 @@ MARKDOWN_CONTEXT = ContextRenderer(
 LATEX_CONTEXT = ContextRenderer(
     context_name="latex",
     filetype=".tex",
+    output_filetype=".pdf",
     jinja_options=dict(
         block_start_string="~<",
         block_end_string=">~",
