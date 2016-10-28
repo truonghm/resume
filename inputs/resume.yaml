@@ -17,7 +17,7 @@ theme:
 title: Résumé
 
 # Markdown details
-pdf: https://masasin.github.io/resumes/2016-csa.pdf
+# pdf: https://masasin.github.io/resumes/2016-csa.pdf
 # source: https://github.com/masasin/resume
 
 contact:
