@@ -627,9 +627,9 @@ def main():
     environment_setup()
     ResumeGenerator().run(contexts=(
         # HTML_CONTEXT,
-        # LATEX_CONTEXT,
+        LATEX_CONTEXT,
         # MARKDOWN_CONTEXT,
-        PLAINTEXT_CONTEXT,
+        # PLAINTEXT_CONTEXT,
     ))
 
 
