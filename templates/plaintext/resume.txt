@@ -1,12 +1,16 @@
 {{ name.first }} {{ name.last }}
 {{ "=" * (name.first|length + 1 + name.last|length) }}
+{% if pdf is defined %}
 PDF: {{ pdf }}
-{#
+{% endif %}
+{% if source is defined %}
 source: {{ source }}
-#}
+{% endif %}
 Last updated: {{ updated }}
 
+{% if extra_info is defined %}
 {{ extra_info }}
+{% endif %}
 
 Contact information:
   email: {{ contact.email }}

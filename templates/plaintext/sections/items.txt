@@ -1,4 +1,4 @@
-{% extends "section.md" %}
+{% extends "section.txt" %}
 
 {% macro listitem(item) %}{% if item.description is defined %}{{ item.name | wordwrap(width=76, wrapstring='\n') }}:
   {{ item.description | wordwrap(width=76, wrapstring='\n  ') }}

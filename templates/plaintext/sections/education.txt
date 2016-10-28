@@ -1,4 +1,4 @@
-{% extends "section.md" %}
+{% extends "section.txt" %}
 
 {% block body %}
 {% for school in items %}
