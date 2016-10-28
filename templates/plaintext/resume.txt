@@ -1,0 +1,31 @@
+{{ name.first }} {{ name.last }}
+{{ "=" * (name.first|length + 1 + name.last|length) }}
+{% if pdf is defined %}
+PDF: {{ pdf }}
+{% endif %}
+{% if source is defined %}
+source: {{ source }}
+{% endif %}
+Last updated: {{ updated }}
+
+{% if extra_info is defined %}
+{{ extra_info }}
+{% endif %}
+
+Contact information:
+  email: {{ contact.email }}
+  {% if contact.mobile is defined %}
+  mobile: {{ contact.mobile }}
+  {% endif %}
+  {% if contact.website is defined %}
+  website: {{ contact.website }}
+  {% endif %}
+  {% if contact.github is defined %}
+  github: {{ contact.github }}
+  {% endif %}
+  {% if contact.linkedin is defined %}
+  linkedin: {{ contact.linkedin }}
+  {% endif %}
+
+
+{{ body }}
