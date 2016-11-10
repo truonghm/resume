@@ -127,7 +127,7 @@ class ResumeGenerator(object):
                                              config.YAML_MAIN + ".yaml"))
         self.starting_hashes = hash_map()
 
-    def run(self, context_names):
+    def run(self, context_names, no_letters=True):
         """
         Generate the résumé in various formats.
 
@@ -135,6 +135,8 @@ class ResumeGenerator(object):
         ----------
         context_namess : list[str]
             The names of the renderers for the formats to use.
+        no_letters : bool
+            Whether to generate cover letters with LaTeX.
 
         """
         context_map = {context_name: ContextRenderer(**CONTEXTS[context_name])
@@ -147,7 +149,8 @@ class ResumeGenerator(object):
         self.generate_resumes(context_map.values())
 
         if "latex" in context_names:
-            self.generate_cover_letters(context_map["latex"])
+            if no_letters:
+                self.generate_cover_letters(context_map["latex"])
             self.compile_latex()
 
         self.copy_to_output_dir(output_types)
