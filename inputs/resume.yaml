@@ -42,11 +42,12 @@ order:
   - [skills, True, Technical skills, False]
   - [courses, True, Selected courses, latextype_double_items]
   - [coop, True, Work experience, experience]
-  # - [certifications, True, Certifications, False]
 
 general:
   - name: Interests
     description: Robotics, process automation, machine learning, statistics, space
+  - name: Certifications
+    description: CPR HCP (2012)
   - name: Availability
     description: April 2017
 
@@ -62,9 +63,9 @@ skills:
 
 languages:
   - name: Fluent
-    description: Japanese, English, French, Lebanese
+    description: English, French, Japanese, Lebanese
   - name: Intermediate
-    description: Spanish, Arabic
+    description: Arabic, Spanish
   - name: Beginner
     description: German, Korean, Krio, Mandarin, Russian
 
@@ -116,7 +117,7 @@ coop:
       employer: http://uwaterloo.ca
       department: http://rpl.uwaterloo.ca
     notes:
-      - Designed, procured, and built essential parts for the enclosure, printhead assembly, and environmental isolation system for a solid freeform fabrication workstation
+      - Designed, procured, and fabricated essential parts for the enclosure, printhead assembly, and environmental isolation system for a solid freeform fabrication workstation
       - Workstation produces 3D scaffolds for bone and cartilage regrowth
       - Performed image processing on electron micrographs using Octave
 
@@ -139,8 +140,8 @@ coop:
     urls:
       employer: http://www.sierraconstructionsystems.com
     notes:
-      - Computerized payroll and significantly saved time and resources using Microsoft Excel, Word, and VBA programming
-      - Payroll productivity increased by approximately 6000\%
+      - Computerized payroll using Microsoft Excel, Word, and VBA programming
+      - Reduced man-hours needed for processing payroll by approximately 6000\%
       - Performed cost and time estimation for various construction projects
 
 education:
@@ -172,8 +173,8 @@ education:
       school: http://www.uwaterloo.ca
       major: https://uwaterloo.ca/mechanical-mechatronics/engineering/program-overview
     notes:
-      - Final project was a portable water purification system
-      - Automated an assembly line robot (Allen-Bradley PLCs)
+      - Designed a portable water purification system as a final design project
+      - Automated an assembly line robot using Allen-Bradley PLCs
       - Built an autonomous boat using Arduino
       - Cofounder of Engineering Ambassador program
       - Director of the Mental Health Awareness directorship
