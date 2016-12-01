@@ -1,0 +1,13 @@
+{% extends "section.txt" %}
+
+{% block body %}
+{% for item in items %}
+{% if item.employer is defined %}{{ item.employer }}{% else %}{{ item.topic }}{% endif %}{% if item.location is defined %}, {{ item.location }}{% endif %} - {{ item.date }}
+{% if item.about is defined %}  {{ item.about }}{% endif %}{% if item.department is defined %}{% if item.about is defined %}, {% else %}  {% endif %}{{ item.department }}{% endif %}
+
+{% for note in item.notes %}
+  - {{ note | wordwrap(width=76, wrapstring='\n    ') }}
+{% endfor %}
+
+{% endfor %}
+{% endblock body %}

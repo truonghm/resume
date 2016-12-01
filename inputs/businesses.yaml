@@ -14,6 +14,7 @@
 #     posting_id: the job ID, if available; optional
 #
 #   letter:
+#     template: must match filename. Default is general.tex
 #     addressee: who will receive the letter? default is HR Department
 #     address: what is the address?
 #     greeting: the start of the letter; default is To whom it may concern
@@ -21,3 +22,23 @@
 #
 #   You can also add any fields that you want at this level, and also add them to the template.
 
+acme:
+  name:
+    formal: ACME Corporation for Making Explosions, Inc
+    informal: ACME
+    abbrev: ACME
+  field: explosives manufacturers
+  best_in: the world
+ 
+  position:
+    name: Test Subject
+    article: a
+    has_posting: False
+    posting_id: D347H
+
+  letter:
+    template: analysis
+    addressee: Wile E. Coyote
+    address: Nowhere, NK
+    greeting: Please don't eat me!
+    closing: Meep meep,

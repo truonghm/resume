@@ -2,7 +2,7 @@
     I saw your job posting for << business.position.name >>
     ~< if business.position.posting_id is defined >~ (<< business.position.posting_id >>) ~< endif >~ at your company.
 ~< else >~
-    I would like to become << business.position.article >> << business.position.name|lower >> at your company.
+    I would like to become << business.position.article >> << business.position.name >> at your company.
 ~< endif >~
 
 ~< if business.best_in is defined >~
@@ -14,5 +14,7 @@
     ~< endif >~
     is one of the leading << business.field >> in << business.best_in >>.
 ~< endif >~
+
+\input{"<< pwd >>/templates/latex/letter_templates/~< if business.letter.template is defined >~<< business.letter.template >>~< else >~general~< endif >~"}
 
 Thank you for taking the time to review my résumé and letter.
