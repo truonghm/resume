@@ -4,8 +4,6 @@ name:
   last: Nassar
   abbrev: jnassar
 
-extra_info: Engineer in Training
-
 engine: pdflatex
 last_updated_method: git
 theme:
@@ -14,14 +12,14 @@ theme:
   style: banking
   colour: purple
 
-title: EIT
+title: MS, EIT
 
 # Markdown details
 # pdf: https://masasin.github.io/resumes/2016-csa.pdf
 # source: https://github.com/masasin/resume
 
 contact:
-  email: jeannassar5@gmail.com
+  email: jn.masasin@gmail.com
   mobile: +81-080-8333-6065
   github: masasin
   linkedin: masasin
@@ -47,19 +45,19 @@ general:
   - name: Interests
     description: Robotics, process automation, machine learning, statistics, space
   - name: Certifications
-    description: CPR HCP (2012)
+    description: Engineer in Training (2013), CPR HCP (2012)
   - name: Availability
     description: June 2017
 
 certifications:
+  - Engineer in Training, 2013
   - CPR HCP, 2012
 
 skills:
-  - Python (incl. SciPy stack), C++, C, ROS, Matlab, gnuplot, \LaTeX
-  - Linux (Arch, Fedora, Ubuntu), Microsoft Windows (XP to 10)
+  - Python (incl. SciPy stack), ROS, C++, C, Matlab, gnuplot, \LaTeX
+  - Linux, Windows; Git, Docker, Gimp, LibreOffice, Microsoft Office
   - Raspberry Pi, Arduino, mbed, AVR, Allen Bradley PLC
   - Solidworks, Autodesk Inventor, AutoCAD, Sketchup
-  - Vim, Git, Docker, Gimp, Inkscape, LibreOffice, Microsoft Office
 
 languages:
   - name: Fluent
@@ -145,17 +143,17 @@ coop:
       - Performed cost and time estimation for various construction projects
 
 education:
-  - date: 2014--Present
+  - date: 2014--2017
     school: Kyoto University
     location: Kyoto, Japan
-    major: Candidate, MS, Mechanical Engineering Science
+    major: MS, Mechanical Engineering
     affiliation: Mechatronics Laboratory
     urls:
       school: http://kyoto-u.ac.jp
       affiliation: www.mechatronics.me.kyoto-u.ac.jp
     notes:
-      - Researching a third-person view for teleoperated drones using ROS
-      - Assisting labmates with programming (including swarm robotics)
+      - Researched a third-person view for teleoperated drones using ROS
+      - Taught or assisted labmates with programming
       - Was software lead for the lab's teleoperation robot; participated in RoboCup Japan
   - date: 2013--2014
     school: Kyoto University
