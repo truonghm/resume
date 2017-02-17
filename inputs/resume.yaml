@@ -60,12 +60,12 @@ skills:
   - Solidworks, Autodesk Inventor, AutoCAD, Sketchup
 
 languages:
-  - name: Fluent
-    description: English, French, Japanese, Lebanese
-  - name: Intermediate
-    description: Arabic, Spanish
-  - name: Beginner
-    description: German, Korean, Krio, Mandarin, Russian
+  - name: Proficient
+    description: English, French, Lebanese (N), Japanese, Arabic (C2)
+  - name: Independent
+    description: Spanish (B2)
+  - name: Basic
+    description: German, Krio (A2), Korean, Mandarin, Russian (A1)
 
 coop:
   - date: May--Aug 2012
