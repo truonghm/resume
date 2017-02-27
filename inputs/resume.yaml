@@ -152,7 +152,7 @@ education:
       school: http://kyoto-u.ac.jp
       affiliation: www.mechatronics.me.kyoto-u.ac.jp
     notes:
-      - Researched a third-person view for teleoperated drones using ROS
+      - Researched and developed a third-person interface for teleoperated drones using ROS
       - Taught or assisted labmates with programming
       - Was software lead for the lab's teleoperation robot; participated in RoboCup Japan
   - date: 2013--2014
