@@ -9,7 +9,7 @@ last_updated_method: git
 theme:
   font_size: 10pt
   paper_size: letterpaper
-  style: casual
+  style: banking
   colour: purple
 
 title: Résumé
