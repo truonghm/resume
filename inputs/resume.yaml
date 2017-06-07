@@ -12,7 +12,7 @@ theme:
   style: banking
   colour: purple
 
-title: MS, EIT
+title: MEng, EIT
 
 # Markdown details
 # pdf: https://masasin.github.io/resumes/2016-csa.pdf
@@ -146,7 +146,7 @@ education:
   - date: 2014--2017
     school: Kyoto University
     location: Kyoto, Japan
-    major: MS, Mechanical Engineering
+    major: MEng, Mechanical Engineering
     affiliation: Mechatronics Laboratory
     urls:
       school: http://kyoto-u.ac.jp
