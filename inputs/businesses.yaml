@@ -23,23 +23,43 @@
 #
 #   You can also add any fields that you want at this level, and also add them to the template.
 
-acme:
+stalbert:
   name:
-    formal: ACME Corporation for Making Explosions, Inc
-    informal: ACME
-    abbrev: ACME
-  field: explosives manufacturers
-  best_in: the world
- 
+    formal: City of St. Albert
+    informal: St. Albert
+
   position:
-    name: Test Subject
+    name: Corporate Data Analyst
     article: a
-    has_posting: False
-    posting_id: D347H
+    has_posting: True
+    posting_id: Job \# J0617-0355
 
   letter:
     template: analysis
-    addressee: Wile E. Coyote
-    address: Nowhere, NK
-    greeting: Please don't eat me!
-    closing: Meep meep,
+    custom_section: |
+      I have a story to tell you.
+
+      This story is mine.
+      Let's play a game.
+    addressee: Human Resources
+    address: 5 St. Anne Street \\ St. Albert, AB
+    greeting: To whom it may concern,
+
+
+gore:
+  name:
+    formal: Gore Mutual Insurance
+    informal: Gore Mutual
+ 
+  position:
+    name: Business Intelligence Reporting Specialist
+    article: a
+    has_posting: True
+    posting_id: 2017-54
+
+  letter:
+    template: analysis
+    addressee: Human Resources
+    address: 252 Dundas St. N \\ Cambridge, ON---N1R\,5T3
+    greeting: "To whom it may concern,"
+    closing: Sincerely,
