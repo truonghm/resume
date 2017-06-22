@@ -20,16 +20,17 @@ title: MEng, EIT
 
 contact:
   email: jn.masasin@gmail.com
-  # mobile: 1-587-501-4829
+  # mobile: +1-587-501-4829
+  # website: masasin.ca
   github: masasin
   linkedin: masasin
 
 # address:
-#   street: Unit 104, 3--7 \={O}etsukaharach\={o}
-#   city: Nishiky\={o}-ku, Ky\={o}to City
-#   province: Ky\={o}to Prefecture
-#   country: Japan
-#   post: 610-1105
+# street: 104--150 Edwards Dr SW
+#  city: Edmonton
+#  province: AB
+#  country: Canada
+#  post: T6X\,1M4
 
 order:
 # tag, show_title, name, type of sections. Use False if you want to leave it empty.
