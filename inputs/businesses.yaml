@@ -4,8 +4,8 @@
 #     formal:
 #     informal:
 #     abbrev: abbreviation; optional
-#   field: what kind of company is it? plural
 #   best_in: which location is it a leader in; optional
+#   field: what kind of company is it? plural; required by best_in
 #
 #   position: what you want to work as
 #     name: the name of the position, capitalized as necessary
@@ -15,10 +15,11 @@
 #
 #   letter:
 #     template: must match filename. Default is general.tex
+#     custom_section: Extra text which can be added.
 #     addressee: who will receive the letter? default is HR Department
 #     address: what is the address?
-#     greeting: the start of the letter; default is To whom it may concern
-#     closing: the end of the letter; default is sincerely yours
+#     greeting: the start of the letter; default is To whom it may concern:
+#     closing: the end of the letter; default is nothing
 #
 #   You can also add any fields that you want at this level, and also add them to the template.
 
