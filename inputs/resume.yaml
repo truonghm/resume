@@ -224,6 +224,7 @@ courses:
 # section_tag:
 #   - name: text in the margin
 #     description: text on the right
+#     url: optional url for name.
 #     notes:
 #       - list
 #       - of

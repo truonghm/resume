@@ -2,7 +2,15 @@
 
 ~< macro listitem(item) >~
   ~< if item.description is defined >~
-    \cvitem{<< item.name >>}{<< item.description >>}
+    \cvitem{
+      ~< if item.url is defined >~
+        \href{<< item.url >>}{%
+      ~< endif >~
+      << item.name >>%
+      ~< if item.url is defined >~
+        }%
+      ~< endif >~
+      }{<< item.description >>}
     ~< if item.notes is defined >~
       ~< for note in item.notes >~
         \cvlistitem{<< note >>}
