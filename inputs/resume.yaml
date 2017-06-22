@@ -152,6 +152,7 @@ education:
       school: http://kyoto-u.ac.jp
       affiliation: www.mechatronics.me.kyoto-u.ac.jp
     notes:
+      - "Thesis: \\href{https://github.com/masasin/spirit/releases/download/v1.0/mshtsy_thesis.pdf}{A UAV Teleoperation System Using Subimposed Past Image Records}"
       - Researched and developed a third-person interface for teleoperated drones using ROS
       - Taught or assisted labmates with programming
       - Was software lead for the lab's teleoperation robot; participated in RoboCup Japan
