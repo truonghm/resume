@@ -57,9 +57,11 @@ skills:
   - Raspberry Pi, Arduino, mbed, AVR, Allen Bradley PLC
   - Solidworks, Autodesk Inventor, AutoCAD, Sketchup
 
-languages:
+languages:  # Using the CEFRL
+  - name: Native
+    description: English, French, Lebanese
   - name: Proficient
-    description: English, French, Lebanese (N), Japanese, Arabic (C2)
+    description: Japanese, Arabic (C2)
   - name: Independent
     description: Spanish (B2)
   - name: Basic
