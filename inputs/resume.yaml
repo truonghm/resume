@@ -37,6 +37,7 @@ order:
   - [general, False, False, False]
   - [education, True, Education, False]
   - [languages, True, Languages, False]
+  - [projects, True, Open source sampling, False]
   - [skills, True, Technical skills, False]
   - [coop, True, Work experience, experience]
 
@@ -160,15 +161,46 @@ education:
       school: http://www.uwaterloo.ca
       major: https://uwaterloo.ca/mechanical-mechatronics/engineering/program-overview
     notes:
-      - Designed a portable water purification system as a final design project
-      - Automated an assembly line robot using Allen-Bradley PLCs
-      - Built an autonomous boat using Arduino
-      - Cofounder of Engineering Ambassador program
-      - Director of the Mental Health Awareness directorship
-      - Secretary of Club for Undergraduate Bioengineers; organized international symposium
+      - Completed six co-op internships in three countries
+      - Cofounded the Engineering Ambassador program
+      - Directed the Engineering Society's Mental Health Awareness directorship
+      - Organized international symposium as Club for Undergraduate Bioengineers secretary
+      - Taught Japanese with the UW Culture and Language Exchange Club
 
 projects:
-  - Résumé and cover letter generator (Python, Jinja, and \LaTeX)
+  - name: spirit
+    url: https://github.com/masasin/spirit
+    description: Masters research code, data analysis, and thesis
+  - name: yozakura
+    url: https://github.com/kyoto-u-shinobi/yozakura_raspi
+    description: Code for a competitive teleoperated robot (incl. C++)
+  - name: dynamixel
+    url: https://github.com/masasin/dynamixel
+    description: A Pythonic library for working with Dynamixel servos
+  - name: pyrosbag
+    url: https://github.com/masasin/pyrosbag
+    description: ROS Bag integration; PyPI package with 100\% test coverage and CI
+  - name: "keep\\_talking\\_solver"
+    url: https://github.com/masasin/keep_talking_solver
+    description: "A solver for ``Keep Talking and Nobody Explodes''"
+  - name: resume
+    url: https://github.com/masasin/resume
+    description: R\'{e}sum\'{e} and cover letter generator, used for this r\'{e}sum\'{e}
+  - name: "naca\\_airfoil\\_generator"
+    url: https://github.com/masasin/naca_airfoil_generator
+    description: An interactive 4-digit NACA airfoil generator
+  - name: himawaripy
+    url: https://github.com/masasin/himawaripy
+    description: Wallpaper of a near-realtime geostationary satellite feed
+  - name: Pull requests
+    url: https://github.com/pulls?q=is\%3Apr+is\%3Aclosed+author\%3Amasasin
+    description:
+        \href{https://github.com/numpy/numpy/pull/7810}{numpy},\
+        \href{https://github.com/neuroneuro15/natnetclient/pull/2}{natnetclient},\
+        \href{https://github.com/ros/genpy/pull/62}{genpy},\
+        \href{https://github.com/mubeta06/py-libbcm2835/pull/2}{py-libbcm2835},\
+        \href{https://github.com/evhub/coconut/pull/188}{coconut},\
+        and \href{https://github.com/pulls?q=is\%3Apr+is\%3Aclosed+author\%3Amasasin}{more}
 
 courses:
   - Modern control theory
