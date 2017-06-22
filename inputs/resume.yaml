@@ -75,9 +75,9 @@ coop:
     urls:
       employer: http://starquip.com
     notes:
-      - Assisted in the mechanical design of custom pneumatic lift-assist devices
-      - Created modular assemblies and circuits
-      - Reduced design time for new systems
+      - Designed custom pneumatic lift-assist devices
+      - Modularized pneumatic circuit construction and Solidworks assemblies
+      - Significantly reduced design time for new systems
       - Converted 2D drawings to 3D assemblies
       - Produced ASME-compliant drawings
 
@@ -88,12 +88,11 @@ coop:
     urls:
       employer: http://www.kqbikes.com
     notes:
-      - Completed basic and intermediate Solidworks instruction
-      - Created assemblies and drawings of mountain and racing bicycles
-      - Wrote airfoil generator and exporter using LibreOffice Calc, Python
+      - Created assemblies and drawings of mountain and racing bicycles in Solidworks
+      - Built an airfoil generator and exporter using LibreOffice Calc and, later, Python
+      - Designed tooling molds and parts for various bicycle components
       - Performed 2D and 3D Computational Fluid Dynamics analysis of airfoils and bicycles
       - Determined the optimum configuration for several racing bicycles
-      - Designed tooling molds and parts for various bicycle components
 
   - date: Jan--Apr 2011
     about: Hardware Associate
@@ -102,9 +101,8 @@ coop:
     urls:
       employer: http://www.intellimec.com
     notes:
-      - Prototyped hardware solutions for future products using Altium Designer
       - Programmed microcontrollers using C and C++
-      - Provided general assistance to lead design engineers
+      - Prototyped hardware solutions for future products using Altium Designer
 
   - date: May--Sep 2010
     about: Research Assistant
@@ -115,9 +113,8 @@ coop:
       employer: http://uwaterloo.ca
       department: http://rpl.uwaterloo.ca
     notes:
-      - Designed, procured, and fabricated essential parts for the enclosure, printhead assembly, and environmental isolation system for a solid freeform fabrication workstation
-      - Workstation produces 3D scaffolds for bone and cartilage regrowth
-      - Performed image processing on electron micrographs using Octave
+      - Designed, procured, and built many sections of a solid freeform fabrication workstation
+      - Analyzed electron micrographs using Octave
 
   - date: Sep--Dec 2009
     about: Research Assistant
@@ -138,7 +135,6 @@ coop:
     urls:
       employer: http://www.sierraconstructionsystems.com
     notes:
-      - Computerized payroll using Microsoft Excel, Word, and VBA programming
       - Reduced man-hours needed for processing payroll by approximately 6000\%
       - Performed cost and time estimation for various construction projects
 
@@ -153,9 +149,10 @@ education:
       affiliation: www.mechatronics.me.kyoto-u.ac.jp
     notes:
       - "Thesis: \\href{https://github.com/masasin/spirit/releases/download/v1.0/mshtsy_thesis.pdf}{A UAV Teleoperation System Using Subimposed Past Image Records}"
-      - Researched and developed a third-person interface for teleoperated drones using ROS
-      - Taught or assisted labmates with programming
-      - Was software lead for the lab's teleoperation robot; participated in RoboCup Japan
+      - Created a third-person perspective view for drones using Python, ROS, and OpenGL
+      - Designed, ran, and analyzed user experiments to determine proposal efficacy
+      - Led the lab's teleoperated robot software team; participated in RoboCup Japan
+      - Tutored Python and software development best practices (version control, testing, etc)
   - date: 2008--2013
     school: University of Waterloo
     location: Waterloo, ON
