@@ -17,4 +17,8 @@
 
 \input{"<< pwd >>/templates/latex/letter_templates/~< if business.letter.template is defined >~<< business.letter.template >>~< else >~general~< endif >~"}
 
+~< if business.letter.custom_section is defined >~
+  << business.letter.custom_section >>
+~< endif >~
+
 Thank you for taking the time to review my résumé and letter.
