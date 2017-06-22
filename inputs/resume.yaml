@@ -36,9 +36,9 @@ order:
 # tag, show_title, name, type of sections. Use False if you want to leave it empty.
   - [general, False, False, False]
   - [education, True, Education, False]
-  - [languages, True, Languages, False]
   - [projects, True, Open source sampling, False]
   - [skills, True, Technical skills, False]
+  - [languages, True, Languages, False]
   - [coop, True, Work experience, experience]
 
 general:
