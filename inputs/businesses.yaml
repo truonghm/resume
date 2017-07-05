@@ -36,11 +36,19 @@ stalbert:
 
   letter:
     template: analysis
+    # In your cover letter, write a short (500 word max) description of a situation where you analyzed data to solve a problem.
+    # Describe what the problem was, why you were trying to solve it, what data and analysis methodology you used, and what insights were gained from the analysis.
     custom_section: |
-      I have a story to tell you.
+        My objective there was to create a new interface for a single-camera drone which improved the pilot's situational awareness.
+        After development, I conducted experiments to test whether my method was better than simply using the first-person view.
 
-      This story is mine.
-      Let's play a game.
+        I analyzed the results in a Jupyter Notebook, primarily using Pandas and Seaborn, two Python packages, producing hundreds of plots in the preliminary phase.
+        Bayesian Analysis Supersedes the T-Test (BEST) was performed to evaluate the quantitative difference between the methods,
+        and simple t-testing was used for comparing the surveys.
+
+        I discovered that my proposed method was indeed better than the default.
+        I also found that tester performance was increasing with each subsequent run, and that there was also a difference depending on which method they started with.
+        This led me to recommend that further experiments be run with a longer practice session, and that the testers make more flights for each method.
     addressee: Human Resources
     address: 5 St. Anne Street \\ St. Albert, AB
     greeting: To whom it may concern,
