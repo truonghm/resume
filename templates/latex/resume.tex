@@ -3,6 +3,7 @@
 \usepackage{textcomp}
 \usepackage{ifthen}
 \usepackage{lastpage}
+\usepackage{ragged2e}
 
 ~< if engine == "pdflatex" >~
   \usepackage[T1]{fontenc}
@@ -72,6 +73,7 @@
 
 \rfoot{\addressfont\itshape\textcolor{gray}{\ifthenelse{\value{page}=1}{\\\small updated << updated >>}{\thepage\\\small updated << updated >>}}}
 
+\justifying
 \makecvtitle
 \vspace{-20pt}
 
