@@ -177,9 +177,12 @@ projects:
   - name: dynamixel
     url: https://github.com/masasin/dynamixel
     description: A Pythonic library for working with Dynamixel servos
+  - name: latexipy
+    url: https://github.com/masasin/latexipy
+    description: Easily generate great plots in multiple formats, incl. for \LaTeX; on PyPI
   - name: pyrosbag
     url: https://github.com/masasin/pyrosbag
-    description: ROS Bag integration; PyPI package with 100\% test coverage and CI
+    description: ROS Bag integration; on PyPI
   - name: "keep\\_talking\\_solver"
     url: https://github.com/masasin/keep_talking_solver
     description: "A solver for ``Keep Talking and Nobody Explodes''"
