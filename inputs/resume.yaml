@@ -188,7 +188,7 @@ projects:
     description: "A solver for ``Keep Talking and Nobody Explodes''"
   - name: resume
     url: https://github.com/masasin/resume
-    description: R\'{e}sum\'{e} and cover letter generator, used for this r\'{e}sum\'{e}
+    description: Résumé and cover letter generator, used for this résumé
   - name: "naca\\_airfoil\\_generator"
     url: https://github.com/masasin/naca_airfoil_generator
     description: An interactive 4-digit NACA airfoil generator
