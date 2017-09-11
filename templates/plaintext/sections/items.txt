@@ -1,11 +1,21 @@
 {% extends "section.txt" %}
 
-{% macro listitem(item) %}{% if item.description is defined %}{{ item.name | wordwrap(width=76, wrapstring='\n') }}:
+{% macro listitem(item) %}
+{% if item.description is defined %}
+{{ item.name | wordwrap(width=76, wrapstring='\n') }}:
+  {% if item.url is defined %}
+  url: {{ item.url }}
+  {% endif %}
   {{ item.description | wordwrap(width=76, wrapstring='\n  ') }}
-{% elif item.notes is defined %}- {{ item.name | wordwrap(width=76, wrapstring='\n  ') }}
-{% for note in item.notes %}  - {{ note | wordwrap(width=74, wrapstring='\n    ') }}
-{% endfor %}{% else %}  - {{ item | wordwrap(width=76, wrapstring='\n    ') }}
-{% endif %}{% endmacro %}
+{% elif item.notes is defined %}
+- {{ item.name | wordwrap(width=76, wrapstring='\n  ') }}
+{% for note in item.notes %}
+  - {{ note | wordwrap(width=74, wrapstring='\n    ') }}
+{% endfor %}
+{% else %}
+  - {{ item | wordwrap(width=76, wrapstring='\n    ') }}
+{% endif %}
+{% endmacro %}
 
 {% block body %}
 {% if subsections is defined %}
