@@ -23,6 +23,31 @@
 #
 #   You can also add any fields that you want at this level, and also add them to the template.
 
+asml:
+  name:
+    formal: ASML Holding N.V.
+    informal: ASML
+  position:
+    name: Industrial Engineer EUV Projection Mechatronics
+    article: an
+    has_posting: True
+    posting_id: Reference \# RC07008
+
+  letter:
+    template: analysis
+    custom_section: |
+        I love working in multidisciplinary, international teams.
+        I have a bachelors in Mechatronics Engineering from the University of Waterloo in Canada.
+        During that time, I completed six internships in three different countries, for a total of two years of work experience.
+        In addition, I spent three years at the Mechatronics Laboratory in Japan's Kyoto University, graduating with a Masters in Mechanical Engineering.
+
+        I also enjoy languages, and am currently learning German, my eighth.
+        If I move to Veldhoven, I do not think I should have a problem learning Dutch as well.
+    addressee: Stephan Sonnemans \\ Human Resources
+    address: De Run 6501 \\ 5504 DR, Veldhoven \\ The Netherlands
+    greeting: Mr Sonnemans
+
+
 stalbert:
   name:
     formal: City of St. Albert
