@@ -1,6 +1,6 @@
 # Documentation at bottom of file
 name:
-  first: Jean
+  first: John
   last: Nassar
   abbrev: jnassar
 
@@ -12,7 +12,7 @@ theme:
   style: banking
   colour: purple
 
-title: MEng, EIT
+title: MEng
 
 # Markdown details
 # pdf: https://masasin.github.io/resumes/2016-csa.pdf
