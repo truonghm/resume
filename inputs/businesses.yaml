@@ -23,6 +23,23 @@
 #
 #   You can also add any fields that you want at this level, and also add them to the template.
 
+kinova:
+  name:
+    formal: Kinova Robotics
+    informal: Kinova
+  position:
+    name: Robotic Engineer
+    article: a
+    has_posting: True
+    posting_id: "REF: ING20170710"
+
+  letter:
+    template: robotics
+    custom_section: |
+      I am primarily English educated, but I am natively multilingual, including in French.
+    addressee: HR Department
+    address: 4333, Boulevard de la Grande-Allée\\Boisbriand, QC---J7H\,1M7
+
 asml:
   name:
     formal: ASML Holding N.V.
