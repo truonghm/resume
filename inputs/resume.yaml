@@ -124,7 +124,7 @@ coop:
       department: http://www.aub.edu.lb/fea/me/research_labs/cvl/Pages/home.aspx
     notes:
       - Researched and developed a positional navigation system for robots using C++
-      - Quantized Inertial Measurement Unit (IMU) error
+      - Used an Extended Kalman Filter to merge multiple data sources
 
   - date: Jan--Apr 2009
     about: Engineer in Training
