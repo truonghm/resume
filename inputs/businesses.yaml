@@ -23,6 +23,22 @@
 #
 #   You can also add any fields that you want at this level, and also add them to the template.
 
+universal-robots:
+  name:
+    formal: Universal Robots A/S
+    informal: Universal Robots
+    abbrev: UR
+  position:
+    name: Robotics Engineer
+    article: a
+    has_posting: False
+
+  letter:
+    template: robotics
+    addressee: HR Department
+    address: Energivej 25 \\ DK-5260 Odense S \\ Denmark
+
+
 kinova:
   name:
     formal: Kinova Robotics
