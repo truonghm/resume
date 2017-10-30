@@ -23,6 +23,24 @@
 #
 #   You can also add any fields that you want at this level, and also add them to the template.
 
+dishcraft-robotics:
+  name:
+    formal: Dishcraft Robotics
+    informal: Dishcraft
+  position:
+    name: Software Engineer for Robotics
+    article: a
+    has_posting: True
+    posting_id: "REF: ING20170710"
+
+  letter:
+    template: robotics
+    custom_section: |
+        Apart from this position, I think I may also be a good fit for the Software Engineering or the Mechanical Engineer roles.
+    addressee: HR Department
+    address: 611 Taylor Way, Unit 1 \\ San Carlos, CA 94070
+
+
 universal-robots:
   name:
     formal: Universal Robots A/S
