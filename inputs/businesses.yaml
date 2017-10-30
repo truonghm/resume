@@ -23,6 +23,24 @@
 #
 #   You can also add any fields that you want at this level, and also add them to the template.
 
+sentiance:
+  name:
+    formal: Sentiance NV
+    informal: Sentiance
+  position:
+    name: Data Science Python Developer
+    article: a
+    has_posting: True
+
+  letter:
+    template: data-science
+    custom_section: |
+        I speak both English and French natively, and am currently learning German as my eighth language.
+        If I move to Belgium, I believe that I should easily be able to switch to Dutch.
+    addressee: HR Department
+    address: Korte Lozanastraat 20-26 \\ 2018 Antwerp \\ Belgium
+
+
 dishcraft-robotics:
   name:
     formal: Dishcraft Robotics
