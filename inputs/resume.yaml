@@ -4,8 +4,8 @@ name:
   last: Nassar
   abbrev: jnassar
 
-# photo:
-  # path: ../img/face.png
+photo:
+  path: ../img/face.png
 
 engine: xelatex
 last_updated_method: time
@@ -19,7 +19,7 @@ theme:
 
 title: MEng, EIT (PEO)
 extra_info: |
-    Canadian
+    28M, Canadian
     \\
     Python, ML, robotics, space
     \\
@@ -32,7 +32,7 @@ extra_info: |
 
 contact:
   email: jn.masasin@gmail.com
-  # mobile: +32 485 29 17 72
+  mobile: +32 485 29 17 72
   # website: masasin.ca
   github: masasin
   linkedin: masasin
