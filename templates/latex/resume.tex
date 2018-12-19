@@ -73,6 +73,9 @@
 \closing{~< if business.letter.closing is defined >~<< business.letter.closing >>~< else >~Sincerely yours,~< endif >~}
 \enclosure[Attached]{résumé} % List of enclosed documents
 
+\makeatletter
+\let\@extrainfo\relax       % Remove extra info from letter
+\makeatother
 \makelettertitle            % Print letter title
 << business.body >>
 
