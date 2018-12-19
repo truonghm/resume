@@ -30,8 +30,8 @@
 ~< if address is defined >~
 \address%
     {<< address.street >>}%
-    {<< address.city >>, << address.province >>}%
-    {<< address.post >>~< if address.country is defined >~, << address.country >>~< endif >~}
+    {<< address.post >> << address.city >>}%
+    {~< if address.province is defined >~<< address.province >>~< endif >~~< if address.country is defined >~~<if address.province is defined >~, ~< endif >~<< address.country >>~< endif >~}
 ~< endif >~
 
 ~< if contact.mobile is defined >~
