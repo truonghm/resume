@@ -7,6 +7,17 @@
 ~< if engine == "pdflatex" >~
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
+~< else >~
+  \usepackage{xltxtra}
+  \defaultfontfeatures{Scale=MatchLowercase, Mapping=tex-text, StylisticSet=5}
+  \setmainfont{Linux Libertine O}
+  \setromanfont{Linux Libertine O}
+  \setsansfont{Linux Biolinum O}
+  \setmonofont{DejaVu Sans Code}
+  \usepackage{xeCJK}
+  \setCJKmainfont[BoldFont=YuMincho Extrabold]{YuMincho Medium}
+  \setCJKsansfont[BoldFont=YuGothic Bold]{YuGothic Medium}
+  \usepackage{xunicode} % extra support for unicode
 ~< endif >~
 
 \moderncvtheme[<< theme.colour >>]{<< theme.style >>}
