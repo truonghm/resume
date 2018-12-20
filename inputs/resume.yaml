@@ -47,8 +47,8 @@ contact:
 order:
 # tag, show_title, name, type of sections. Use False if you want to leave it empty.
   # - [intro, False, False, False]
-  - [intro_with_name, False, Summary, False]
-  # - [intro, True, Summary, False]
+  # - [intro_with_name, False, Summary, False]
+  - [intro, True, Summary, False]
   # - [general, False, False, False]
   - [work, True, Work experience, experience]
   # - [coop, False, Co-op internships, experience]
