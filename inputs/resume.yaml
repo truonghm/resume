@@ -17,13 +17,13 @@ theme:
   colour: purple
 #   colour: black, blue, green, grey, orange, purple, red; default is blue
 
-title: MEng, EIT (PEO)
+title: Python developer \hspace{2cm} \Large{with an eye for detail}
 extra_info: |
     28M, Canadian
     \\
-    Python, ML, robotics, space
+    Master of Engineering
     \\
-    Available from March 2019
+    Python, ML, robotics, space
 # quote: Ad astra
 
 # Markdown details
@@ -38,11 +38,11 @@ contact:
   linkedin: masasin
 
 # address:
-  # street: Eglantierlaan 49
-  # city: Wilrijk
-  # province: Antwerp
+  # street: Bondgenotenstraat 136
+  # city: Forest
+  # province: Brussels
   # country: Belgium
-  # post: 2610
+  # post: 1190
 
 order:
 # tag, show_title, name, type of sections. Use False if you want to leave it empty.
@@ -53,12 +53,12 @@ order:
   - [work, True, Work experience, experience]
   # - [coop, False, Co-op internships, experience]
   - [education, True, Education, False]
+  - [languages, True, Languages, False]
   - [skills, True, Technical skills, False]
   # - [publications, True, Publications, 0]
   # - [courses, True, Selected courses, latextype_double_items]
   - [coop, True, Co-op internships, experience]
   - [certifications, True, Certifications, False]
-  - [languages, True, Languages, False]
 
 intro:
   - name: ""
@@ -66,7 +66,7 @@ intro:
 
 intro_with_name:
   - name: "Summary"
-    description: With many languages, and 3 years of work experience in 4 countries and many fields, I have a multidisciplinary perspective, and can easily adapt to my living and work environments. I continue to learn, and always strive to improve myself.
+    description: As a Python and robotics expert, I work precisely with an eye for detail. I have a multidisciplinary perspective, having worked in many fields, countries, and languages, and can easily adapt to changing environments. I continue to learn, and always strive to improve.
 
 general: 
   - name: Interests
@@ -81,8 +81,8 @@ certifications:
     description: Member (Japan Society of Mechanical Engineers)
   - name: 2013
     description: Engineer in Training (Professional Engineers Ontario)
-  - name: 2012
-    description: CPR HCP (Healthcare Provider)
+  # - name: 2012
+    # description: CPR HCP (Healthcare Provider)
 
 skills:
   - name: Languages
@@ -102,14 +102,29 @@ languages:
   - name: Native
     description: English, French, Lebanese
   - name: Fluent
-    description: Japanese (C2), Arabic, Spanish
+    description: Japanese, Arabic
+  - name: Intermediate
+    description: Dutch, Spanish
   - name: Beginner
-    description: Dutch, German, Krio, Other
+    description: German, Krio, Other
 
 work:
-  - date: Feb--Dec 2018
+  - date: 2019
+    about: Industrial Automation Engineer
+    employer: Kapernikov
+    location: Brussels, Belgium
+    urls:
+      employer: https://kapernikov.com
+    notes:
+      - Developed a laser profiler-based computer vision system to monitor a conveyor belt using Python 3 and ROS
+      - Detected objects which could disrupt downstream process in real time
+      - Visualized measurements and events
+      - Published the visualizations to the client's video management system
+      - Interfaced with and fixed some bugs in existing C++ code
+
+  - date: 2018
     about: Data Scientist/Python Developer
-    employer: Sentiance NV/SA
+    employer: Sentiance
     location: Antwerp, Belgium
     urls:
       employer: https://sentiance.com
@@ -119,13 +134,11 @@ work:
       - Verified and built machine learning models built in numpy and sklearn
       - Added new functionality and increased code efficiency with Spark
       - Improved developer productivity using Docker and Pipenv
-      - Gained experience with DevPI, Jenkins, Kafka, AWS, and more
-      - Agile work environment.
 
 coop:
   - date: May--Aug 2012
     about: Design Engineer
-    employer: Starquip Integrated Systems, Ltd
+    employer: Starquip Integrated Systems
     location: Toronto, ON, Canada
     urls:
       employer: http://starquip.com
@@ -138,7 +151,7 @@ coop:
 
   - date: Sep--Dec 2011
     about: Junior Project Engineer
-    employer: Kevin Quan Studios, Ltd
+    employer: Kevin Quan Studios
     location: Toronto, ON, Canada
     urls:
       employer: http://www.kqbikes.com
@@ -152,7 +165,7 @@ coop:
 
   - date: Jan--Apr 2011
     about: Hardware Associate
-    employer: Intelligent Mechatronics Systems, Inc
+    employer: Intelligent Mechatronics Systems
     location: Waterloo, ON, Canada
     urls:
       employer: http://www.intellimec.com
@@ -188,7 +201,7 @@ coop:
 
   - date: Jan--Apr 2009
     about: Engineer in Training
-    employer: Sierra Construction Systems, Ltd
+    employer: Sierra Construction Systems
     location: Freetown, Sierra Leone
     urls:
       employer: http://www.sierraconstructionsystems.com
