@@ -14,9 +14,9 @@
   \setromanfont{Linux Libertine O}
   \setsansfont{Linux Biolinum O}
   \setmonofont{DejaVu Sans Code}
-  \usepackage{xeCJK}
-  \setCJKmainfont[BoldFont=Yu Mincho Extrabold]{YuMincho Medium}
-  \setCJKsansfont[BoldFont=Yu Gothic Bold]{YuGothic Medium}
+  % \usepackage{xeCJK}
+  % \setCJKmainfont[BoldFont=Yu Mincho Extrabold]{YuMincho Medium}
+  % \setCJKsansfont[BoldFont=Yu Gothic Bold]{YuGothic Medium}
   \usepackage{xunicode} % extra support for unicode
 ~< endif >~
 
@@ -71,7 +71,7 @@
 \recipient{<< business.letter.addressee >>}{<<business.name.formal>> \\ << business.letter.address >>}
 \date{\today}
 \opening{~< if business.letter.greeting is defined >~<< business.letter.greeting >>~< else >~To whom it may concern,~< endif >~}
-\closing{~< if business.letter.closing is defined >~<< business.letter.closing >>~< else >~Sincerely yours,~< endif >~}
+\closing{~< if business.letter.closing is defined >~<< business.letter.closing >>~< else >~Sincerely,~< endif >~}
 \enclosure[Attached]{résumé} % List of enclosed documents
 
 \makeatletter
