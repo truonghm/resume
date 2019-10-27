@@ -107,24 +107,26 @@ intermodalics:
     formal: Intermodalics
     informal: Intermodalics
   position:
-    name: Senior Robotic Software Engineer
+    name: Robotic Software Engineer
     article: a
     has_posting: True
 
   letter:
     template: robotics
     custom_pre: |
-        Happy New Year!
-        
+        I am a Canadian robotics engineer and Python developer, currently living in Brussels.
+
     custom_post: |
+        On of my internships involved doing SLAM helped by an Extended Kalman Filter to fuse position information from multiple sources.
+        I also have experience with embedded programming,
+        as well as some PLC programming, signal processing, and controls.
+
         I have attached my resume.
         It contains hyperlinks, so you can go straight to my Github, visit company or program websites, or download my thesis by clicking on the relevant sections.
 
-        If you want me for another position instead, please let me know!
-        I should be able to start in mid-March to early April if I have a work permit by then.
-
     addressee: HR Department
     address: Gaston Geenslaan 9 \\ 3001 Leuven, Belgium
+    closing: Sincerely,
 
 inthepocket:
   name:
@@ -150,3 +152,18 @@ inthepocket:
     addressee: Emma Braeye
     address: Dok Noord \\ Sassevaartstraat 46/401 \\ 9000 Ghent, Belgium
 
+nside:
+  name:
+    formal: N-SIDE SA
+    informal: N-SIDE
+  position:
+    name: Energy Analytics Consultant
+    article: an
+    has_posting: True
+
+  letter:
+    template: data-science
+    custom_pre: |
+        I am a Canadian robotics engineer and Python developer, currently living in Brussels.
+    address: Boulevard Baudouin 1er, 25 \\ 1348 Louvain-La-Neuve, Belgium
+    addressee: HR Department
