@@ -109,7 +109,20 @@ languages:
     description: German, Krio, Other
 
 work:
-  - date: 2019
+  - date: Dec 2019-- Aug 2020
+    about: Senior Python Developer
+    employer: Yields.io
+    location: Brussels, Belgium
+    urls:
+      employer: https://yields.io
+    notes:
+      - Added features requested by company or clients, fixed bugs, cleaned up codebase, and added client-facing Jupyter notebooks
+      - Split core monolith into three independent packages, allowing clients to implement their proprietary algorithms
+      - Added thousands of unit tests and multiple end-to-end tests/notebooks
+      - Automatically migrated client code and artifacts with version changes
+      - Worked on migrating integration tests from mocks to API in Docker
+
+  - date: Mar--Oct 2019
     about: Industrial Automation Engineer
     employer: Kapernikov
     location: Brussels, Belgium
@@ -122,7 +135,7 @@ work:
       - Published the visualizations to the client's video management system
       - Interfaced with and fixed some bugs in existing C++ code
 
-  - date: 2018
+  - date: Feb--Dec 2018
     about: Data Scientist/Python Developer
     employer: Sentiance
     location: Antwerp, Belgium
@@ -133,7 +146,6 @@ work:
       - Refactored core functionality into modular components
       - Verified and built machine learning models built in numpy and sklearn
       - Added new functionality and increased code efficiency with Spark
-      - Improved developer productivity using Docker and Pipenv
 
 coop:
   - date: May--Aug 2012
