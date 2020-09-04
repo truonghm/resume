@@ -105,7 +105,7 @@ work:
     urls:
       employer: https://yields.io
     notes:
-      - Added features requested by company or clients, fixed bugs, cleaned up codebase, and added client-facing Jupyter notebooks
+      - Tested, refactored, and stabilized codebase, fixed bugs, developed new features, and added client-facing Jupyter notebooks
       - Split core monolith into three independent packages, allowing clients to implement their proprietary algorithms
       - Added thousands of unit tests and multiple end-to-end tests/notebooks
       - Automatically migrated client code and artifacts with version changes
