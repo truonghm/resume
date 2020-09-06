@@ -1,11 +1,11 @@
 # Documentation at bottom of file
 name:
-  first: Jean
-  last: Nassar
-  abbrev: jnassar
+  first: 勝者
+  last: 神優
+  abbrev: masasin 
 
-# photo:
-  # path: ../img/face.png
+photo:
+  path: ../img/face.png
 
 engine: xelatex
 last_updated_method: time
@@ -17,13 +17,13 @@ theme:
   colour: purple
 #   colour: black, blue, green, grey, orange, purple, red; default is blue
 
-title: MEng, EIT (PEO)
+title: まさひと・しんゆう（工学修士）
 extra_info: |
-    Canadian
+    カナダ国籍
     \\
-    Python, ML, robotics, space
+    Python，機械学習，ロボット，航空宇宙
     \\
-    Available from March 2019
+    2月下旬・3月上旬に日本にいます
 # quote: Ad astra
 
 # Markdown details
@@ -47,26 +47,34 @@ contact:
 order:
 # tag, show_title, name, type of sections. Use False if you want to leave it empty.
   # - [intro, False, False, False]
-  # - [intro_with_name, False, Summary, False]
-  - [intro, True, Summary, False]
+  - [intro_with_name, False, Summary, False]
+  # - [intro, True, 自己PR, False]
   # - [general, False, False, False]
-  - [work, True, Work experience, experience]
+  - [work, True, 業務経歴, experience]
+  - [coop, False, フルタイム有償インターンシップ, experience]
   # - [coop, False, Co-op internships, experience]
-  - [education, True, Education, False]
-  - [skills, True, Technical skills, False]
+  - [education, True, その他経験, False]
+  - [skills, True, スキル, False]
   # - [publications, True, Publications, 0]
   # - [courses, True, Selected courses, latextype_double_items]
-  - [coop, True, Co-op internships, experience]
-  - [certifications, True, Certifications, False]
-  - [languages, True, Languages, False]
+  - [certifications, True, 資格, False]
+  - [languages, True, 言語, False]
 
 intro:
   - name: ""
-    description: With many languages, and 3 years of work experience in 4 countries and many fields, I have a multidisciplinary perspective, and can easily adapt to my living and work environments. I continue to learn, and always strive to improve myself.
+    description: |
+      様々な職種に携わってきたおかげで，幅広い知識とスキルや，多角的な視野を身に付けることができた．
+      前職と大学でのフルタイム有償インターンシップを合わせて，約3年間働いて，様々な業界で実務経験を得，リーダーシップスキルも活かせた．
+      更に，多言語を話せて，業務経験を４ヶ国で得たため，国や言葉や文化や職種にとって適応性が高い．
+      今も勉強や取り組みを続けており，前向きで自己改善を常に目指している．
 
 intro_with_name:
-  - name: "Summary"
-    description: With many languages, and 3 years of work experience in 4 countries and many fields, I have a multidisciplinary perspective, and can easily adapt to my living and work environments. I continue to learn, and always strive to improve myself.
+  - name: "自己PR"
+    description: |
+      様々な職種に携わってきたおかげで，幅広い知識とスキルや，多角的な視野を身に付けることができた．
+      前職と大学でのフルタイム有償インターンシップを合わせて，約3年間働いて，様々な業界で実務経験を得，リーダーシップスキルも活かせた．
+      更に，多言語を話せて，業務経験を４ヶ国で得たため，国や言葉や文化や職種にとって適応性が高い．
+      今も勉強や取り組みを続けており，前向きで自己改善を常に目指している．
 
 general: 
   - name: Interests
@@ -75,14 +83,14 @@ general:
     description: March 2019
 
 certifications:
-  - name: 2018
-    description: Driving license (Belgium; first obtained in Lebanon in 2010)
-  - name: 2017
-    description: Member (Japan Society of Mechanical Engineers)
-  - name: 2013
-    description: Engineer in Training (Professional Engineers Ontario)
-  - name: 2012
-    description: CPR HCP (Healthcare Provider)
+  - name: 2018年7月
+    description: 普通自動車　第一種免許　取得(ベルギー．最初なのは2010年1月に)
+  - name: 2017年3月
+    description: 日本機械学会　正員　入会
+  - name: 2013年6月
+    description: PEO　技術士研修(Engineer in Training)資格　取得
+  - name: 2012年1月
+    description: 応急処置　心肺蘇生(CPR HCP)資格　取得
 
 skills:
   - name: Languages
@@ -99,34 +107,34 @@ skills:
     description: Vim, Gimp, Inkscape, office suites (LibreOffice, Microsoft, Google)
 
 languages:
-  - name: Native
-    description: English, French, Lebanese
-  - name: Fluent
-    description: Japanese (C2), Arabic, Spanish
-  - name: Beginner
-    description: Dutch, German, Krio, Other
+  - name: ネイティブ
+    description: 英語，フランス語，レバノン語
+  - name: 流暢
+    description: 日本語，アラビア語，スペイン語
+  - name: 初級
+    description: オランダ語，ドイツ語，クリオ語，その他
 
 work:
-  - date: Feb--Dec 2018
-    about: Data Scientist/Python Developer
+  - date: 2018年2月〜2018年12月
+    about: データサイエンティスト・Pythonせんもんっか
     employer: Sentiance NV/SA
-    location: Antwerp, Belgium
+    location: ベルギー，アントワープ
     urls:
       employer: https://sentiance.com
     notes:
-      - Worked on moving the company's codebase from Python 2 to 3
-      - Refactored core functionality into modular components
-      - Verified and built machine learning models built in numpy and sklearn
-      - Added new functionality and increased code efficiency with Spark
-      - Improved developer productivity using Docker and Pipenv
-      - Gained experience with DevPI, Jenkins, Kafka, AWS, and more
-      - Agile work environment.
+      - 会社のコードベースをPython 2からPython 3に移動していた
+      - コア機能をモジュール化された要素にリファクタリングした
+      - NumpyやScikit-learn等の機械学習モデルのビルドや検証を行った
+      - Spark等を利用し，新機能を導入して，プログラムを効率よくした
+      - DockerやPipenv等を使って，同僚の開発者の生産性を高めた
+      - DevPI，Jenkins，Kafka，AWS等の知識を得た
+      - 開発はアジャイル手法を使用した
 
 coop:
-  - date: May--Aug 2012
-    about: Design Engineer
+  - date: 2012年5月〜2012年8月
+    about: デザイン技術者
     employer: Starquip Integrated Systems, Ltd
-    location: Toronto, ON, Canada
+    location: カナダ，オンタリオ州，トロント
     urls:
       employer: http://starquip.com
     notes:
@@ -136,10 +144,10 @@ coop:
       - Converted 2D drawings into 3D assemblies
       - Produced ASME-compliant drawings
 
-  - date: Sep--Dec 2011
-    about: Junior Project Engineer
+  - date: 2011年9月〜2011年12月
+    about: ジュニアプロジェクト技術者
     employer: Kevin Quan Studios, Ltd
-    location: Toronto, ON, Canada
+    location: カナダ，オンタリオ州，トロント
     urls:
       employer: http://www.kqbikes.com
     notes:
@@ -150,10 +158,10 @@ coop:
       - Determined the optimum configuration for several racing bicycles
       - Designed tooling molds and parts for various bicycle components
 
-  - date: Jan--Apr 2011
-    about: Hardware Associate
+  - date: 2011年1月〜2011年4月
+    about: ハードウェア技術者
     employer: Intelligent Mechatronics Systems, Inc
-    location: Waterloo, ON, Canada
+    location: カナダ，オンタリオ州，ウォータールー
     urls:
       employer: http://www.intellimec.com
     notes:
@@ -161,11 +169,11 @@ coop:
       - Programmed microcontrollers using C and C++
       - Provided general assistance to lead design engineers
 
-  - date: May--Sep 2010
-    about: Research Assistant
-    department: Multiscale Additive Manufacturing Lab
-    employer: University of Waterloo
-    location: Waterloo, ON, Canada
+  - date: 2010年5月〜2010年9月
+    about: 研究アシスタント
+    department: マルチスケール積層造形研究室
+    employer: ウォータールー大学
+    location: カナダ，オンタリオ州，ウォータールー
     urls:
       employer: http://uwaterloo.ca
       department: http://rpl.uwaterloo.ca
@@ -174,11 +182,11 @@ coop:
       - Workstation produces 3D scaffolds for bone and cartilage regrowth
       - Performed image processing on electron micrographs using Octave
 
-  - date: Sep--Dec 2009
-    about: Research Assistant
-    department: Computer Vision and Mobile Robotics Lab
-    employer: American University of Beirut
-    location: Beirut, Lebanon
+  - date: 2009年9月〜2009年12月
+    about: 研究アシスタント
+    department: 移動ロボット研究室
+    employer: ベイルート・アメリカ大学
+    location: レバノン，ベイルート
     urls:
       employer: http://www.aub.edu.lb/
       department: http://www.aub.edu.lb/fea/me/research_labs/cvl/Pages/home.aspx
@@ -186,10 +194,10 @@ coop:
       - Developed a positional navigation system for robots using C++
       - Used an EKF to improve estimates obtained from multiple sources
 
-  - date: Jan--Apr 2009
-    about: Engineer in Training
+  - date: 2009年1月〜2009年4月
+    about: 訓練中エンジニア
     employer: Sierra Construction Systems, Ltd
-    location: Freetown, Sierra Leone
+    location: シエラレオネ，フリータウン
     urls:
       employer: http://www.sierraconstructionsystems.com
     notes:
@@ -198,11 +206,11 @@ coop:
       - Performed cost and time estimation for various construction projects
 
 education:
-  - date: 2014--2017
-    school: Kyoto University
-    location: Kyoto, Japan
-    major: MEng, Mechanical Engineering
-    affiliation: Mechatronics Laboratory
+  - date: 2014年4月〜2017年3月
+    school: 京都大学大学院
+    location: 京都市
+    major: 修士課程
+    affiliation: メカトロニクス研究室
     urls:
       school: http://kyoto-u.ac.jp
       affiliation: www.mechatronics.me.kyoto-u.ac.jp
