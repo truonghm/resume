@@ -48,7 +48,7 @@ def main():
     parser.add_argument("contexts", metavar="contexts", nargs="*",
                         action=DefaultListAction,
                         help="the contexts to generate (default is LaTeX)",
-                        default=["latex"])
+                        default=["markdown"])
     parser.add_argument("-l", "--no-letters", action="store_false",
                         help="do not generate cover letters when running LaTeX")
 
