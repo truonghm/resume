@@ -182,7 +182,7 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *,cover
-/outputs
+/outputs/
 
 # Translations
 *.mo
