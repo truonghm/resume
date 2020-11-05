@@ -4,6 +4,7 @@
 \usepackage{ifthen}
 \usepackage{lastpage}
 \usepackage{ragged2e}
+\usepackage[scale=0.9]{geometry}
 
 ~< if engine == "pdflatex" >~
   \usepackage[T1]{fontenc}
@@ -75,7 +76,7 @@
 \rfoot{\addressfont\itshape\textcolor{gray}{\ifthenelse{\value{page}=1}{\\\small updated << updated >>}{\thepage\\\small updated << updated >>}}}
 
 \makecvtitle
-\vspace{-20pt}
+\vspace{-5pt}
 
 << body >>
 

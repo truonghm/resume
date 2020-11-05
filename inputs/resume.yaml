@@ -8,9 +8,9 @@ engine: pdflatex
 last_updated_method: git
 theme:
   font_size: 10pt
-  paper_size: letterpaper
+  paper_size: a4paper
   style: banking
-  colour: blue
+  colour: black
 
 title: Résumé
 
@@ -32,28 +32,30 @@ contact:
 #   post: 610-1105
 
 order:
-  - [general, 0, 0, 0]
+  # - [general, 0, 0, 0]
   - [education, 1, Education, 0]
   # - [publications, 1, Publications, 0]
-  - [coop, 1, Co-op experience, experience]
+  - [exp, 1, Professional experiences, experience]
   - [projects, 1, Selected projects, 0]
-  - [courses, 1, Selected courses, latextype_double_items]
   - [skills, 1, Technical skills, 0]
-  - [languages, 1, Natural languages, 0]
+  - [languages, 1, Languages, 0]
+  # - [courses, 1, Selected courses, latextype_double_items]
 
-general:
-  - name: Interests
-    description: Data science, Statistics, Financial Risk Management, Banking
+
+
+# general:
+#   - name: Interests
+#     description: Data science, Statistics, Financial Risk Management, Banking
   # - name: Citizenships
   #   description: Canada, Lebanon, Sierra
   # - name: Certifications
   #   description: CPR HCP (Health Care Provider), Lebanese driving license
 
 skills:
-  - Programming (Focus on Data Science) - Python, R, Julia, C++
-  - ETL - T-SQL (MS SQL Server), PL/SQL (Oracle), Apache Airflow
-  - BI/Visualization - Tableau, Power BI
-  - Others - Microsoft Office, VBA
+  - Programming > Python, R, Julia, C++
+  - ETL > T-SQL (MS SQL Server), PL/SQL (Oracle), Apache Airflow
+  - BI > Tableau, Power BI
+  - Others > Microsoft Office, VBA
 
 languages:
   - name: Fluent
@@ -63,7 +65,7 @@ languages:
   # - name: Beginner
   #   description: German, Mandarin, Russian, Krio
 
-coop:
+exp:
   - date: Aug 2020 - Present
     about: Data Analyst
     department: Risk Management
@@ -71,11 +73,10 @@ coop:
     location: Hanoi, VN
     url: http://mcredit.com.vn/
     notes:
-      - Assisted in the mechanical design of custom pneumatic lift-assist devices
-      - Created modular assemblies and circuits
-      - Reduced design time for new systems
-      - Converted 2D drawings to 3D assemblies
-      - Produced ASME-compliant drawings
+      - Lead effort to move from Excel report to Tableau and from SQL Server to datamart on Oracle
+      - Develop and maintain daily collection reports and monitor collection performance
+      - Analyze collection and customer data using quantitative methods
+      - Manage data integrity and consistency
 
   - date: Dec 2019 - Jun 2020
     about: Data Analyst
@@ -84,12 +85,22 @@ coop:
     location: Hanoi, VN
     url: https://www.tcbs.com.vn/
     notes:
-      - Completed basic and intermediate Solidworks instruction
-      - Created assemblies and drawings of mountain and racing bicycles
-      - Wrote airfoil generator and exporter using LibreOffice Calc, Python
-      - Performed 2D and 3D CFD analysis of airfoils and bicycles
-      - Determined the optimum configuration for several racing bicycles
-      - Designed tooling molds and parts for various bicycle components
+      - Analyzed data to find insights to push sales at TCB branches
+      - Created and maintained periodical reports about sales, productivity, customer, holding period, sales training, CRM.
+      - Automated workflow with Python, Power BI, SQL and SSRS
+      
+  - date: Apr 2019 - Jun 2019
+    about: Data Analyst
+    department: Collection Center
+    employer: MB Shinsei Finance
+    location: Hanoi, VN
+    url: http://mcredit.com.vn/
+    notes:
+      - Developed and issued daily overdue, productivity and performance reports for Call Collection team
+      - Automated and maintained operational tasks (monthly incentive calculation, daily new case assignments)
+      - Resolved other ad-hoc issues/requests from managers and collection teamleads
+      - Identified trends and anomalies in collection data to increase collection efficiency
+      - Managed data integrity and consistency
 
   - date: Oct 2017 - Mar 2019
     about: Performance Management Analyst
@@ -98,9 +109,11 @@ coop:
     location: Hanoi, VN
     url: https://www.mbageas.life/
     notes:
-      - Designed, procured, and built essential parts for the enclosure, printhead assembly, and environmental isolation system for a solid freeform fabrication workstation
-      - Workstation produces 3D scaffolds for bone and cartilage regrowth
-      - Performed image processing on electron micrographs using Octave
+      - Developed and issued monthly performance reports
+      - Prepared financial statements in both VAS and IFRS
+      - Worked with IT and 3rd party vendors to further ultilize SAP for accounting, budgeting and analysis purposes
+      - Resolved other ad-hoc issues/requests from managers and collection teamleads
+      - Assisted senior managers in building yearly budget and periodical forecasts
 
 education:
   - date: 2021--Present
@@ -114,7 +127,7 @@ education:
   - date: 2011--2017
     school: Foreign Trade University
     location: Hanoi, VN
-    major: BASc, International Business & Economics
+    major: B.A, International Business and Economics
     affiliation: Faculty of International Economics
     urls:
       school: http://www.ftu.edu.vn/
@@ -128,19 +141,18 @@ education:
   #     major: https://uwaterloo.ca/mechanical-mechatronics/engineering/program-overview
 
 projects:
-  - Text mining & analysis for text messages, deployed with Streamlit
+  - Text mining and analysis for text messages, deployed with Streamlit
   - Telegram bot for getting flights from Skyscanner
-  - R & Statistics learning e-books
+  - R and Statistics learning e-books
 
-courses:
-  - Advance Optimization
-  - Machine Learning & Data Mining
-  - Stochastic Methods in Engineering
-  - Randomized Algorithms & Probabilistic Analysis
-  - Parallel Methods in Numerical Analysis
-  - Parallel Computer Archtecture & Programming
-  - Electromechanical machine design
-  - Parallel & Distributed Data Mining
+# courses:
+#   - Advance Optimization
+#   - Machine Learning & Data Mining
+#   - Stochastic Methods in Engineering
+#   - Randomized Algorithms & Probabilistic Analysis
+#   - Parallel Methods in Numerical Analysis
+#   - Parallel Computer Archtecture & Programming
+#   - Parallel & Distributed Data Mining
 
 
 # Template
