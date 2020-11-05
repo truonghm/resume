@@ -147,7 +147,6 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-output/
 env/
 build/
 develop-eggs/
@@ -183,6 +182,7 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *,cover
+/outputs
 
 # Translations
 *.mo
